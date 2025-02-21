@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr_employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='hr_settings']" position="inside">
+                    <group string="Campos de la SET" colspan="2">
+                        <!-- Primera columna -->
+                        <group>
+                            <field name="tipo_pago_set"/>
+                            <field name="tipo_empleado_set"/>
+                            <field name="departamento_set"/>
+                            <field name="distrito_set"/>
+                        </group>
+                        <!-- Segunda columna -->
+                        <group>
+                            <field name="primer_nombre"/>
+                            <field name="segundo_nombre"/>
+                            <field name="primer_apellido"/>
+                            <field name="segundo_apellido"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
