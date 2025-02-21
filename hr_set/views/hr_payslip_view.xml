@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- VISTA HEREDADA-->
+   <!-- Herencia para vista de formulario reglas salariales-->
+          <record id="view_reporte_set_salary_rule" model="ir.ui.view">
+            <field name="name">hr.salary.rule.inh</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//field[@name='appears_on_payslip']" position="after">
+                        <field name="aguinaldo_set" widget="boolean_toggle"/>
+                        <field name="desc_jubi" widget="boolean_toggle"/>
+                        <field name="segu_social" widget="boolean_toggle"/>
+                        <field name="ot_desc" widget="boolean_toggle"/>
+                        <field name="bruto_set" widget="boolean_toggle"/>
+                    </xpath>
+            </field>
+          </record>
+  </data>
+</odoo>

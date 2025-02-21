@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="payroll_report_txt_template">
+            <t t-name="hr_set.payroll_report_txt_template">
+                <t t-foreach="docs" t-as="wizard">
+                    <t t-esc="wizard.generate_txt_report(data, wizard)"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
