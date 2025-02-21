@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.actions.report" id="rrhh_payroll_bancos_itau.wizard_bancos_itau_report">
+            <field name="name">Generar archivo TXT para pago de salarios ITAU</field>
+            <field name="model">wizard_bancos_itau</field>
+            <field name="report_type">qweb-text</field>
+            <field name="report_name">rrhh_payroll_bancos_itau.wizard_bancos_itau_report_t</field>
+            <field name="print_report_name">'TRANSFER'</field>
+        </record>
+        <!--
+        El siguiente template no debe de tener saltos de linea para funcionar correctamente
+        -->
+        <template id="rrhh_payroll_bancos_itau.wizard_bancos_itau_report_t"><t t-foreach="docs" t-as="doc"><t t-esc="doc.get_values_for_report_bancos_itau()"/></t></template>
+    </data>
+
+    <data>
+        <record id="wizard_bancos_itau_view_form" model="ir.ui.view">
+            <field name="name">wizard_bancos_itau_view_form</field>
+            <field name="model">wizard_bancos_itau</field>
+            <field name="arch" type="xml">
+                <form string="wizard_bancos_itau_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="payslip_run_id" widget="many2one"/>
+                            <field name="input_type_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="print_wizard_bancos_itau_report" string="TXT para el Banco ITAU" type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="wizard_bancos_itau_view_action" model="ir.actions.act_window">
+            <field name="name">Generar archivo TXT para en Banco ITAU</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard_bancos_itau</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem
+                id="wizard_bancos_itau_menuitem"
+                name="Generar TXT para Banco ITAU"
+                parent="hr_payroll.menu_hr_payroll_report"
+                action="wizard_bancos_itau_view_action"
+        />
+    </data>
+</odoo>
