@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record id="report_wizard_book_bank" model="ir.ui.view">
+            <field name="name">bank_reconciliation.report_book_bank</field>
+            <field name="model">bank_reconciliation.report_book_bank</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="journal_id"/>
+                        <field name="account_id" force_save="1" readonly="'journal_id', '!=', False"/>
+                        <field name="currency_id" invisible="1"/>
+                         <field name="date_from"/>
+                         <field name="date_to"/>
+                         <field name="company_id" invisible="1"/>
+                        <field name="filter_wizard" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="report_book_bank" type="object" string="GENERAR PDF" class="oe_highlight"/>
+                        <button string="CANCELAR" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_reporte_hora_trabajada" model="ir.actions.act_window">
+             <field name="name">Reporte de Libro Banco</field>
+            <field name="res_model">bank_reconciliation.report_book_bank</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="report_wizard_book_bank"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="parent_book_bank_report" name="Libro Banco" action="action_reporte_hora_trabajada" parent="accounting_reports_paraguay.reportes_contables_menu" sequence="10"/>
+    </data>
+</odoo>
