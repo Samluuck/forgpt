@@ -42,6 +42,12 @@
                                  class="btn-success" invisible="stage == 'finalizada'"/>
                         <button name="cerrar_conciliacion" type="object" string="Cerrar Conciliación"
                                 class="btn-secondary" readonly="stage == 'finalizada'" invisible="stage == 'finalizada'"/>
+                        <button name="%(action_export_statement_by_date)d"
+                                string="Descargar por Fechas"
+                                type="action"
+                                class="btn-secondary"
+                                icon="fa-calendar"/>
+
                         <field name="stage" widget="statusbar" statusbar_visible="nueva,en_proceso,finalizada"
                                invisible="stage == 'finalizada'"/>
                     </header>

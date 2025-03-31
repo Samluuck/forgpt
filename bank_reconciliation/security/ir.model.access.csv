@@ -3,8 +3,4 @@ access_bank_statement,bank_statement,model_bank_statement,account.group_account_
 access_bank_statement2,bank_statement2,model_bank_reconciliation_report_book_bank,account.group_account_user,1,1,1,1
 access_bank_statement_import,bank_statement_import,model_bank_statement_import_wizard,account.group_account_user,1,1,1,1
 access_bank_statement_import_line,bank_statement_import_line,model_bank_statement_import_line,account.group_account_user,1,1,1,1
-
-
-
-
-
+access_bank_statement_export_by_date,bank.statement.export.by.date,model_bank_statement_export_by_date,base.group_user,1,1,1,1

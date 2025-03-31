@@ -31,6 +31,7 @@
         'security/ir.model.access.csv',
         'views/account_move_line_view.xml',
         'views/account_journal_dashboard_view.xml',
+        'wizard/bank_statement_export_by_date_view.xml',
         'wizard/bank_statement_wiz_view.xml',
         'wizard/wizard_book_bank.xml',
         'reports/reports_config.xml',
@@ -39,6 +40,7 @@
         'reports/book_bank_report.xml',
         'reports/bank_reconciliation_reports.xml',
         'wizard/bank_statement_import.xml',
+
     ],
     'images': ['static/description/banner.jpg'],
     'license': 'LGPL-3',
