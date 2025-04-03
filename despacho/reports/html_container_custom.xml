@@ -1,0 +1,15 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="html_container_custom">
+        <t t-set="body_classname-custom" t-value="'container'"/>
+        <t t-call="web.report_layout">
+            <t t-raw="0"/>
+        </t>
+    </template>
+    <template id="report_ot_web_template" inherit_id="web.report_layout">
+        <xpath expr="//head" position="inside">
+            <link rel='stylesheet' href="/despachos/static/src/css/imprimir_ot.css"/>
+        </xpath>
+    </template>
+</odoo>

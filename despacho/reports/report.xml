@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+            id="report_ot"
+            string="Orden de Trabajo"
+            model="despachos.despacho"
+            report_type="qweb-pdf"
+            name="despachos.report_despacho"
+            file="despachos.report_despacho"
+    />
+    <report
+            id="report_ot_web"
+            string="Imprimir OT"
+            model="despachos.despacho"
+            report_type="qweb-html"
+            name="despachos.report_print_ot_web_template"
+            file="despachos.report_print_ot_web_template"
+    />
+
+</odoo>

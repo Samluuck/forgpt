@@ -1,0 +1,45 @@
+@page {
+    size: A4;
+}
+
+body.container {
+    padding: 0;
+    margin: 0;
+    color: blue;
+}
+
+#wrapwrap {
+    width: 100%;
+    height: 100%;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+}
+
+#contenedor {
+    height: 100%;
+    width: 100%;
+    padding: 34mm 20mm 30mm;
+    display: flex;
+    flex-direction: column;
+}
+
+#cabecera {
+    margin-top: 64mm;
+    padding-left: 50mm;
+    height: 27mm;
+    display: flex;
+    flex-direction: column;
+}
+
+#cuerpo {
+    margin-top: 20mm;
+    flex: 1;
+}
+
+.columna {
+    width: 27mm;
+    text-align: right;
+}

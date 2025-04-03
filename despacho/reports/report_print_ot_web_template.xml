@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_print_ot_web_template_document">
+        <!--Encargado de mostrar el layout con el membrete de la empresa-->
+        <t t-call="despachos.html_container_custom">
+
+            <!-- NUESTRO DIV contenedor -->
+            <div id="contenedor">
+
+                <div class="row">
+                    <!-- Columna izquierda -->
+                    <div class="col md-6">
+                        <!-- Regimen -->
+                        <div class="col md-12">
+                            <strong>Regimen:</strong>
+                            <span class="m-0" t-field="doc.regimen.name"/>
+                        </div>
+                        <br/>
+                        <!-- Fecha -->
+                        <div class="col md-12">
+                            <strong>Fecha:</strong>
+                            <span class="m-0" t-field="doc.fecha"/>
+                        </div>
+                        <br/>
+                        <!-- Propietario -->
+                        <div class="col md-12">
+                            <strong>Propietario:</strong>
+                            <span class="m-0" t-field="doc.propietario"/>
+                        </div>
+                        <br/>
+                        <!-- Proveedor -->
+                        <div class="col md-12">
+                            <strong>Proveedor:</strong>
+                            <span class="m-0" t-field="doc.proveedor"/>
+                        </div>
+                        <br/>
+                        <!-- Mercaderías -->
+                        <div class="col md-12">
+                            <strong>Mercaderías:</strong>
+                            <span class="m-0" t-field="doc.mercaderias_model.name"/>
+                        </div>
+                        <br/>
+                        <!-- Contenedor -->
+                        <div class="col md-12">
+                            <strong>Contenedor:</strong>
+                            <span class="m-0" t-field="doc.contenedores.numero"/>
+                        </div>
+                    </div>
+                    <!-- Columna derecha -->
+                    <div class="col md-6">
+                        <!-- Resolucion -->
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Resolución:</strong>
+                            <span class="m-0" t-field="doc.resolucion_maq"/>
+                        </div>
+                        <br/>
+                        <!-- OT -->
+                        <div class="col md-12">
+                            <strong>OT Nº:</strong>
+                            <span class="m-0" t-field="doc.ot"/>
+                        </div>
+                        <br/>
+                        <!-- RUC
+                        <div class="col md-12">
+                            <strong>RUC:</strong>
+                            <p class="m-0" t-field="doc.ruc"/>
+                        </div>
+                        -->
+                        <!-- Aduana -->
+                        <div class="col md-12">
+                            <strong>Aduana:</strong>
+                            <span class="m-0" t-field="doc.aduana"/>
+                        </div>
+                        <br/>
+                        <!-- Transportista -->
+                        <div class="col md-12">
+                            <strong>Transportista:</strong>
+                            <span class="m-0" t-field="doc.transportista"/>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </t>
+    </template>
+
+    <template id="report_print_ot_web_template">
+        <!--Si solo usamos web container entonces utiliza la pantalla en blanco sin membrete-->
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="despachos.report_print_ot_web_template_document"/>
+            </t>
+        </t>
+    </template>
+</odoo>
