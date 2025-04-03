@@ -1,0 +1,30 @@
+<odoo>
+    <record id="bank_statement_form_view_inherit" model="ir.ui.view">
+        <field name="name">bank.statement.form.inherit</field>
+        <field name="model">bank.statement</field>
+        <field name="inherit_id" ref="bank_statement_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_open_import_wizard" type="object" string="Importar Extracto"
+                        class="btn-secondary"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="bank_statement_import_wizard_form_view" model="ir.ui.view">
+        <field name="name">bank.statement.import.wizard.form</field>
+        <field name="model">bank.statement.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Importar Extracto Bancario">
+                <group>
+                    <field name="file_data" widget="binary" filename="file_name" string="Suba su archivo"/>
+                </group>
+                <footer>
+                    <button name="action_import" type="object" string="Conciliar" class="btn-primary"/>
+                    <button string="Descartar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

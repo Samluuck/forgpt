@@ -1,0 +1,28 @@
+<odoo>
+    <record id="view_wizard_bank_statement_export" model="ir.ui.view">
+        <field name="name">bank.statement.export.by.date.form</field>
+        <field name="model">bank.statement.export.by.date</field>
+        <field name="arch" type="xml">
+            <form string="Exportar Extractos por Fechas">
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button string="Generar Excel" type="object" name="generate_excel" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+                <group invisible="not file_data">
+                    <field name="file_data" filename="file_name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_export_statement_by_date" model="ir.actions.act_window">
+        <field name="name">Descargar por Fechas</field>
+        <field name="res_model">bank.statement.export.by.date</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
