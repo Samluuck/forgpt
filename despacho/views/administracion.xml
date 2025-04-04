@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
         <!-- Menú Principal de Administración -->
         <menuitem id="despacho.administracion_menu" name="Administración" parent="despacho_menu_root" sequence="10"/>
 
@@ -129,4 +130,5 @@
         </record>
 
         <menuitem id="despacho.pago_menu" name="Pagos" action="despacho.pago_action" parent="despacho.administracion_menu" sequence="20"/>
+    </data>
 </odoo>

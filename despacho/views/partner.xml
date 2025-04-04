@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
         <!-- Vista heredada para res.partner -->
         <record model="ir.ui.view" id="partner_despacho_form_view">
             <field name="name">partner.despacho</field>
@@ -80,5 +81,5 @@
                 </xpath>
             </field>
         </record>
-
+    </data>
 </odoo>

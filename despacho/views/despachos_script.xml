@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <data>
         <!-- Assets para el backend (incluye defer y mejores prácticas) -->
         <template id="assets_backend" name="despacho_backend_assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
@@ -27,4 +28,5 @@
                 <link rel="stylesheet" href="/despacho/static/src/css/despachos_print.css"/>
             </xpath>
         </template>
+    </data>
 </odoo>
