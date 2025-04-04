@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Vista lista de Despachos -->
+        <record model="ir.ui.view" id="despacho.despacho_list">
+            <field name="name">Despachos</field>
+            <field name="model">despacho.despacho</field>
+            <field name="arch" type="xml">
+                <tree default_order="fecha desc" editable="top">
+                    <field name="ot"/>
+                    <field name="ref_propietario"/>
+                    <field name="state" widget="badge"/>
+                    <field name="fecha"/>
+                    <field name="regimen"/>
+                    <field name="propietario"/>
+                    <field name="aduana"/>
+                    <field name="consignatario"/>
+                    <field name="proveedor"/>
+                    <field name="transportista"/>
+                    <field name="mercaderias_model"/>
+                    <field name="fob"/>
+                    <field name="flete"/>
+                    <field name="seguro"/>
+                    <field name="peso_neto"/>
+                    <field name="fecha_oficializacion"/>
+                    <field name="numero_factura"/>
+                    <field name="fecha_facturacion"/>
+                    <field name="create_uid" string="Creado Por" widget="many2one_avatar"/>
+                    <field name="create_date" string="Fecha de creación"/>
+                    <field name="write_uid" string="Actualizado Por" widget="many2one_avatar"/>
+                    <field name="write_date" string="Fecha de actualización"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista lista de Documentos -->
+        <record model="ir.ui.view" id="despacho.documento_list">
+            <field name="name">Documentos</field>
+            <field name="model">despacho.documento</field>
+            <field name="arch" type="xml">
+                <tree default_order="fecha desc" editable="bottom">
+                    <field name="tipo"/>
+                    <field name="numero"/>
+                    <field name="archivo" widget="binary"/>
+                    <field name="original"/>
+                    <field name="visado"/>
+                    <field name="fecha"/>
+                    <field name="despacho"/>
+                    <field name="imputar"/>
+                    <field name="create_uid" string="Creado Por" widget="many2one_avatar"/>
+                    <field name="create_date" string="Fecha de creación"/>
+                    <field name="write_uid" string="Actualizado Por" widget="many2one_avatar"/>
+                    <field name="write_date" string="Fecha de actualización"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista lista de Documentos Previos -->
+        <record model="ir.ui.view" id="despacho.documento_previo_list">
+            <field name="name">Documentos Gabinete</field>
+            <field name="model">despacho.documento_previo</field>
+            <field name="arch" type="xml">
+                <tree default_order="fecha desc" editable="bottom">
+                    <field name="tipo"/>
+                    <field name="numero"/>
+                    <field name="archivo" widget="binary"/>
+                    <field name="fecha"/>
+                    <field name="vencimiento"/>
+                    <field name="monto"/>
+                    <field name="pagado_por"/>
+                    <field name="op"/>
+                    <field name="hr_expense"/>
+                    <field name="despacho"/>
+                    <field name="imputar"/>
+                    <field name="create_uid" string="Creado Por" widget="many2one_avatar"/>
+                    <field name="create_date" string="Fecha de creación"/>
+                    <field name="write_uid" string="Actualizado Por" widget="many2one_avatar"/>
+                    <field name="write_date" string="Fecha de actualización"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista lista de Documentos de Oficialización -->
+        <record model="ir.ui.view" id="despacho.documento_oficializacion_list">
+            <field name="name">Documentos Oficializaciones</field>
+            <field name="model">despacho.documento_oficializacion</field>
+            <field name="arch" type="xml">
+                <tree default_order="write_date desc" editable="bottom">
+                    <field name="tipo"/>
+                    <field name="numero"/>
+                    <field name="documento" widget="binary"/>
+                    <field name="monto"/>
+                    <field name="pagado_por"/>
+                    <field name="op"/>
+                    <field name="hr_expense"/>
+                    <field name="despacho"/>
+                    <field name="imputar"/>
+                    <field name="create_uid" string="Creado Por" widget="many2one_avatar"/>
+                    <field name="create_date" string="Fecha de creación"/>
+                    <field name="write_uid" string="Actualizado Por" widget="many2one_avatar"/>
+                    <field name="write_date" string="Fecha de actualización"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista de búsqueda de Documentos -->
+        <record id="despacho.documento_view_search" model="ir.ui.view">
+            <field name="name">despacho.documento.view.search</field>
+            <field name="model">despacho.documento</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="tipo"/>
+                    <field name="numero"/>
+                    <field name="archivo"/>
+                    <field name="original"/>
+                    <field name="visado"/>
+                    <field name="fecha"/>
+                    <field name="despacho"/>
+                    <field name="imputar"/>
+                    <filter string="Mis documentos" name="my_docs" domain="[('create_uid','=',uid)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vista de búsqueda de Despachos -->
+        <record id="despacho.despacho_view_search" model="ir.ui.view">
+            <field name="name">despacho.despacho.view.search</field>
+            <field name="model">despacho.despacho</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="ot"/>
+                    <field name="ref_propietario"/>
+                    <field name="state"/>
+                    <field name="fecha"/>
+                    <field name="regimen"/>
+                    <field name="propietario"/>
+                    <field name="aduana"/>
+                    <field name="consignatario"/>
+                    <field name="proveedor"/>
+                    <field name="transportista"/>
+                    <field name="mercaderias_model"/>
+                    <field name="fob"/>
+                    <field name="flete"/>
+                    <field name="seguro"/>
+                    <field name="documentos_sin_monto"/>
+
+                    <filter string="Mis órdenes de trabajo" name="my_ots" domain="[('employee_id.user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter string="Este año" name="this_year"
+                            domain="[('fecha','&lt;=', time.strftime('%%Y-12-31')),('fecha','&gt;=',time.strftime('%%Y-01-01'))]"/>
+                    <filter string="Este mes" name="this_month"
+                            domain="[('fecha','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('fecha','&gt;=',context_today().strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Mes pasado" name="prev_month"
+                            domain="[('fecha','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('fecha','&lt;',context_today().strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Oficializaciones Este mes" name="this_month_oficializacion"
+                            domain="[('fecha_oficializacion','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('fecha_oficializacion','&gt;=',context_today().strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Oficializaciones Mes pasado" name="prev_month_oficializacion"
+                            domain="[('fecha_oficializacion','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('fecha_oficializacion','&lt;',context_today().strftime('%%Y-%%m-01'))]"/>
+
+                    <separator/>
+
+                    <group expand="0" string="Agrupar por">
+                        <filter name="group_by_propietario" string="Propietario" context="{'group_by':'propietario'}"/>
+                        <filter name="group_by_fecha" string="Fecha" context="{'group_by':'fecha:month'}"/>
+                        <filter name="group_by_state" string="Estado" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vista kanban de Despachos -->
+        <record id="despacho.despacho_view_kanban" model="ir.ui.view">
+            <field name="name">despacho.despacho.view.kanban</field>
+            <field name="model">despacho.despacho</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_kanban_small_column">
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <field name="employee_id" widget="many2one_avatar"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="ot"/>
+                                    </strong>
+                                    <div class="o_kanban_record_bottom">
+                                        <div>
+                                            <field name="state" widget="badge"/>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted">
+                                                <field name="fecha"/>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <ul>
+                                        <li>Consignatario: <field name="consignatario"/></li>
+                                        <li>Proveedor: <field name="proveedor"/></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Vista formulario de Despachos -->
+        <record id="despacho.despacho_view_form" model="ir.ui.view">
+            <field name="name">despacho.despacho.view.form</field>
+            <field name="model">despacho.despacho</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="pendiente,initial,oficializado,liquidado" options="{'clickable': true}"/>
+                        <button name="button_imprimir_ot_web" type="object" string="Imprimir OT Web" class="btn-primary"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_get_attachment_view" class="oe_stat_button" icon="fa-paperclip" type="object">
+                                <field name="attachment_number" widget="statinfo" string="Adjuntos"/>
+                            </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="ot" readonly="1" class="oe_inline"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="fecha"/>
+                                <field name="regimen"/>
+                                <field name="regimen_name" invisible="1"/>
+                                <field name="resolucion_maq" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="propietario"/>
+                                <field name="cod_propietario" invisible="1"/>
+                                <field name="ref_propietario"/>
+                                <field name="aduana"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="proveedor"/>
+                                <field name="consignatario"/>
+                                <field name="transportista"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="mercaderias_model" options="{'no_create': True}"/>
+                                <field name="due" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="embalaje"/>
+                                <field name="cantidad"/>
+                                <field name="unidad_medida"/>
+                            </group>
+                            <group>
+                                <field name="peso_neto"/>
+                                <field name="peso_bruto"/>
+                            </group>
+                            <group>
+                                <field name="cif"/>
+                                <field name="moneda"/>
+                                <field name="tc"/>
+                                <field name="cif_guaranies"/>
+                            </group>
+                        </group>
+
+                        <field name="contenedores">
+                            <tree editable="bottom">
+                                <field name="tipo"/>
+                                <field name="numero"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="tipo"/>
+                                    <field name="numero"/>
+                                </group>
+                            </form>
+                        </field>
+
+                        <notebook>
+                            <page string="Datos">
+                                <group>
+                                    <field name="incoterms"/>
+                                    <field name="fob"/>
+                                    <field name="flete"/>
+                                    <field name="seguro"/>
+                                    <field name="ajuste"/>
+                                    <field name="descuento"/>
+                                </group>
+
+                                <field name="documentos">
+                                    <tree editable="bottom">
+                                        <field name="tipo" options="{'no_create': True}"/>
+                                        <field name="numero"/>
+                                        <field name="archivo" widget="binary"/>
+                                        <field name="fecha"/>
+                                        <field name="original"/>
+                                        <field name="visado"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="tipo"/>
+                                            <field name="numero"/>
+                                            <field name="archivo" widget="binary"/>
+                                            <field name="fecha"/>
+                                            <field name="original"/>
+                                            <field name="visado"/>
+                                        </group>
+                                    </form>
+                                </field>
+
+                                <group>
+                                    <field name="desconsolidacion" invisible="1"/>
+                                    <field name="manifiesto"/>
+                                    <field name="barcaza_model"/>
+                                </group>
+
+                                <group>
+                                    <field name="cnu" invisible="1"/>
+                                    <field name="acuerdo" invisible="1"/>
+                                </group>
+                            </page>
+
+                            <page string="Gabinete">
+                                <field name="documentos_sin_monto">
+                                    <tree editable="bottom">
+                                        <field name="tipo" options="{'no_create': True}"/>
+                                        <field name="numero"/>
+                                        <field name="archivo" widget="binary"/>
+                                        <field name="fecha"/>
+                                        <field name="vencimiento"/>
+                                        <field name="monto"/>
+                                        <field name="imputar"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="tipo"/>
+                                            <field name="numero"/>
+                                            <field name="archivo" widget="binary"/>
+                                            <field name="fecha"/>
+                                            <field name="vencimiento"/>
+                                            <field name="monto"/>
+                                            <field name="imputar"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <page string="Oficialización">
+                                <group>
+                                    <group>
+                                        <field name="oficial"/>
+                                        <field name="documento" widget="binary"/>
+                                        <field name="documento_cuerpo" widget="binary"/>
+                                        <field name="canal"/>
+                                        <field name="fecha_oficializacion"/>
+                                    </group>
+                                    <group>
+                                        <field name="firmado" invisible="1"/>
+                                        <field name="aduanero" invisible="1"/>
+                                        <field name="definitivo" invisible="1"/>
+                                    </group>
+                                </group>
+
+                                <field name="documentos_oficializacion">
+                                    <tree editable="bottom">
+                                        <field name="tipo" options="{'no_create': True}"/>
+                                        <field name="numero"/>
+                                        <field name="documento" widget="binary"/>
+                                        <field name="monto"/>
+                                        <field name="imputar"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="tipo"/>
+                                            <field name="numero"/>
+                                            <field name="documento" widget="binary"/>
+                                            <field name="monto"/>
+                                            <field name="imputar"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <page string="Liquidacion">
+                                <group>
+                                    <field name="numero_factura"/>
+                                    <field name="fecha_facturacion"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acciones y menús -->
+        <record id="despacho.despacho_action" model="ir.actions.act_window">
+            <field name="name">Órdenes de trabajo</field>
+            <field name="res_model">despacho.despacho</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="search_view_id" ref="despacho.despacho_view_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea tu primera orden de trabajo
+                </p>
+            </field>
+        </record>
+
+        <record id="despacho.documento_action" model="ir.actions.act_window">
+            <field name="name">Documentos</field>
+            <field name="res_model">despacho.documento</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="despacho.documento_view_search"/>
+        </record>
+
+        <record id="despacho.documento_previo_action" model="ir.actions.act_window">
+            <field name="name">Documentos Gabinete</field>
+            <field name="res_model">despacho.documento_previo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="despacho.documento_oficializacion_action" model="ir.actions.act_window">
+            <field name="name">Documentos Oficializaciones</field>
+            <field name="res_model">despacho.documento_oficializacion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="despacho.my_despacho_action" model="ir.actions.act_window">
+            <field name="name">Mis órdenes de trabajo</field>
+            <field name="res_model">despacho.despacho</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[('employee_id.user_id', '=', uid)]</field>
+            <field name="context">{'search_default_my_ots': 1}</field>
+        </record>
+
+        <record id="despacho.despacho_this_year_action" model="ir.actions.act_window">
+            <field name="name">Órdenes de trabajo de este año</field>
+            <field name="res_model">despacho.despacho</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[('fecha','&lt;=', time.strftime('%Y-12-31')),('fecha','&gt;=',time.strftime('%Y-01-01'))]</field>
+        </record>
+
+        <!-- Menús -->
+        <menuitem id="despacho_menu_root" name="Despachos" sequence="1"/>
+
+        <menuitem id="despacho.despacho_menu" name="Despacho" parent="despacho_menu_root" sequence="1"/>
+
+        <menuitem id="despacho.despacho_menu_list" name="Órdenes de trabajo" action="despacho.despacho_action"
+                  parent="despacho.despacho_menu"/>
+        <menuitem id="despacho.documento_menu_list" name="Documentos" action="despacho.documento_action"
+                  parent="despacho.despacho_menu"/>
+        <menuitem id="despacho.documento_previo_menu_list" name="Documentos Gabinete" action="despacho.documento_previo_action"
+                  parent="despacho.despacho_menu"/>
+        <menuitem id="despacho.documento_oficializacion_menu_list" name="Documentos Oficializaciones" action="despacho.documento_oficializacion_action"
+                  parent="despacho.despacho_menu"/>
+
+        <menuitem id="despacho.my_despacho_menu_list" name="Mis órdenes de trabajo" action="despacho.my_despacho_action"
+                  parent="despacho.despacho_menu"/>
+
+        <menuitem id="despacho.despacho_this_year_menu_list" name="Órdenes de trabajo de este año"
+                  action="despacho.despacho_this_year_action"
+                  parent="despacho.despacho_menu"/>
+
+</odoo>

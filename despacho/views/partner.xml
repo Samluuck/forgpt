@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!-- Vista heredada para res.partner -->
+        <record model="ir.ui.view" id="partner_despacho_form_view">
+            <field name="name">partner.despacho</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <!-- Agregar campo código antes del primer grupo -->
+                <xpath expr="//sheet/group[1]" position="before">
+                    <group>
+                        <group string="Datos de Despacho">
+                            <field name="codigo" widget="html" class="oe_inline"/>
+                        </group>
+                    </group>
+                </xpath>
+
+                <!-- Cambiar string del campo VAT -->
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="string">RUC</attribute>
+                    <attribute name="placeholder">Ingrese el RUC del cliente</attribute>
+                </xpath>
+
+                <!-- Pestaña de documentos (condicional con t-if en lugar de attrs) -->
+                <xpath expr="//notebook" position="inside">
+                    <t t-if="record.is_company.raw_value">
+                        <page string="Documentos" name="documentos">
+                            <field name="documento_cliente" context="{'default_partner_id': id}">
+                                <tree editable="bottom" decoration-danger="vencimiento &lt; current_date">
+                                    <field name="tipo_documento" widget="many2one_tags"/>
+                                    <field name="vencimiento" widget="date"/>
+                                    <field name="archivo" widget="binary" filename="nombre_archivo"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="tipo_documento" options="{'no_create': True}"/>
+                                        <field name="archivo" widget="binary" filename="nombre_archivo"/>
+                                        <field name="vencimiento" widget="date"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </t>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Acción para contactos -->
+        <record model="ir.actions.act_window" id="contact_list_action">
+            <field name="name">Contactos</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{'search_default_customer': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea tu primer contacto
+                </p>
+            </field>
+        </record>
+
+        <!-- Menú principal -->
+        <menuitem id="despacho.contacts_menu" name="Contactos" parent="despacho_menu_root" sequence="10"/>
+
+        <!-- Submenú -->
+        <menuitem id="contact_menu" name="Lista de Contactos"
+                  parent="despacho.contacts_menu"
+                  action="contact_list_action"
+                  sequence="10"/>
+
+        <!-- Vista heredada para hr.expense -->
+        <record model="ir.ui.view" id="hr_expense_despacho_form_view">
+            <field name="name">hr.expense.view.form.despacho</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="ot" widget="many2one_tags" options="{'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>
