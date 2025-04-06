@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="paperformat_reporte" model="report.paperformat">
+        <field name="name">European A4 for DIN5008 Type A</field>
+        <field name="default" eval="True" />
+        <field name="format">custom</field>
+        <field name="page_height">460</field>
+        <field name="page_width">216</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">9</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">25</field>
+        <field name="margin_right">25</field>
+        <field name="dpi">90</field>
+        <!--        <field name="header_line" eval="False" /> -->
+        <!--        <field name="header_spacing">20</field> -->
+    </record>
+
+    <report
+        id="imprimir_report_contract"
+        model="hr.contract"
+        string="Imprimir Contrato Indefinido"
+        report_type="qweb-pdf"
+        name="hr_contract_types.contract_type_reports"
+        file="hr_contract_types.contract_type_reports"
+        print_report_name="'Contrato - %s' % (object.name)"
+        paperformat="paperformat_reporte"
+    />
+
+    <report
+        id="imprimir_report_contract_determinado2"
+        model="hr.contract"
+        string="Imprimir Contrato Determinado"
+        report_type="qweb-pdf"
+        name="hr_contract_types.contract_type_reports2"
+        file="hr_contract_types.contract_type_reports2"
+        print_report_name="'Contrato - %s' % (object.name)"
+        paperformat="paperformat_reporte"
+    />
+
+    <report
+        id="imprimir_report_es_adenda"
+        model="hr.contract"
+        string="Imprimir Contrato de Adenda"
+        report_type="qweb-pdf"
+        name="hr_contract_types.contract_type_reports3"
+        file="hr_contract_types.contract_type_reports3"
+        print_report_name="'Contrato - %s' % (object.name)"
+        paperformat="paperformat_reporte"
+    />
+</odoo>

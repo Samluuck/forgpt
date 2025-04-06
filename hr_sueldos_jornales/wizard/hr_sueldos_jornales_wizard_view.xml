@@ -1,0 +1,53 @@
+<odoo>
+  <data>
+    <record id="hr_sueldos_jornales_wizard_view" model="ir.ui.view">
+      <field name="name">Reporte de nómina</field>
+      <field name="model">hr_sueldos_jornales_wizard_view</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="start_date" string="Fecha de Inicio"/>
+              <field name="end_date" string="Fecha de Fin" />
+              <field name="type_reports" string="Tipo de Reporte" invisible="1" />
+              <field name="formato_importacion" widget="boolean_toggle" />
+
+            </group>
+            <footer>
+              <button name="check_report_syj" string="Reporte Sueldos y Jornales" type="object" class="btn btn-success"/>
+              <button string="Cancelar" class="btn btn-danger" special="cancel"/>
+
+            </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="hr_sueldos_jornales_date_range_action" model="ir.actions.act_window">
+    <field name="name">Reporte de Sueldos y Jornales</field>
+    <field name="res_model">hr_sueldos_jornales_wizard_view</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="hr_sueldos_jornales_wizard_view"/>
+    <field name="target">new</field>
+</record>
+
+
+    <menuitem
+                id="syj_wizard_menu"
+                name="Sueldos y Jornales"
+                parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root"
+                sequence="70"
+                groups="hr_payroll.group_hr_payroll_user"/>
+        <menuitem
+                id="wps_wizard_submenu"
+                name="Generar reporte Sueldos y Jornales"
+                parent="syj_wizard_menu"
+                action="hr_sueldos_jornales_date_range_action"
+                sequence="30"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+
+
+
+  </data>
+</odoo>

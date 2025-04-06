@@ -1,0 +1,98 @@
+/*Contenedor padre*/
+#recibo {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 20px auto;
+    width: 80%;
+}
+/*Contenedor hijo*/
+table {
+    margin: auto;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    border: 1px solid black;
+}
+
+/* Bordes generales para tablas, celdas y encabezados */
+table, th, td {
+    border: 1px solid black;
+    text-align: left;
+    padding: 5px;
+}
+
+/* Tabla Principal: alineación a la derecha */
+.table-principal {
+    width: auto;
+    margin-left: auto;
+    margin-right: 0;
+    text-align: right;
+}
+
+/* Tabla Secundaria */
+.tabla-secundaria {
+    margin-top: 20px;
+}
+
+.tabla-secundaria table {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+.tabla-secundaria th, .tabla-secundaria td {
+    border: 2px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabla-secundaria th {
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Tabla de Conceptos y Montos */
+.tabla-conceptos td:first-child {
+    width: 70%;
+    height: 1cm;
+}
+
+.tabla-conceptos td:last-child {
+    width: 30%;
+    text-align: right;
+}
+
+/* Tabla de Monto en Letras */
+.tabla-monto-letras td {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-top: 10px;
+}
+
+/* Tabla de Aceptación */
+.tabla-aceptacion {
+    display: flex;
+    align-items: center;
+    height: 2.5cm;
+    border: none;
+    text-align: center;
+}
+
+.sin-borde {
+    border: none;
+}
+
+/* Tabla de Firmas */
+.tabla-firmas {
+    margin-top: 20px;
+}
+
+.tabla-firmas td {
+    text-align: center;
+    padding-top: 25px;
+    border: 1px solid black;
+}
+
+.tabla-firmas strong {
+    margin-top: 20px;
+}

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="late_check_in_setting_view" model="ir.ui.view">
+            <field name="name">Late Check-in Configurations</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="hr_attendance.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@data-key='hr_attendance']" position="inside">
+                    <br></br>
+                    <h2>Inicio de las horas extras</h2>
+                    <br></br>
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <p>
+                                <strong>
+                                    Las horas extras se calcularán basándose en esta configuración, desde la hora especificada hasta el momento en que el colaborador registre su salida en el sistema.
+                                </strong>
+                            </p></div>
+
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="horario_diurno"/>
+                                <div class="text-muted">
+                                </div>
+                                <div>
+                                    <div class="content-group mt16">
+                                        <field name="horario_diurno" colspan="4" nolabel="1" placeholder="Ingrese en formato HH:MM"/>
+                                    </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="horas_nocturnas"/>
+                                <div class="text-muted">
+                                </div>
+                                <div>
+                                    <div class="content-group mt16">
+                                        <field name="horas_nocturnas" colspan="4" nolabel="1" placeholder="Ingrese en formato HH:MM"/>
+                                    </div>
+
+                                </div>
+
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Llegadas Tardias</h2>
+                    <br></br>
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <p><strong>Por favor, establezca la cantidad de minutos de tolerancia permitidos antes de que una llegada sea considerada tardía. Si un colaborador llega dentro de este intervalo de tiempo después de su horario de entrada oficial, no se le marcará como tardío.</strong> </p></div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="tolerancia_llegada_tardia"/>
+                                <div class="text-muted">
+                                </div>
+                                <div>
+                                    <div class="content-group mt16">
+                                        <field name="tolerancia_llegada_tardia" colspan="4" nolabel="1" placeholder="Ingrese en formato HH:MM"/>
+                                    </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <!-- ######### LLEGADA ANTICIPADA -->
+                                        <h2>Llegadas Anticipada</h2>
+                    <br></br>
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <p><strong>Por favor, establezca la cantidad de minutos de llegada anticipada.</strong> </p></div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="tolerancia_llegada_tardia"/>
+                                <div class="text-muted">
+                                </div>
+                                <div>
+                                    <div class="content-group mt16">
+                                        <field name="tolerancia_llegada_anticipada" colspan="4" nolabel="1" placeholder="Ingrese en formato HH:MM"/>
+                                    </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

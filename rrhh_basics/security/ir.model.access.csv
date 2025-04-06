@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_income_expense,hr_income_expense_name,rrhh_basics.model_hr_income_expense,hr_payroll.group_hr_payroll_manager,1,1,1,1
+responsable_cedula,Responsable_RRHH_cedula,model_hr_cedula,rrhh_responsable2,1,1,1,1
+responsable_policial,Responsable_RRHH_Policial,model_hr_antecedentepolicial,rrhh_responsable2,1,1,1,1
+responsable_curriculum,Responsable_RRHH_Curriculum,model_hr_cv,rrhh_responsable2,1,1,1,1
+responsable_titulo,Responsable_RRHH_Titulo,model_hr_titulo,rrhh_responsable2,1,1,1,1
+responsable_judicial,Responsable_RRHH_Judicial,model_hr_antecedentejudicial,rrhh_responsable2,1,1,1,1
+responsable_Grupo_Familiar,Responsable_RRHH_Grupo_Familiar,model_hr_grupo_familiar,rrhh_responsable2,1,1,1,1
+responsable_reglamento_interno,Responsable_RRHH_Reglamento_Interno,model_hr_reglamento,rrhh_responsable2,1,1,1,1
+responsable_ministerio,Responsable_RRHH_ministerio_trabajo,model_hr_ministerio,rrhh_responsable2,1,1,1,1
+responsable_ips,Responsable_RRHH_ips,model_hr_ips,rrhh_responsable2,1,1,1,1
+responsable_contrato_trabajo,Responsable_RRHH_trabajo,model_hr_contratotrabajo,rrhh_responsable2,1,1,1,1
+responsable_contrato_confidencial,Responsable_RRHH_confidencial,model_hr_confidencial,rrhh_responsable2,1,1,1,1
+employee_attendance_register,employee.attendance.register,model_employee_attendance_register,,1,1,1,1

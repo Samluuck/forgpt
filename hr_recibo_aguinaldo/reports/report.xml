@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!-- Formato del papel -->
+    <record id="paperformat_reporte" model="report.paperformat">
+        <field name="name">A4 Format</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="dpi">90</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+    </record>
+
+    <!-- Acción del informe -->
+    <record id="action_report_payslip" model="ir.actions.report">
+        <field name="name">Recibo de Aguinaldo</field>
+        <field name="model">hr.payslip</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_recibo_aguinaldo.report_view</field>
+        <field name="report_file">hr_recibo_aguinaldo.report_view</field>
+        <field name="print_report_name">'Recibo - %s' % (object.employee_id.name)</field>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_reporte"/>
+    </record>
+</odoo>

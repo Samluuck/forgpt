@@ -1,0 +1,33 @@
+{
+    'name': 'Custodia RRHH',
+    'version': '15.0.1.0.0',
+    'summary': """""",
+    'description': '',
+    'live_test_url': '',
+    'category': '',
+    'author': '',
+    'company': '',
+    'maintainer': '',
+    'website': "",
+    'depends': ['hr', 'mail', 'hr_employee_updation', 'product'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/custody_security.xml',
+        'views/wizard_reason_view.xml',
+        'views/custody_view.xml',
+        'views/hr_custody_notification.xml',
+        'views/hr_employee_view.xml',
+        'views/notification_mail.xml',
+        'views/template.xml',
+        'views/report_custodia.xml',
+        'reports/custody_report.xml',
+
+
+    ],
+    'demo': [''],
+    'images': ['static/description/banner.png'],
+    'license': 'AGPL-3',
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+}

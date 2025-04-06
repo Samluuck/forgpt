@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.actions.report" id="rrhh_payroll_bancos_familiar.hr_payslip_run_bancos_familiar_report">
+            <field name="name">Generar archivo TXT para pago de salarios FAMILIAR</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="report_type">qweb-text</field> <!-- Esto puede seguir siendo qweb-text si es texto -->
+            <field name="report_name">rrhh_payroll_bancos_familiar.hr_payslip_run_bancos_familiar_report_t</field>
+            <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+            <field name="binding_type">report</field>
+        </record>
+        <!--
+        El siguiente template no debe de tener saltos de linea para funcionar correctamente
+        -->
+        <template id="rrhh_payroll_bancos_familiar.hr_payslip_run_bancos_familiar_report_t">
+            <t t-esc="docs.get_values_for_report_bancos_familiar()"/>
+        </template>
+
+    </data>
+</odoo>

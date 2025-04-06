@@ -1,0 +1,1 @@
+from . import hr_empleados_obreros_wizard_view

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <record id="hr_payroll_txt_wizard_view" model="ir.ui.view">
+      <field name="name">Archivo Banco</field>
+      <field name="model">hr_payroll_txt_wizard</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Generar Archivo">
+          <field name="state" invisible="1"/>
+          <field name="name" invisible="1"/>
+          <div states="view" >
+            <p> ¿Desea usted generar Archivo de IPS?, ¿Esta usted seguro? </p>
+          </div>
+          <footer states="view">
+            <button string="Aceptar" name="get_file_txt" type="object" class="btn btn-success" />
+            o <button string="Cancelar" class="btn btn-danger" special="cancel"  />
+          </footer>
+          <div states="get" >
+            <p><strong>Descargar el archivo : </strong> <strong> <field name="data" readonly="1" filename="name"/></strong></p>
+          </div>
+          <footer states="get">
+            <button string="Cancelar" class="btn btn-danger" special="cancel" />
+          </footer>
+        </form>
+      </field>
+    </record>
+    <record id="hr_wizard_nomina.hr_payroll_run_txt_action" model="ir.actions.act_window">
+      <field name="name">Generar Archivo Banco</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">hr_payroll_txt_wizard</field>
+<!--      <field name="view_type">form</field>-->
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+
+
+
+  </data>
+</odoo>
+
+

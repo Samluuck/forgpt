@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="lista_descuentos_form_view" model="ir.ui.view">
+            <field name="name">descuentos.form.view</field>
+            <field name="model">lista.descuentos</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de Descuento">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="codigo" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="lista_descuento_tree_view" model="ir.ui.view">
+            <field name="name">descuento.tree.view</field>
+            <field name="model">lista.descuentos</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo de Descuento">
+                    <field name="name" />
+                    <field name="codigo" required="1"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="lista_descuento_model_action" model="ir.actions.act_window">
+            <field name="name">Tipo de Descuentos</field>
+            <field name="res_model">lista.descuentos</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+       <menuitem id="lista_descuento_menu_id" parent="hr.menu_hr_root" name="Tipo De Descuentos" action="lista_descuento_model_action" />
+
+    </data>
+</odoo>

@@ -1,0 +1,1 @@
+Modulo de localizacion para el modulo de rrhh

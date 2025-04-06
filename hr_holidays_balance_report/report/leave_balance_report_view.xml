@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Leave Balance Report Search View-->
+    <record id="leave_balance_report_search" model="ir.ui.view">
+        <field name="name">leave.balance.report.search</field>
+        <field name="model">report.balance.leave</field>
+        <field name="arch" type="xml">
+            <search string="Informe de saldo de licencias">
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_employee" string="Empleado" context="{'group_by': 'emp_id'}"/>
+                    <filter name="group_department" string="Departamento"
+                            context="{'group_by': 'department_id'}"/>
+                    <filter name="group_leave_type" string="Tipo de licencia"
+                            context="{'group_by': 'leave_type_id'}"/>
+                    <filter name="group_job" string="Trabajo" context="{'group_by': 'job_id'}"/>
+                    <filter name="group_gender" string="Género" context="{'group_by': 'gender'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--Leave Balance Report Tree View-->
+    <record id="leave_balance_report_tree" model="ir.ui.view">
+        <field name="name">leave.balance.report.tree</field>
+        <field name="model">report.balance.leave</field>
+        <field name="arch" type="xml">
+            <tree string="Informe de saldo de asignaciones" create="0">
+                <field name="emp_id"/>
+<!--                <field name="gender"/>-->
+<!--                <field name="country_id"/>-->
+<!--                <field name="department_id"/>-->
+<!--                <field name="job_id"/>-->
+                <field name="leave_type_id"/>
+                <field name="allocated_days"/>
+                <field name="taken_days"/>
+                <field name="balance_days"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--Leave Balance Report Action-->
+    <record id="action_leave_balance_reports" model="ir.actions.act_window">
+        <field name="name">Informe de Asignaciones</field>
+        <field name="res_model">report.balance.leave</field>
+        <field name="view_mode">tree,pivot,graph</field>
+        <field name="search_view_id" ref="leave_balance_report_search"/>
+        <field name="domain">[]</field>
+    </record>
+
+    <!--Leave Balance Report Menu-->
+    <menuitem id="menu_action_leave_balance_report"
+              name="Informe de saldo de licencias"
+              action="action_leave_balance_reports"
+              parent="hr_holidays.menu_hr_holidays_report"
+              sequence="3"/>
+
+</odoo>

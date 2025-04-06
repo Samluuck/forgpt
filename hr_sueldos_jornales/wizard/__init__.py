@@ -1,0 +1,1 @@
+from . import hr_sueldos_jornales_wizard_view

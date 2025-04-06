@@ -1,0 +1,127 @@
+.body {
+    border: 2px solid grey;
+    height: 35cm;
+    width: 20cm;
+    border-radius: 20px;
+    padding-top: 1cm; /* Asegura un espacio superior constante */
+}
+
+#logo-container {
+    display: flex;
+    align-items: flex-start;
+    height: 2cm; /* Define una altura fija para el contenedor del logo */
+}
+
+#imagen_iso {
+    width: 4cm;
+    margin-left: 1cm;
+    position: relative;
+    top: 0cm;
+}
+
+#company_name {
+    font-family: "Abyssinica SIL";
+    font-size: 16px;
+    margin-left: 6cm;
+    position: relative;
+    top: -2cm;
+}
+
+#noti {
+    background-color: grey;
+    font-family: "Abyssinica SIL";
+    font-size: 18px;
+    width: 18cm;
+    text-align: center;
+    margin-left: 1cm;
+    margin-top: 2cm; /* Ajusta el margen superior según la altura fija del logo */
+}
+
+#asu {
+    margin-left: 2cm;
+    font-family: "Abyssinica SIL";
+}
+
+#sr {
+    margin-left: 2cm;
+    font-family: "Abyssinica SIL";
+}
+
+#sr1 {
+    font-family: "Abyssinica SIL";
+}
+
+#ci {
+    margin-left: 2cm;
+    font-family: "Abyssinica SIL";
+}
+
+#ci1 {
+    font-family: "Abyssinica SIL";
+}
+
+#att {
+    position: absolute;
+    top: 12cm;
+    margin-left: 2cm;
+}
+
+#cuerpo {
+    position: absolute;
+    top: 9cm;
+    width: 16cm;
+    margin-left: 2cm;
+    font-family: "Abyssinica SIL";
+}
+
+#nom {
+    position: absolute;
+    top: 15cm;
+    margin-left: 13cm;
+    font-family: "Abyssinica SIL";
+    width: 5cm;
+}
+
+#pues {
+    position: absolute;
+    top: 15.80cm;
+    margin-left: 14.10cm;
+    font-family: "Abyssinica SIL";
+}
+
+#fecha_notificacion {
+    color: red;
+}
+
+#p1 {
+    position: absolute;
+    top: 17cm;
+    font-family: "Abyssinica SIL";
+    margin-left: 3cm;
+}
+
+#p2 {
+    position: absolute;
+    top: 19.50cm;
+    font-family: "Abyssinica SIL";
+    margin-left: 3cm;
+}
+
+#fr {
+    position: absolute;
+    top: 17.50cm;
+    font-family: "Abyssinica SIL";
+    margin-left: 4cm;
+}
+
+#acla {
+    position: absolute;
+    top: 20cm;
+    font-family: "Abyssinica SIL";
+    margin-left: 3.8cm;
+}
+
+#pie {
+    font-size: 10px;
+    text-align: center;
+}

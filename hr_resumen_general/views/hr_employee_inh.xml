@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="hr_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr_employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="before">
+                    <field name="supervisor"  widget="boolean_toggle"/>
+                </xpath>
+                <xpath expr="//field[@name='birthday']" position="after">
+                    <field name="employee_age" readonly="1" force_save="1"/>
+		        </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

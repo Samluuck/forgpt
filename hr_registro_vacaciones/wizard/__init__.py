@@ -1,0 +1,1 @@
+from . import hr_registro_vacaciones_wizard_view

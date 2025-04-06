@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+      <report
+          id="hr_sueldos_jornales_report_action"
+          model="hr_sueldos_jornales_wizard_view"
+          string="Sueldos y Jornales"
+          report_type="xlsx"
+          name="hr_sueldos_jornales.payroll_report_xlsx"
+          file="hr_sueldos_jornales.payroll_report_xlsx"/>
+  </data>
+</odoo>

@@ -1,0 +1,10 @@
+<odoo>
+    <report
+    id="report_project_id_xls"
+    model="hr.attendance"
+    string="Reporte De Asistencias"
+    name="hr_horas_extras.report_attendances"
+    file="hr_horas_extras.report_attendances"
+    report_type="xlsx"
+    />
+</odoo>

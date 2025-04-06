@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+        <record model="ir.ui.view" id="hr_employee_paraguay">
+            <field name="name">hr.holiday.employee.paraguay.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                      <field name="calcula_vacaciones"/>
+                      <field name="dias_vacaciones_no_utilizados"/>
+                      <field name="ultimo_anio_calculado"/>
+                      <field name="asignacion_vacaciones"/>
+                </xpath>
+            </field>
+        </record>
+  </data>
+</odoo>

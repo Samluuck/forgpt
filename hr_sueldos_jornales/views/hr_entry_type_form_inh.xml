@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_leave_type_sueldos_jornales_form_inherit" model="ir.ui.view">
+            <field name="name">hr.work.entry.type.inh</field>
+            <field name="model">hr.work.entry.type</field>
+            <field name="inherit_id" ref="hr_work_entry.hr_work_entry_type_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                  <field name="es_ausencia_descontada" widget="boolean_toggle"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

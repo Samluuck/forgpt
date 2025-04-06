@@ -1,0 +1,78 @@
+<odoo>
+    <data>
+        <template id="payslip_print_view">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <link href="/hr_custody/static/src/css/custodia.css" rel="stylesheet" type="text/css"/>
+
+                        <p id="imagen"><img t-att-src="image_data_uri(o.company_id.logo)" style="width:18cm;height:7cm;"/></p>
+                        <div>
+                            <p id="titulo"><span t-field="o.company_id.name"/></p>
+                            <p id="texto1"><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                En la Ciudad de Asunción, a los ____ días del mes de ___________________________ de 202__, se le
+                                hace entrega al señor/a ___________________________________________________________________________________________
+                                con cédula de identidad número ___________________________________ del siguiente equipo corporativo, con el objetivo
+                                de brindar todas las facilidades a los colaboradores, a fin de cubrir con los requerimientos de los clientes.
+                            </p>
+
+                            <table class="tabla">
+                                <thead>
+                                    <tr id="tabla1">
+                                        <th id="equipo" class="centrado" style="border: 1px solid black;">
+                                            <span><strong>EQUIPO</strong></span>
+                                        </th>
+                                        <th id="detalle" class="centrado" style="border: 1px solid black;">
+                                            <span><strong>DETALLE</strong></span>
+                                        </th>
+                                        <th id="modelo" class="centrado" style="border: 1px solid black;">
+                                            <span><strong>MODELO</strong></span>
+                                        </th>
+                                        <th id="cantidad" class="centrado" style="border: 1px solid black;">
+                                            <span><strong>CANTIDAD</strong></span>
+                                        </th>
+                                        <th id="color" class="centrado" style="border: 1px solid black;">
+                                            <span><strong>COLOR</strong></span>
+                                        </th>
+                                        <th id="estado" class="centrado" style="border: 1px solid black;">
+                                            <span><strong>ESTADO</strong></span>
+                                        </th>
+                                        <th id="identificador" class="centrado" style="border: 1px solid black;">
+                                            <span><strong>IDENTIFICADOR N.</strong></span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid black;" colspan="1">
+                                            <span t-field="o.custody_name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"><span t-field="o.name"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                             <p id="texto2"><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                 El receptor se hace cargo de mantenerlo en las mismas condiciones en las que
+                                 se le ha sido asignado. En caso de daño, pérdida y/o sustracción, y tiene carácter de responsabilidad.
+                                 Por lo tanto, firma al pie de este documento en prueba de conformidad.
+                            </p>
+                            <p id="texto3">Se deja constancia que por el bien entregado.-
+                            </p>
+                             <p id="firma1">____________________________________</p>
+                                   <p id="firma2">Nombre: <span t-field="o.hr_manager"/> </p>
+                                   <p id="firma3">C.I: <span t-field="o.hr_manager.identification_id"/></p>
+                            <p id="firma4">_____________________________________</p>
+                            <p id="firma5">Nombre: <span t-field="o.employee"/></p>
+                                   <p id="firma6">C.I: <span t-field="o.employee.identification_id"/></p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr_employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='bank_account_id']" position="after">
+                    <field name="categoria_de_ips" />
+                    <field name="numero_de_asegurado"/>
+                </xpath>
+
+                <xpath expr="//field[@name='children']" position="after">
+                    <field name="numero_hijos"/>
+                </xpath>
+                <xpath expr="//field[@name='children']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+
+                <xpath expr="//group[@name='active_group']" position="after">
+                    <group string="Special Features" name="special">
+
+                        <field name="no_marca" widget="boolean_toggle"/>
+                    </group>
+
+                </xpath>
+
+                <notebook position="inside">
+                <!--PESTANHA LEGAJO-->
+                <page string="Legajo">
+                    <group string="Cédula de Identidad">
+                        <sheet>
+                            <field name="cedulas_id">
+                                   <tree>
+                                        <field name="fecha_vencimiento"/>
+                                       <field name="alerta" invisible="1"/>
+                                        <field name="documento" widget="binary"/>
+                                   </tree>
+                            </field>
+                        </sheet>
+                    </group>
+
+                    <group string="Antecedente Policial">
+                        <sheet>
+                            <field name="antecedente_policial_id">
+                                <tree>
+                                    <field name="fecha_actual"/>
+                                    <field name="documento_antecedente" widget="binary"/>
+                                </tree>
+                            </field>
+                        </sheet>
+                    </group>
+
+                    <group string="Curriculum Vitae">
+                        <sheet>
+                            <field name="curriculums_id">
+                                <tree>
+                                    <field name="fecha_actual"/>
+                                    <field name="documento" widget="binary"/>
+                                </tree>
+                            </field>
+                        </sheet>
+                    </group>
+
+                    <group string="Contrato de Confidencialidad">
+                        <sheet>
+                            <field name="contrato_confidencial_id" >
+                                <tree>
+                                    <field name="contrato_confidencial_documento" widget="binary"/>
+                                </tree>
+
+                            </field>
+                        </sheet>
+                    </group>
+
+                    <group string="Titulos Obtenidos">
+                        <sheet>
+                             <field name="titulos_id">
+                                    <tree>
+
+                                        <field name="carrera"/>
+                                        <field name="titulo_obtenido"/>
+                                        <field name="informe_anual"/>
+                                        <field name="institucion"/>
+                                        <field name="descripcion_titulo"/>
+                                        <field name="documento" widget="binary"/>
+                                    </tree>
+                             </field>
+                        </sheet>
+                    </group>
+
+                    <group string="Antecedente Judicial">
+                        <sheet>
+                            <field name="antecedente_judicial_id">
+                                <tree>
+                                    <field name="fecha_actual"/>
+                                    <field name="documento" widget="binary"/>
+                                </tree>
+                            </field>
+                        </sheet>
+                    </group>
+
+
+                    <group string="Grupo Familiar">
+                        <sheet>
+                            <field name="grupo_familiar_id" invisible="False">
+                               <tree>
+                                   <field name="nombre_apellido"/>
+                                   <field name="ci"/>
+                                   <field name="fecha_nacimiento"/>
+<!--                                   <field name="edad"/>-->
+                                   <field name="telefono"/>
+                                   <field name="celular"/>
+                                   <field name="relacion_parentesco"/>
+                                   <field name="discapacitado"/>
+                               </tree>
+                           </field>
+                        </sheet>
+                    </group>
+
+
+
+                    <group string="Reglamento Interno">
+                        <sheet>
+                            <field name="reglamiento_interno">
+                                <tree>
+                                 <field name="reglamento_interno" widget="binary"/>
+
+                                </tree>
+                            </field>
+                        </sheet>
+                    </group>
+
+                    <group string="Contrato de Trabajo">
+                        <sheet>
+                            <field name="contrato_trabajo_id">
+                                <tree>
+                               <field name="contrato_trabajo" widget="binary"/>
+
+                                </tree>
+                            </field>
+                        </sheet>
+                    </group>
+
+                    <group string="Inscripción a Instituto de previsión social">
+                        <sheet>
+                            <field name="ips_id">
+                                <tree>
+                                <field name="ips" widget="binary"/>
+
+                                </tree>
+                            </field>
+                        </sheet>
+                    </group>
+
+
+
+                    <group string="Inscripción a Ministerio de trabajo">
+                        <sheet>
+                            <field name="ministerio_trabajo_id">
+                                <tree>
+                                  <field name="ministerio_trabajo" widget="binary"/>
+
+                                </tree>
+                            </field>
+                        </sheet>
+                    </group>
+
+
+
+                </page>
+                </notebook>
+
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

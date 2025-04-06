@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_hr_form" model="ir.ui.view">
+            <field name="name">view_hr_payslip</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Conceptos de Despidos">
+                        <group>
+                            <field name="dias_trabajados"/>
+                            <field name="antiguedad"/>
+                            <field name="preaviso_correspondido"/>
+                            <field name="indemnizacion"/>
+                            <field name="motivo_despido"/>
+                        </group>
+                    </page>
+                    <!-- Pestaña para Detalle de Salarios de los Últimos 6 Meses -->
+                    <page string="Salarios de los Últimos 6 Meses">
+                        <group>
+                            <field name="salario_mes_1"/>
+                            <field name="salario_mes_2"/>
+                            <field name="salario_mes_3"/>
+                            <field name="salario_mes_4"/>
+                            <field name="salario_mes_5"/>
+                            <field name="salario_mes_6"/>
+                            <field name="salario_promedio_ultimos_meses"/>
+                        </group>
+                    </page>
+
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
