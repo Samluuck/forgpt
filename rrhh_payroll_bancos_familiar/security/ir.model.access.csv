@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_wizard_bancos_familiar_admin,access_wizard_bancos_familiar_admin,rrhh_payroll_bancos_familiar.model_wizard_bancos_familiar,hr_payroll.group_hr_payroll_manager,1,1,1,1
