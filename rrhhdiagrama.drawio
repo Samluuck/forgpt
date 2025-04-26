@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36" version="26.2.14">
   <diagram name="RRHH_Odoo_Flujo_Optimizado" id="X3b9cJ5aVg2Kd97cH52v">
-    <mxGraphModel dx="1678" dy="871" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="983" dy="510" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -40,38 +40,23 @@
         <mxCell id="registro_empleado" value="1. Registrar/Crear Empleado" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
           <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="asignacion_puesto" value="2. Asignar Puesto" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="120" width="240" height="40" as="geometry" />
+        <mxCell id="asignacion_puesto" value="6. Cargar datos del contrato: Salario, fecha ingreso, fecha salida (en caso de que tenga), " style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
+          <mxGeometry x="20" y="560" width="240" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="asignacion_departamento" value="3. Asignar Departamento" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="200" width="240" height="40" as="geometry" />
+        <mxCell id="asignacion_departamento" value="2. Cargar datos del empleado: Nombre y Apellido, CI, Fecha de nacimiento, Puesto, Departamento, Datos Personales, Documentacion, Direccion Laboral, etc" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
+          <mxGeometry x="20" y="120" width="240" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="carga_datos_personales" value="4. Datos Personales" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="280" width="240" height="40" as="geometry" />
+        <mxCell id="creacion_contrato" value="5. Crear Contrato" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
+          <mxGeometry x="20" y="480" width="240" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="carga_documentacion" value="5. Documentación" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="360" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="asignacion_direccion" value="6. Dirección Laboral" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="440" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="creacion_contrato" value="7. Crear Contrato" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="520" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="gestion_beneficios" value="8. Beneficios" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="600" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="actualizacion_periodica" value="9. Datos Bancarios" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="680" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="asignacion_responsable" value="10. Asignar Jefe" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="760" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="activacion_portal" value="11. Portal Empleado" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="840" width="240" height="40" as="geometry" />
+        <mxCell id="actualizacion_periodica" value="3. Pago por txt de banco:&#xa;Cargar datos bancarios en la ficha del empleado para casos en que el cliente quiera la opcion de realizar pagos por txt de banco" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
+          <mxGeometry x="20" y="240" width="240" height="80" as="geometry" />
         </mxCell>
         <mxCell id="control_cambio_estado" value="12. Estado (Activo/Archivado)" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="920" width="240" height="40" as="geometry" />
+          <mxGeometry x="20" y="730" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-5" value="4. Cargar numero zk en la ficha del empleado para reloj biometrico en caso de que el cliente tenga la opción de asistencia por reloj " style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="360" width="240" height="80" as="geometry" />
         </mxCell>
         <mxCell id="asistencia" value="&lt;b&gt;Módulo Asistencia&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="920" y="40" width="280" height="520" as="geometry" />
