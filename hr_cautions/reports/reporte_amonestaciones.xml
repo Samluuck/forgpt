@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="reporte_amonestaciones">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                   <t t-call="web.external_layout">
+                            <div class="page">
+                                <t t-set="fecha" t-value="o.date"/>
+                                <h3 style="text-align: center;"><strong>NOTA DE AMONESTACION</strong></h3>
+                                 <p>Asuncion, <span t-esc="fecha"/></p><br/>
+                                <br/>
+                                <p>Señor/a:</p><br/>
+                                <div class="texto_clase">
+                                    <p>
+                                        Hemos constatado que según nuestros registros Ud. en reiteradas ocasiones ha cometido la/s siguiente/s:</p>
+                                        <li>
+                                          <span t-field="o.caution_type_id.name"/>
+                                        </li>
+                                       <p> Por tanto a través de la presente se le apercibe por dichas razones de conformidad con el/los Art.:</p>
+                                         <li>
+                                           <span t-field="o.caution_type_id.articles"/>
+                                         </li>
+                                       <p>Conforme al Reglamento Interno de la Empresa.</p>
+
+                                    <p>Atentamente.</p><br/>
+                                    <p>______________________________</p>
+                                    <p>(Firma del Empleador.)</p>
+                                    <br/><br/>
+                                    <p>Notificado:</p>
+                                    <br/>
+                                    <p>______________________________</p>
+                                    <p>(Firma del Trabajador.)</p>
+                                    <br/>
+                                    <p>c/c: Dirección del Trabajo.</p>
+                                </div>
+                            </div>
+                        </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

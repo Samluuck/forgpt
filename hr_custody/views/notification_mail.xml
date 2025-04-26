@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="custody_email_notification_template" model="mail.template">
+            <field name="name">Plantilla de correo electrónico de custodia</field>
+            <field name="email_from">${object.company_id and object.company_id.email or ''}</field>
+            <field name="subject">Notification to return company asset-${object.custody_name.name}</field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="model_id" ref="hr_custody.model_hr_custody"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                    <![CDATA[
+                          <p>Estimado/a ${(object.employee.name)},<br/><br/>
+                         Usted está en posesión del activo de la empresa.
+                          <strong>"${(object.custody_name.name)}"</strong>
+                          desde <strong>${(object.return_date)}.</strong><br/><br/>
+                          Por favor, devuelva la propiedad lo antes posible..<br/><br/></p>
+                          Saludos,<br/><br/>
+                          ${(object.company_id.name)}]]>
+            </field>
+        </record>
+    </data>
+</odoo>
