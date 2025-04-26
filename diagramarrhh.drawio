@@ -1,0 +1,114 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="RRHH Odoo v15-v18" id="Vw9h8JqAxkGlH42cJPjA">
+    <mxGraphModel dx="1190" dy="647" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- INICIO -->
+        <mxCell id="inicio" value="INICIO" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="20" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Publicar Vacante -->
+        <mxCell id="publicar_vacante" value="PUBLICAR VACANTE" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="100" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Candidatos Postulados? -->
+        <mxCell id="candidatos_postulados" value="¿CANDIDATOS POSTULADOS?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="200" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Entrevistas y pruebas -->
+        <mxCell id="entrevistas" value="ENTREVISTAS Y PRUEBAS" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="320" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Aprobación Candidato -->
+        <mxCell id="aprobacion_candidato" value="¿APROBACIÓN DE CANDIDATO?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="420" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Crear Empleado -->
+        <mxCell id="crear_empleado" value="CREAR EMPLEADO" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="540" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Crear Contrato -->
+        <mxCell id="crear_contrato" value="CREAR CONTRATO" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="620" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Contrato Completo? -->
+        <mxCell id="contrato_validado" value="¿CONTRATO COMPLETO Y VALIDADO?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="700" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Plan Onboarding -->
+        <mxCell id="plan_onboarding" value="PLAN DE ONBOARDING" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="820" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Captura Asistencias / Evaluaciones -->
+        <mxCell id="asistencias" value="ASISTENCIAS / EVALUACIONES" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="900" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Periodo de Nómina Abierto? -->
+        <mxCell id="periodo_nomina" value="¿PERÍODO DE NÓMINA ABIERTO?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="980" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Calcular Nómina -->
+        <mxCell id="calcular_nomina" value="VALIDAR NÓMINA" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1100" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Cambio Contrato? -->
+        <mxCell id="cambio_contrato" value="¿CAMBIO DE CARGO/CONTRATO?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1180" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Cerrar Contrato -->
+        <mxCell id="cerrar_contrato" value="CERRAR CONTRATO" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1280" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Liquidación -->
+        <mxCell id="liquidacion" value="CÁLCULO DE LIQUIDACIÓN" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1360" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Archivo Empleado -->
+        <mxCell id="archivo_empleado" value="ARCHIVAR EMPLEADO" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1440" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- FIN -->
+        <mxCell id="fin" value="FIN" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1520" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Conexiones -->
+        <mxCell id="line1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="inicio" target="publicar_vacante"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="publicar_vacante" target="candidatos_postulados"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="candidatos_postulados" target="entrevistas"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="entrevistas" target="aprobacion_candidato"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="aprobacion_candidato" target="crear_empleado"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="crear_empleado" target="crear_contrato"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="crear_contrato" target="contrato_validado"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="contrato_validado" target="plan_onboarding"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="plan_onboarding" target="asistencias"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="asistencias" target="periodo_nomina"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="periodo_nomina" target="calcular_nomina"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="calcular_nomina" target="cambio_contrato"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="cambio_contrato" target="cerrar_contrato"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="cerrar_contrato" target="liquidacion"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="liquidacion" target="archivo_empleado"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="line16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;" edge="1" parent="1" source="archivo_empleado" target="fin"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
