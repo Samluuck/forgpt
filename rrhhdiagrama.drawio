@@ -1,383 +1,406 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mxfile host="app.diagrams.net">
-  <diagram name="RRHH_Odoo_Flujo" id="X3b9cJ5aVg2Kd97cH52v">
-    <mxGraphModel dx="1230" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <diagram name="RRHH_Odoo_Flujo_Optimizado" id="X3b9cJ5aVg2Kd97cH52v">
+    <mxGraphModel dx="1660" dy="970" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         
-        <!-- 🟦 Módulo de Reclutamiento (Extendido) -->
-        <mxCell id="reclutamiento" value="Módulo de Reclutamiento" style="swimlane;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-          <mxGeometry x="20" y="20" width="340" height="700" as="geometry" />
+        <!-- ==================== -->
+        <!-- 🟦 MÓDULO RECLUTAMIENTO -->
+        <!-- ==================== -->
+        <mxCell id="reclutamiento" value="&lt;b&gt;Módulo de Reclutamiento&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="280" height="600" as="geometry" />
         </mxCell>
 
-        <mxCell id="definir_requisitos" value="Definición de Requisitos del Puesto" style="rounded=1;" vertex="1" parent="reclutamiento">
-          <mxGeometry x="20" y="30" width="300" height="40" as="geometry"/>
+        <!-- Procesos de Reclutamiento (vertical) -->
+        <mxCell id="definir_requisitos" value="1. Definir Requisitos del Puesto" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="reclutamiento">
+          <mxGeometry x="20" y="50" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="publicar_vacante" value="Publicar Vacante" style="rounded=1;" vertex="1" parent="reclutamiento">
-          <mxGeometry x="20" y="90" width="300" height="40" as="geometry"/>
+        <mxCell id="publicar_vacante" value="2. Publicar Vacante" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="reclutamiento">
+          <mxGeometry x="20" y="110" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="recibir_postulaciones" value="Recibir Postulaciones" style="rounded=1;" vertex="1" parent="reclutamiento">
-          <mxGeometry x="20" y="150" width="300" height="40" as="geometry"/>
+        <mxCell id="recibir_postulaciones" value="3. Recibir Postulaciones" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="reclutamiento">
+          <mxGeometry x="20" y="170" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="evaluar_candidatos" value="Evaluar Candidatos" style="rounded=1;" vertex="1" parent="reclutamiento">
-          <mxGeometry x="20" y="210" width="300" height="40" as="geometry"/>
+        <mxCell id="evaluar_candidatos" value="4. Evaluación Inicial" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="reclutamiento">
+          <mxGeometry x="20" y="230" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="test_formulario" value="Evaluación Formal (Test/Formulario)" style="rounded=1;" vertex="1" parent="reclutamiento">
-          <mxGeometry x="20" y="270" width="300" height="40" as="geometry"/>
+        <mxCell id="test_formulario" value="5. Pruebas/Formularios" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="reclutamiento">
+          <mxGeometry x="20" y="290" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="entrevistas" value="Entrevistas" style="rounded=1;" vertex="1" parent="reclutamiento">
-          <mxGeometry x="20" y="330" width="300" height="40" as="geometry"/>
+        <mxCell id="entrevistas" value="6. Entrevistas" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="reclutamiento">
+          <mxGeometry x="20" y="350" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="seleccion" value="Selección de Candidato" style="rounded=1;" vertex="1" parent="reclutamiento">
-          <mxGeometry x="20" y="390" width="300" height="40" as="geometry"/>
+        <mxCell id="seleccion" value="7. Selección Final" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="reclutamiento">
+          <mxGeometry x="20" y="410" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="oferta_laboral" value="Oferta Laboral" style="rounded=1;" vertex="1" parent="reclutamiento">
-          <mxGeometry x="20" y="450" width="300" height="40" as="geometry"/>
+        <mxCell id="oferta_laboral" value="8. Oferta Laboral" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="reclutamiento">
+          <mxGeometry x="20" y="470" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="crear_empleado" value="Creación de Empleado" style="ellipse;" vertex="1" parent="reclutamiento">
-          <mxGeometry x="110" y="520" width="100" height="40" as="geometry"/>
+        <mxCell id="crear_empleado" value="9. Crear Empleado" style="ellipse;whiteSpace=wrap;" vertex="1" parent="reclutamiento">
+          <mxGeometry x="70" y="530" width="140" height="40" as="geometry"/>
         </mxCell>
 
-        <!-- 🟩 Módulo de Empleados (Extendido) -->
-        <mxCell id="empleados" value="Módulo Empleados" style="swimlane;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-          <mxGeometry x="320" y="20" width="340" height="800" as="geometry" />
+        <!-- ==================== -->
+        <!-- 🟩 MÓDULO EMPLEADOS -->
+        <!-- ==================== -->
+        <mxCell id="empleados" value="&lt;b&gt;Módulo Empleados&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="360" y="40" width="280" height="800" as="geometry" />
         </mxCell>
 
-        <mxCell id="registro_empleado" value="Registro de Empleado" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="30" width="300" height="40" as="geometry"/>
+        <!-- Procesos de Empleados (vertical) -->
+        <mxCell id="registro_empleado" value="1. Registro de Empleado" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="50" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="asignacion_puesto" value="Asignación de Puesto de Trabajo" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="90" width="300" height="40" as="geometry"/>
+        <mxCell id="asignacion_puesto" value="2. Asignar Puesto" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="110" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="asignacion_departamento" value="Asignación de Departamento" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="150" width="300" height="40" as="geometry"/>
+        <mxCell id="asignacion_departamento" value="3. Asignar Departamento" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="170" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="carga_datos_personales" value="Carga de Datos Personales" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="210" width="300" height="40" as="geometry"/>
+        <mxCell id="carga_datos_personales" value="4. Datos Personales" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="230" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="carga_documentacion" value="Carga de Documentación Requerida" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="270" width="300" height="40" as="geometry"/>
+        <mxCell id="carga_documentacion" value="5. Documentación" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="290" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="asignacion_direccion" value="Asignación de Dirección" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="330" width="300" height="40" as="geometry"/>
+        <mxCell id="asignacion_direccion" value="6. Dirección Laboral" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="350" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="creacion_contrato" value="Creación de Contrato" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="390" width="300" height="40" as="geometry"/>
+        <mxCell id="creacion_contrato" value="7. Crear Contrato" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="410" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="gestion_beneficios" value="Gestión de Beneficios y Asignaciones" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="450" width="300" height="40" as="geometry"/>
+        <mxCell id="gestion_beneficios" value="8. Beneficios" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="470" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="actualizacion_periodica" value="Actualización de Datos Bancarios / Teléfonos" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="510" width="300" height="40" as="geometry"/>
+        <mxCell id="actualizacion_periodica" value="9. Datos Bancarios" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="530" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="asignacion_responsable" value="Asignación de Responsable Directo" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="570" width="300" height="40" as="geometry"/>
+        <mxCell id="asignacion_responsable" value="10. Asignar Jefe" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="590" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="activacion_portal" value="Activación en Portal Empleado (opcional)" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="630" width="300" height="40" as="geometry"/>
+        <mxCell id="activacion_portal" value="11. Portal Empleado" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="650" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="control_cambio_estado" value="Control de Estado (Activo / Archivado)" style="rounded=1;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="690" width="300" height="40" as="geometry"/>
+        <mxCell id="control_cambio_estado" value="12. Estado (Activo/Archivado)" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="710" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <!-- 🟨 Módulo de Asistencia (Extendido) -->
-        <mxCell id="asistencia" value="Módulo Asistencia" style="swimlane;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="620" y="20" width="340" height="600" as="geometry" />
+        <!-- ==================== -->
+        <!-- 🟨 MÓDULO ASISTENCIA -->
+        <!-- ==================== -->
+        <mxCell id="asistencia" value="&lt;b&gt;Módulo Asistencia&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="680" y="40" width="280" height="400" as="geometry" />
         </mxCell>
 
-        <mxCell id="registro_entrada" value="Registro de Entrada" style="rounded=1;" vertex="1" parent="asistencia">
-          <mxGeometry x="20" y="30" width="300" height="40" as="geometry"/>
+        <!-- Procesos de Asistencia (vertical) -->
+        <mxCell id="registro_entrada" value="1. Registro Entrada" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="asistencia">
+          <mxGeometry x="20" y="50" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="registro_salida" value="Registro de Salida" style="rounded=1;" vertex="1" parent="asistencia">
-          <mxGeometry x="20" y="90" width="300" height="40" as="geometry"/>
+        <mxCell id="registro_salida" value="2. Registro Salida" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="asistencia">
+          <mxGeometry x="20" y="110" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="validacion_asistencia" value="Validación de Registros" style="rounded=1;" vertex="1" parent="asistencia">
-          <mxGeometry x="20" y="150" width="300" height="40" as="geometry"/>
+        <mxCell id="validacion_asistencia" value="3. Validar Registros" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="asistencia">
+          <mxGeometry x="20" y="170" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="calculo_horas_trabajadas" value="Cálculo de Horas Trabajadas" style="rounded=1;" vertex="1" parent="asistencia">
-          <mxGeometry x="20" y="210" width="300" height="40" as="geometry"/>
+        <mxCell id="calculo_horas_trabajadas" value="4. Calcular Horas" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="asistencia">
+          <mxGeometry x="20" y="230" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="ajuste_manual" value="Ajustes Manuales (Errores)" style="rounded=1;" vertex="1" parent="asistencia">
-          <mxGeometry x="20" y="270" width="300" height="40" as="geometry"/>
+        <mxCell id="ajuste_manual" value="5. Ajustes Manuales" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="asistencia">
+          <mxGeometry x="20" y="290" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="cierre_jornada" value="Cierre de Jornada" style="rounded=1;" vertex="1" parent="asistencia">
-          <mxGeometry x="20" y="330" width="300" height="40" as="geometry"/>
+        <mxCell id="exportacion_nomina" value="6. Exportar a Nómina" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="asistencia">
+          <mxGeometry x="20" y="350" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="exportacion_nomina" value="Exportación de Horas a Nómina" style="rounded=1;" vertex="1" parent="asistencia">
-          <mxGeometry x="20" y="390" width="300" height="40" as="geometry"/>
+        <!-- ==================== -->
+        <!-- 🟥 MÓDULO AUSENCIAS -->
+        <!-- ==================== -->
+        <mxCell id="ausencias" value="&lt;b&gt;Módulo Ausencias&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="680" y="480" width="280" height="500" as="geometry" />
         </mxCell>
 
-        <!-- 🟥 Módulo de Ausencias (Extendido) -->
-        <mxCell id="ausencias" value="Módulo Ausencias" style="swimlane;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="620" y="350" width="340" height="900" as="geometry" />
+        <!-- Procesos de Ausencias (vertical) -->
+        <mxCell id="creacion_solicitud" value="1. Solicitud Ausencia" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="ausencias">
+          <mxGeometry x="20" y="50" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="creacion_solicitud" value="Creación de Solicitud de Ausencia" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="30" width="300" height="40" as="geometry"/>
+        <mxCell id="seleccion_tipo_ausencia" value="2. Tipo de Ausencia" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="ausencias">
+          <mxGeometry x="20" y="110" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="seleccion_tipo_ausencia" value="Selección Tipo de Ausencia" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="90" width="300" height="40" as="geometry"/>
+        <mxCell id="validacion_responsable" value="3. Aprobación Jefe" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="ausencias">
+          <mxGeometry x="20" y="170" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="validacion_responsable" value="Validación por Responsable Directo" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="150" width="300" height="40" as="geometry"/>
+        <mxCell id="validacion_rrhh" value="4. Aprobación RRHH" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="ausencias">
+          <mxGeometry x="20" y="230" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="validacion_rrhh" value="Validación por RRHH" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="210" width="300" height="40" as="geometry"/>
+        <mxCell id="ajuste_saldo" value="5. Ajustar Saldo" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="ausencias">
+          <mxGeometry x="20" y="290" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="ajuste_saldo" value="Ajuste de Saldo de Días Disponibles" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="270" width="300" height="40" as="geometry"/>
+        <mxCell id="registro_historial" value="6. Registrar Historial" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="ausencias">
+          <mxGeometry x="20" y="350" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="registro_historial" value="Registro en Historial de Empleado" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="330" width="300" height="40" as="geometry"/>
+        <mxCell id="enlace_nomina" value="7. Impacto Nómina" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="ausencias">
+          <mxGeometry x="20" y="410" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="enlace_nomina" value="Enlace con Nómina (Impacto Salarial)" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="390" width="300" height="40" as="geometry"/>
+        <mxCell id="notificaciones" value="8. Notificaciones" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="ausencias">
+          <mxGeometry x="20" y="470" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="gestion_recurrentes" value="Gestión de Ausencias Recurrentes" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="450" width="300" height="40" as="geometry"/>
+        <!-- ==================== -->
+        <!-- 🟪 MÓDULO NÓMINA -->
+        <!-- ==================== -->
+        <mxCell id="nomina" value="&lt;b&gt;Módulo Nómina&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="40" width="280" height="600" as="geometry" />
         </mxCell>
 
-        <mxCell id="reportes_ausencias" value="Reportes de Ausencias" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="510" width="300" height="40" as="geometry"/>
+        <!-- Procesos de Nómina (vertical) -->
+        <mxCell id="calculo_salario_base" value="1. Salario Base" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="nomina">
+          <mxGeometry x="20" y="50" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="notificaciones" value="Notificaciones Automáticas" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="570" width="300" height="40" as="geometry"/>
+        <mxCell id="inclusion_horas_trabajadas" value="2. Horas Trabajadas" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="nomina">
+          <mxGeometry x="20" y="110" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="cancelacion_solicitud" value="Cancelación de Solicitud" style="rounded=1;" vertex="1" parent="ausencias">
-          <mxGeometry x="20" y="630" width="300" height="40" as="geometry"/>
+        <mxCell id="inclusion_ausencias" value="3. Deducciones Ausencias" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="nomina">
+          <mxGeometry x="20" y="170" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <!-- 🟪 Módulo de Nómina (Extendido) -->
-        <mxCell id="nomina" value="Módulo Nómina" style="swimlane;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
-          <mxGeometry x="920" y="20" width="340" height="800" as="geometry" />
+        <mxCell id="inclusion_inputs_adicionales" value="4. Bonos/Descuentos" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="nomina">
+          <mxGeometry x="20" y="230" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="calculo_salario_base" value="Cálculo de Salario Base" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="30" width="300" height="40" as="geometry"/>
+        <mxCell id="calculo_aportes_impuestos" value="5. Aportes/Impuestos" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="nomina">
+          <mxGeometry x="20" y="290" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="inclusion_horas_trabajadas" value="Inclusión de Horas Trabajadas" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="90" width="300" height="40" as="geometry"/>
+        <mxCell id="generacion_recibo_nomina" value="6. Generar Recibo" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="nomina">
+          <mxGeometry x="20" y="350" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="inclusion_ausencias" value="Deducciones por Ausencias" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="150" width="300" height="40" as="geometry"/>
+        <mxCell id="validacion_recibo" value="7. Validar Recibo" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="nomina">
+          <mxGeometry x="20" y="410" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="inclusion_inputs_adicionales" value="Inclusión de Bonos / Premios / Descuentos" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="210" width="300" height="40" as="geometry"/>
+        <mxCell id="generacion_asiento_contable" value="8. Asiento Contable" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="nomina">
+          <mxGeometry x="20" y="470" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="calculo_aportes_impuestos" value="Cálculo de Aportes e Impuestos" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="270" width="300" height="40" as="geometry"/>
+        <mxCell id="proceso_pago" value="9. Procesar Pago" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="nomina">
+          <mxGeometry x="20" y="530" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="generacion_recibo_nomina" value="Generación de Recibo de Nómina" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="330" width="300" height="40" as="geometry"/>
+        <!-- ==================== -->
+        <!-- 🟫 MÓDULO CUSTODIA -->
+        <!-- ==================== -->
+        <mxCell id="custodia" value="&lt;b&gt;Módulo Custodia&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="680" width="280" height="300" as="geometry" />
         </mxCell>
 
-        <mxCell id="validacion_recibo" value="Validación de Recibo" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="390" width="300" height="40" as="geometry"/>
+        <!-- Procesos de Custodia (vertical) -->
+        <mxCell id="registro_solicitud_custodia" value="1. Solicitud Custodia" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="custodia">
+          <mxGeometry x="20" y="50" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="generacion_asiento_contable" value="Generación de Asiento Contable" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="450" width="300" height="40" as="geometry"/>
+        <mxCell id="validacion_custodia" value="2. Validación" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="custodia">
+          <mxGeometry x="20" y="110" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="proceso_pago" value="Proceso de Pago al Empleado" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="510" width="300" height="40" as="geometry"/>
+        <mxCell id="asignacion_propiedad" value="3. Asignación" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="custodia">
+          <mxGeometry x="20" y="170" width="240" height="40" as="geometry"/>
         </mxCell>
 
-        <mxCell id="reporte_nomina" value="Reporte y Archivo de Nómina" style="rounded=1;" vertex="1" parent="nomina">
-          <mxGeometry x="20" y="570" width="300" height="40" as="geometry"/>
+        <mxCell id="registro_devolucion" value="4. Devolución" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="custodia">
+          <mxGeometry x="20" y="230" width="240" height="40" as="geometry"/>
         </mxCell>
-	
-        <!-- 🔗 Conexiones mejoradas entre módulos -->
+
+        <!-- ==================== -->
+        <!-- 🟥 MÓDULO AMONESTACIONES -->
+        <!-- ==================== -->
+        <mxCell id="amonestaciones" value="&lt;b&gt;Módulo Amonestaciones&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="40" width="280" height="400" as="geometry" />
+        </mxCell>
+
+        <!-- Procesos de Amonestaciones (vertical) -->
+        <mxCell id="registro_amonestacion" value="1. Registrar Amonestación" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="amonestaciones">
+          <mxGeometry x="20" y="50" width="240" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="definicion_tipo_amonestacion" value="2. Tipo de Amonestación" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="amonestaciones">
+          <mxGeometry x="20" y="110" width="240" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="validacion_amonestacion" value="3. Validación" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="amonestaciones">
+          <mxGeometry x="20" y="170" width="240" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="generacion_reporte_pdf" value="4. Generar Reporte" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="amonestaciones">
+          <mxGeometry x="20" y="230" width="240" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="archivo_historial_empleado" value="5. Archivar en Historial" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="amonestaciones">
+          <mxGeometry x="20" y="290" width="240" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== -->
+        <!-- 🔗 CONEXIONES PRINCIPALES -->
+        <!-- ==================== -->
         
-        <!-- De Reclutamiento a Empleados -->
-        <mxCell id="con_reclutamiento_empleados" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="crear_empleado" target="registro_empleado">
+        <!-- Reclutamiento → Empleados -->
+        <mxCell id="con_reclutamiento_empleados" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="crear_empleado" target="registro_empleado">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="570" as="sourcePoint"/>
+            <mxPoint x="360" y="70" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="320" y="570"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Empleados → Nómina -->
+        <mxCell id="con_empleados_nomina_contrato" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="creacion_contrato" target="calculo_salario_base">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="430"/>
+              <mxPoint x="640" y="70"/>
+              <mxPoint x="1000" y="70"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Asistencia → Nómina -->
+        <mxCell id="con_asistencia_nomina_horas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#d6b656;strokeWidth=2;" edge="1" parent="1" source="exportacion_nomina" target="inclusion_horas_trabajadas">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="370"/>
+              <mxPoint x="960" y="130"/>
+              <mxPoint x="1000" y="130"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Ausencias → Nómina -->
+        <mxCell id="con_ausencias_nomina_dias" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="enlace_nomina" target="inclusion_ausencias">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="430"/>
+              <mxPoint x="960" y="190"/>
+              <mxPoint x="1000" y="190"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Empleados → Amonestaciones -->
+        <mxCell id="con_empleado_amonestaciones" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="registro_empleado" target="registro_amonestacion">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="70"/>
+              <mxPoint x="640" y="70"/>
+              <mxPoint x="1320" y="70"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Amonestaciones → Empleados -->
+        <mxCell id="con_amonestaciones_historial" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="archivo_historial_empleado" target="control_cambio_estado">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1440" y="310"/>
+              <mxPoint x="1440" y="730"/>
+              <mxPoint x="640" y="730"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Empleados → Custodia -->
+        <mxCell id="con_empleado_custodia" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="registro_empleado" target="registro_solicitud_custodia">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="70"/>
+              <mxPoint x="640" y="700"/>
+              <mxPoint x="1000" y="700"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Custodia → Empleados -->
+        <mxCell id="con_custodia_estado" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;" edge="1" parent="1" source="registro_devolucion" target="control_cambio_estado">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="250"/>
+              <mxPoint x="1120" y="730"/>
+              <mxPoint x="640" y="730"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ==================== -->
+        <!-- CONEXIONES INTERNAS NÓMINA -->
+        <!-- ==================== -->
+        <mxCell id="con_salario_horas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeWidth=2;" edge="1" parent="1" source="calculo_salario_base" target="inclusion_horas_trabajadas">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
-        <!-- De Empleados a Nómina (Creación de Contrato) -->
-        <mxCell id="con_empleados_nomina_contrato" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;" edge="1" parent="1" source="creacion_contrato" target="calculo_salario_base">
+        <mxCell id="con_horas_ausencias" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeWidth=2;" edge="1" parent="1" source="inclusion_horas_trabajadas" target="inclusion_ausencias">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
-        <!-- De Asistencia a Nómina (Exportación de Horas Trabajadas) -->
-        <mxCell id="con_asistencia_nomina_horas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#d6b656;" edge="1" parent="1" source="exportacion_nomina" target="inclusion_horas_trabajadas">
+        <mxCell id="con_ausencias_inputs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeWidth=2;" edge="1" parent="1" source="inclusion_ausencias" target="inclusion_inputs_adicionales">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
-        <!-- De Ausencias a Nómina (Impacto Salarial) -->
-        <mxCell id="con_ausencias_nomina_dias" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#b85450;" edge="1" parent="1" source="enlace_nomina" target="deducciones_por_ausencias">
+        <mxCell id="con_inputs_aportes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeWidth=2;" edge="1" parent="1" source="inclusion_inputs_adicionales" target="calculo_aportes_impuestos">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
-        <!-- Conexiones internas dentro del Módulo de Nómina (extendidas) -->
-
-        <mxCell id="con_salario_horas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;" edge="1" parent="1" source="calculo_salario_base" target="inclusion_horas_trabajadas">
+        <mxCell id="con_aportes_recibo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeWidth=2;" edge="1" parent="1" source="calculo_aportes_impuestos" target="generacion_recibo_nomina">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
-        <mxCell id="con_horas_ausencias" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;" edge="1" parent="1" source="inclusion_horas_trabajadas" target="deducciones_por_ausencias">
+        <mxCell id="con_recibo_validacion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeWidth=2;" edge="1" parent="1" source="generacion_recibo_nomina" target="validacion_recibo">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
-        <mxCell id="con_ausencias_inputs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;" edge="1" parent="1" source="deducciones_por_ausencias" target="inclusion_inputs_adicionales">
+        <mxCell id="con_validacion_asiento" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeWidth=2;" edge="1" parent="1" source="validacion_recibo" target="generacion_asiento_contable">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
-        <mxCell id="con_inputs_aportes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;" edge="1" parent="1" source="inclusion_inputs_adicionales" target="calculo_aportes_impuestos">
+        <mxCell id="con_asiento_pago" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeWidth=2;" edge="1" parent="1" source="generacion_asiento_contable" target="proceso_pago">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-
-        <mxCell id="con_aportes_recibo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;" edge="1" parent="1" source="calculo_aportes_impuestos" target="generacion_recibo_nomina">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="con_recibo_validacion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;" edge="1" parent="1" source="generacion_recibo_nomina" target="validacion_recibo">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="con_validacion_asiento" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;" edge="1" parent="1" source="validacion_recibo" target="generacion_asiento_contable">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="con_asiento_pago" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;" edge="1" parent="1" source="generacion_asiento_contable" target="proceso_pago">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="con_pago_reporte" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;" edge="1" parent="1" source="proceso_pago" target="reporte_nomina">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <!-- 🟥 Módulo de Amonestaciones -->
-        <mxCell id="amonestaciones" value="Módulo Amonestaciones" style="swimlane;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="920" y="850" width="340" height="500" as="geometry" />
-        </mxCell>
-
-        <mxCell id="registro_amonestacion" value="Registro de Amonestación" style="rounded=1;" vertex="1" parent="amonestaciones">
-          <mxGeometry x="20" y="30" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="seleccion_empleado_amonestado" value="Selección del Empleado" style="rounded=1;" vertex="1" parent="amonestaciones">
-          <mxGeometry x="20" y="90" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="definicion_tipo_amonestacion" value="Definición del Tipo de Amonestación" style="rounded=1;" vertex="1" parent="amonestaciones">
-          <mxGeometry x="20" y="150" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="adjuntar_documento" value="Adjuntar Documento de Apoyo" style="rounded=1;" vertex="1" parent="amonestaciones">
-          <mxGeometry x="20" y="210" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="validacion_amonestacion" value="Validación Interna" style="rounded=1;" vertex="1" parent="amonestaciones">
-          <mxGeometry x="20" y="270" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="generacion_reporte_pdf" value="Generación de Reporte PDF" style="rounded=1;" vertex="1" parent="amonestaciones">
-          <mxGeometry x="20" y="330" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="archivo_historial_empleado" value="Archivo en Historial del Empleado" style="rounded=1;" vertex="1" parent="amonestaciones">
-          <mxGeometry x="20" y="390" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <!-- 🔗 Conexiones de Amonestaciones -->
-        
-        <!-- Desde Empleados hacia Amonestaciones -->
-        <mxCell id="con_empleado_amonestaciones" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;" edge="1" parent="1" source="registro_empleado" target="registro_amonestacion">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-
-        <!-- Desde Amonestaciones hacia Historial del Empleado -->
-        <mxCell id="con_amonestaciones_historial" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#b85450;" edge="1" parent="1" source="archivo_historial_empleado" target="control_cambio_estado">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-
-        <!-- 🟫 Módulo de Custodia de Empleados -->
-        <mxCell id="custodia" value="Módulo Custodia de Empleados" style="swimlane;fillColor=#f5f5f5;strokeColor=#888888;" vertex="1" parent="1">
-          <mxGeometry x="1280" y="20" width="340" height="700" as="geometry" />
-        </mxCell>
-
-        <mxCell id="registro_solicitud_custodia" value="Registro de Solicitud de Custodia" style="rounded=1;" vertex="1" parent="custodia">
-          <mxGeometry x="20" y="30" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="seleccion_propiedad" value="Selección de Propiedad a Custodiar" style="rounded=1;" vertex="1" parent="custodia">
-          <mxGeometry x="20" y="90" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="validacion_custodia" value="Validación de Solicitud (Aprobación / Rechazo)" style="rounded=1;" vertex="1" parent="custodia">
-          <mxGeometry x="20" y="150" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="asignacion_propiedad" value="Asignación Formal de Propiedad" style="rounded=1;" vertex="1" parent="custodia">
-          <mxGeometry x="20" y="210" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="generacion_documento_entrega" value="Generación de Documento de Entrega" style="rounded=1;" vertex="1" parent="custodia">
-          <mxGeometry x="20" y="270" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="seguimiento_custodia" value="Seguimiento / Renovación de Custodia" style="rounded=1;" vertex="1" parent="custodia">
-          <mxGeometry x="20" y="330" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="registro_devolucion" value="Registro de Devolución de Propiedad" style="rounded=1;" vertex="1" parent="custodia">
-          <mxGeometry x="20" y="390" width="300" height="40" as="geometry"/>
-        </mxCell>
-
-        <!-- 🔗 Conexiones de Custodia -->
-
-        <!-- Desde Empleados hacia Custodia -->
-        <mxCell id="con_empleado_custodia" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;" edge="1" parent="1" source="registro_empleado" target="registro_solicitud_custodia">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-
-        <!-- Desde Custodia hacia control de estado en Empleados (opcional, entrega cerrada) -->
-        <mxCell id="con_custodia_estado" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#888888;" edge="1" parent="1" source="registro_devolucion" target="control_cambio_estado">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-
       </root>
     </mxGraphModel>
   </diagram>
 </mxfile>
-
