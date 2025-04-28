@@ -1,10 +1,10 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36" version="26.2.14">
   <diagram name="RRHH_Odoo_Flujo_Optimizado" id="X3b9cJ5aVg2Kd97cH52v">
-    <mxGraphModel dx="2037" dy="1057" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="570" dy="296" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="reclutamiento" value="&lt;b&gt;Módulo de Reclutamiento&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="reclutamiento" value="Módulo de Reclutamiento" style="swimlane;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="40" y="40" width="280" height="760" as="geometry" />
         </mxCell>
         <mxCell id="definir_requisitos" value="1. Definir Requisitos del Puesto" style="rounded=1;whiteSpace=wrap;" parent="reclutamiento" vertex="1">
@@ -34,31 +34,31 @@
         <mxCell id="crear_empleado" value="9. Crear Empleado" style="ellipse;whiteSpace=wrap;" parent="reclutamiento" vertex="1">
           <mxGeometry x="70" y="680" width="140" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="empleados" value="&lt;b&gt;Módulo Empleados&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="480" y="40" width="280" height="1000" as="geometry" />
+        <mxCell id="empleados" value="Módulo Empleados" style="swimlane;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="480" y="40" width="280" height="840" as="geometry" />
         </mxCell>
         <mxCell id="registro_empleado" value="1. Registrar/Crear Empleado" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
           <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="asignacion_puesto" value="6. Cargar datos del contrato: Salario, fecha ingreso, fecha salida (en caso de que tenga), " style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="560" width="240" height="80" as="geometry" />
+          <mxGeometry x="20" y="600" width="240" height="80" as="geometry" />
         </mxCell>
         <mxCell id="asignacion_departamento" value="2. Cargar datos del empleado: Nombre y Apellido, CI, Fecha de nacimiento, Puesto, Departamento, Datos Personales, Documentacion, Direccion Laboral, etc" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
           <mxGeometry x="20" y="120" width="240" height="80" as="geometry" />
         </mxCell>
         <mxCell id="creacion_contrato" value="5. Crear Contrato" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="480" width="240" height="40" as="geometry" />
+          <mxGeometry x="20" y="520" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="actualizacion_periodica" value="3. Pago por txt de banco:&#xa;Cargar datos bancarios en la ficha del empleado para casos en que el cliente quiera la opcion de realizar pagos por txt de banco. Tambien se debera completar los datos del banco de la empresa dentro de compañia" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="240" width="240" height="90" as="geometry" />
+          <mxGeometry x="20" y="240" width="240" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="control_cambio_estado" value="12. Estado (Activo/Archivado)" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="730" width="240" height="40" as="geometry" />
+        <mxCell id="control_cambio_estado" value="12. Estado: Activo (en proceso) o Inactivo (archivado)" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
+          <mxGeometry x="20" y="720" width="240" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="7uCu36Cxa_jLhvMKCSyf-5" value="4. Cargar numero zk en la ficha del empleado para reloj biometrico en caso de que el cliente tenga la opción de asistencia por reloj " style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="360" width="240" height="80" as="geometry" />
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-5" value="4. Cargar numero zk en la ficha del empleado para marcaciones por reloj biometrico en caso de que el cliente precise de esta opción para la asistencia asistencia" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="400" width="240" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="asistencia" value="&lt;b&gt;Módulo Asistencia&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+        <mxCell id="asistencia" value="Módulo Asistencia" style="swimlane;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="920" y="40" width="280" height="520" as="geometry" />
         </mxCell>
         <mxCell id="registro_entrada" value="1. Registro Entrada" style="rounded=1;whiteSpace=wrap;" parent="asistencia" vertex="1">
@@ -176,12 +176,13 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="con_empleados_nomina_contrato" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="creacion_contrato" target="calculo_salario_base" edge="1">
+        <mxCell id="con_empleados_nomina_contrato" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#B31F15;strokeWidth=2;fillColor=#FF1111;" parent="1" source="creacion_contrato" target="calculo_salario_base" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="730" y="430" />
-              <mxPoint x="730" y="70" />
-              <mxPoint x="1090" y="70" />
+              <mxPoint x="840" y="540" />
+              <mxPoint x="840" y="10" />
+              <mxPoint x="1340" y="10" />
+              <mxPoint x="1340" y="100" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -205,9 +206,10 @@
         <mxCell id="con_empleado_amonestaciones" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="registro_empleado" target="registro_amonestacion" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="730" y="70" />
-              <mxPoint x="730" y="70" />
-              <mxPoint x="1410" y="70" />
+              <mxPoint x="780" y="90" />
+              <mxPoint x="780" y="20" />
+              <mxPoint x="1790" y="20" />
+              <mxPoint x="1790" y="100" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -221,13 +223,13 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="con_empleado_custodia" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="registro_empleado" target="registro_solicitud_custodia" edge="1">
+        <mxCell id="con_empleado_custodia" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#B3AE23;strokeWidth=2;" parent="1" source="registro_empleado" target="registro_solicitud_custodia" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="620" y="70" />
-              <mxPoint x="1760" y="70" />
-              <mxPoint x="1760" y="700" />
-              <mxPoint x="1940" y="700" />
+              <mxPoint x="790" y="100" />
+              <mxPoint x="790" y="30" />
+              <mxPoint x="1760" y="30" />
+              <mxPoint x="1760" y="670" />
             </Array>
           </mxGeometry>
         </mxCell>
