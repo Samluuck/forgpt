@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36" version="26.2.14">
   <diagram name="RRHH_Odoo_Flujo_Optimizado" id="X3b9cJ5aVg2Kd97cH52v">
-    <mxGraphModel dx="1019" dy="529" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1188" dy="617" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -50,49 +50,46 @@
           <mxGeometry x="20" y="400" width="240" height="80" as="geometry" />
         </mxCell>
         <mxCell id="asistencia" value="Módulo Asistencia" style="swimlane;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="920" y="80" width="280" height="600" as="geometry" />
+          <mxGeometry x="920" y="80" width="280" height="650" as="geometry" />
         </mxCell>
         <mxCell id="registro_entrada" value="1. Registrar Entrada/Salida (modo nativo)" style="rounded=1;whiteSpace=wrap;" parent="asistencia" vertex="1">
           <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="registro_salida" value="2. Crear asistencias por marcaciones de reloj biometrico:&#xa;Para poder realizar esto se debe poder contar con el modulo hr_biometric_zk_machine y tambien el modulo de hr_horas_extras.&#xa;Las asistencias se descargan desde el modulo de empleados en el menu de &quot;maquina zk&quot;" style="rounded=1;whiteSpace=wrap;" parent="asistencia" vertex="1">
-          <mxGeometry x="20" y="120" width="240" height="120" as="geometry" />
+          <mxGeometry x="20" y="110" width="240" height="120" as="geometry" />
         </mxCell>
         <mxCell id="validacion_asistencia" value="3. Validar Registros:&#xa;Es importante siempre validar que los registros se crearon de manera correcta ya que a veces suelen haber marcaciones erroneas" style="rounded=1;whiteSpace=wrap;" parent="asistencia" vertex="1">
-          <mxGeometry x="20" y="270" width="240" height="70" as="geometry" />
+          <mxGeometry x="20" y="264" width="240" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="ajuste_manual" value="5. Ajustes Manuales:&#xa;En casos especiales se podría realizar un ajuste manual a la asistencia" style="rounded=1;whiteSpace=wrap;" parent="asistencia" vertex="1">
-          <mxGeometry x="20" y="380" width="240" height="60" as="geometry" />
+        <mxCell id="ajuste_manual" value="4. Corregir o Completar Registros:&#xa;En casos especiales se podría realizar un ajuste manual a la asistencia" style="rounded=1;whiteSpace=wrap;" parent="asistencia" vertex="1">
+          <mxGeometry x="20" y="360" width="240" height="60" as="geometry" />
         </mxCell>
         <mxCell id="exportacion_nomina" value="6. Impacto Nómina:&#xa;Las asistencias del modulo de asistencias normalmente se utilizan para el calculo de llegadas tardias, horas extras, llegadas anticipadas, etc. Esto se refleja a la nomina de acuerdo a como este configurado el modulo" style="rounded=1;whiteSpace=wrap;" parent="asistencia" vertex="1">
-          <mxGeometry x="20" y="480" width="240" height="100" as="geometry" />
+          <mxGeometry x="20" y="530" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-12" value="5. Descargar informe:&#xa;Desde el menu de informes se puede descargar el reporte de las asistencias" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="asistencia">
+          <mxGeometry x="20" y="450" width="240" height="50" as="geometry" />
         </mxCell>
         <mxCell id="ausencias" value="&lt;b&gt;Módulo Ausencias&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
-          <mxGeometry x="920" y="800" width="280" height="500" as="geometry" />
+          <mxGeometry x="920" y="800" width="280" height="690" as="geometry" />
         </mxCell>
-        <mxCell id="creacion_solicitud" value="1. Solicitud Ausencia" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
-          <mxGeometry x="20" y="50" width="240" height="40" as="geometry" />
+        <mxCell id="creacion_solicitud" value="1. Solicitud Ausencia:&#xa;Crear una solicitud de ausencia" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
+          <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="seleccion_tipo_ausencia" value="2. Tipo de Ausencia" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
-          <mxGeometry x="20" y="110" width="240" height="40" as="geometry" />
+        <mxCell id="seleccion_tipo_ausencia" value="2. Tipo de Ausencia:&#xa;Seleccionar el tipo de ausencia. Cada tipo define si requiere aprobación (primero se crea una asignación) o se registra directamente (sin asignación)." style="rounded=1;whiteSpace=wrap;fontStyle=0" parent="ausencias" vertex="1">
+          <mxGeometry x="20" y="110" width="240" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="validacion_responsable" value="3. Aprobación Jefe" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
-          <mxGeometry x="20" y="170" width="240" height="40" as="geometry" />
+        <mxCell id="validacion_responsable" value="3. Aprobación Jefe:&#xa;Si el tipo de ausencia ya se registro, el jefe directo o encargado debe aprobar o rechazar la ausencia." style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
+          <mxGeometry x="20" y="230" width="240" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="validacion_rrhh" value="4. Aprobación RRHH" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
-          <mxGeometry x="20" y="230" width="240" height="40" as="geometry" />
+        <mxCell id="ajuste_saldo" value="4. Ajustar Saldo:&#xa;Al aprobar la ausencia, Odoo descuenta automáticamente los días u horas del saldo en caso de ser una ausencia con asignacion." style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
+          <mxGeometry x="20" y="330" width="240" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="ajuste_saldo" value="5. Ajustar Saldo" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
-          <mxGeometry x="20" y="290" width="240" height="40" as="geometry" />
+        <mxCell id="enlace_nomina" value="5. Impacto Nómina:&#xa;Las ausencias aprobadas pueden descontarse o reflejarse automáticamente en el cálculo de nómina. Para saber con que concepto aparecera en nomina, se debe completar el campo de &quot;tipo de entrada de trabajo&quot; en el menu de tipos de ausencias" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
+          <mxGeometry x="20" y="441" width="240" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="registro_historial" value="6. Registrar Historial" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
-          <mxGeometry x="20" y="350" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="enlace_nomina" value="7. Impacto Nómina" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
-          <mxGeometry x="20" y="410" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="notificaciones" value="8. Notificaciones" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
-          <mxGeometry x="20" y="470" width="240" height="40" as="geometry" />
+        <mxCell id="notificaciones" value="8. Notificaciones:&#xa;El sistema envía notificaciones automáticas en cada etapa. 1- Solicitud creada y 2- Aprobación o rechazo del jefe" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
+          <mxGeometry x="20" y="590" width="240" height="70" as="geometry" />
         </mxCell>
         <mxCell id="nomina" value="&lt;b&gt;Módulo Nómina&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
           <mxGeometry x="1360" y="80" width="280" height="760" as="geometry" />
@@ -100,26 +97,29 @@
         <mxCell id="calculo_salario_base" value="1. Salario Base:&#xa;Para comenzar con la nomina es importante tener todo en orden los datos del contrato, como el salario base y que el contrato este en proceso." style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
           <mxGeometry x="20" y="40" width="240" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="inclusion_horas_trabajadas" value="2. Días/Horas Trabajadas:&#xa;Los días/horas trabajados preferentemente son utilizados de las entradas de trabajo, esto son los días por defecto que tienen los empleados de su horario de trabajo designado en su contrato. También se puede estirar del modulo de asistencia seleccionando en su contrato la opcion de , pero en ese caso es recomendable para los jornaleros, a los cuales se les paga por día trabajado" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="120" width="240" height="140" as="geometry" />
+        <mxCell id="inclusion_horas_trabajadas" value="2. Días/Horas Trabajados:&#xa;Los días/horas trabajados preferentemente son utilizados de las entradas de trabajo, esto son los días por defecto que tienen los empleados de su horario de trabajo designado en su contrato. También se puede estirar del modulo de asistencia seleccionando esta opción en su contrato, pero en ese caso es recomendable para los jornaleros, a los cuales se les paga por día trabajado" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
+          <mxGeometry x="20" y="120" width="240" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="inclusion_ausencias" value="3. Deducciones Ausencias" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="280" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="inclusion_inputs_adicionales" value="4. Bonos/Descuentos" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="350" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="calculo_aportes_impuestos" value="5. Aportes/Impuestos" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="390" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="generacion_recibo_nomina" value="6. Generar Recibo" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="440" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="validacion_recibo" value="7. Validar Recibo" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="520" width="240" height="40" as="geometry" />
+        <mxCell id="inclusion_ausencias" value="3. Deducciones Ausencias:&#xa;En caso de haber ausencias ya sea en día u horas, se debe realizar un calculo en las reglas salariales de la estructura seleccionada para la nomina" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
+          <mxGeometry x="20" y="294" width="240" height="76" as="geometry" />
         </mxCell>
         <mxCell id="proceso_pago" value="9. Procesar Pago" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="680" width="240" height="40" as="geometry" />
+          <mxGeometry x="20" y="690" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="generacion_asiento_contable" value="8. Asiento Contable" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
+          <mxGeometry x="20" y="640" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="validacion_recibo" value="7. Validar Recibo" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
+          <mxGeometry x="20" y="560" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="generacion_recibo_nomina" value="6. Generar Recibo" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
+          <mxGeometry x="20" y="480" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="calculo_aportes_impuestos" value="5. Aportes/Impuestos" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
+          <mxGeometry x="20" y="430" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="inclusion_inputs_adicionales" value="4. Bonos/Descuentos" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
+          <mxGeometry x="20" y="390" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="custodia" value="&lt;b&gt;Módulo Custodia&lt;/b&gt;" style="swimlane;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
           <mxGeometry x="1800" y="640" width="280" height="300" as="geometry" />
@@ -170,15 +170,16 @@
               <mxPoint x="840" y="620" />
               <mxPoint x="840" y="70" />
               <mxPoint x="1340" y="70" />
-              <mxPoint x="1340" y="140" />
+              <mxPoint x="1340" y="150" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="con_asistencia_nomina_horas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#d6b656;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="exportacion_nomina" target="inclusion_horas_trabajadas" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1220" y="610" />
-              <mxPoint x="1220" y="250" />
+              <mxPoint x="1180" y="650" />
+              <mxPoint x="1220" y="650" />
+              <mxPoint x="1220" y="280" />
             </Array>
             <mxPoint x="1190" y="540" as="sourcePoint" />
           </mxGeometry>
@@ -186,8 +187,8 @@
         <mxCell id="con_ausencias_nomina_dias" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#F8CECC;strokeWidth=2;" parent="1" source="enlace_nomina" target="inclusion_ausencias" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1260" y="1230" />
-              <mxPoint x="1260" y="380" />
+              <mxPoint x="1260" y="1310" />
+              <mxPoint x="1260" y="410" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -205,8 +206,10 @@
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1680" y="457" />
-              <mxPoint x="1680" y="740" />
-              <mxPoint x="780" y="740" />
+              <mxPoint x="1680" y="860" />
+              <mxPoint x="1300" y="860" />
+              <mxPoint x="1300" y="760" />
+              <mxPoint x="780" y="760" />
               <mxPoint x="780" y="817" />
             </Array>
             <mxPoint x="1820" y="457" as="sourcePoint" />
@@ -232,9 +235,6 @@
               <mxPoint x="800" y="840" />
             </Array>
           </mxGeometry>
-        </mxCell>
-        <mxCell id="generacion_asiento_contable" value="8. Asiento Contable" style="rounded=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1380" y="680" width="240" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
