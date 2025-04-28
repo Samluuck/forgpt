@@ -228,20 +228,6 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="con_amonestaciones_historial" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#B8866E;strokeWidth=2;" parent="1" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1890" y="457" />
-              <mxPoint x="1890" y="950" />
-              <mxPoint x="1510" y="950" />
-              <mxPoint x="1510" y="770" />
-              <mxPoint x="990" y="770" />
-              <mxPoint x="990" y="817" />
-            </Array>
-            <mxPoint x="2030" y="457" as="sourcePoint" />
-            <mxPoint x="950" y="817" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="con_empleado_custodia" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#B3AE23;strokeWidth=2;" parent="1" source="registro_empleado" target="registro_solicitud_custodia" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
