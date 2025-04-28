@@ -1,23 +1,38 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36" version="26.2.14">
   <diagram name="RRHH_Odoo_Flujo_Optimizado" id="X3b9cJ5aVg2Kd97cH52v">
-    <mxGraphModel dx="951" dy="493" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1501" dy="779" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="reclutamiento" value="Módulo de Reclutamiento" style="swimlane;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="40" y="80" width="280" height="520" as="geometry" />
         </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="reclutamiento" source="definir_requisitos" target="publicar_vacante">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="definir_requisitos" value="1. Crear Puesto Vacante" style="rounded=1;whiteSpace=wrap;" parent="reclutamiento" vertex="1">
           <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="reclutamiento" source="publicar_vacante" target="recibir_postulaciones">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="publicar_vacante" value="2. Recibir Candidaturas" style="rounded=1;whiteSpace=wrap;" parent="reclutamiento" vertex="1">
           <mxGeometry x="20" y="120" width="240" height="40" as="geometry" />
         </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="reclutamiento" source="recibir_postulaciones" target="evaluar_candidatos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="recibir_postulaciones" value="3. Procesar Candidaturas" style="rounded=1;whiteSpace=wrap;" parent="reclutamiento" vertex="1">
           <mxGeometry x="20" y="200" width="240" height="40" as="geometry" />
         </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="reclutamiento" source="evaluar_candidatos" target="test_formulario">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="evaluar_candidatos" value="4. Evaluar y Avanzar" style="rounded=1;whiteSpace=wrap;" parent="reclutamiento" vertex="1">
           <mxGeometry x="20" y="280" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="reclutamiento" source="test_formulario" target="crear_empleado">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="test_formulario" value="5. Contratar" style="rounded=1;whiteSpace=wrap;" parent="reclutamiento" vertex="1">
           <mxGeometry x="20" y="360" width="240" height="40" as="geometry" />
@@ -26,34 +41,49 @@
           <mxGeometry x="70" y="440" width="140" height="40" as="geometry" />
         </mxCell>
         <mxCell id="empleados" value="Módulo Empleados" style="swimlane;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="480" y="80" width="280" height="840" as="geometry" />
+          <mxGeometry x="420" y="80" width="580" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="empleados" source="registro_empleado" target="actualizacion_periodica">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="registro_empleado" value="1. Registrar/Crear Empleado" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
+          <mxGeometry x="170" y="40" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="asignacion_puesto" value="6. Cargar datos del contrato: Salario, fecha ingreso, fecha salida (en caso de que tenga), estructura salarial, horario de trabajo, tipo de contrato, etc." style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="620" width="240" height="80" as="geometry" />
+          <mxGeometry x="30" y="520" width="240" height="90" as="geometry" />
         </mxCell>
         <mxCell id="asignacion_departamento" value="2. Cargar datos del empleado: Nombre y Apellido, CI, Fecha de nacimiento, Puesto, Departamento, Datos Personales, Documentacion, Direccion Laboral, etc" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="110" width="240" height="80" as="geometry" />
+          <mxGeometry x="10" y="120" width="170" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="empleados" source="creacion_contrato" target="asignacion_puesto">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="empleados" source="creacion_contrato" target="control_cambio_estado">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="creacion_contrato" value="5. Crear Contrato" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="560" width="240" height="40" as="geometry" />
+          <mxGeometry x="170" y="420" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="actualizacion_periodica" value="3. Pago por txt de banco:&#xa;Cargar datos bancarios en la ficha del empleado para casos en que el cliente quiera la opcion de realizar pagos por txt de banco. Tambien se debera completar los datos del banco de la empresa dentro de compañia" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="220" width="240" height="120" as="geometry" />
+          <mxGeometry x="205" y="120" width="170" height="140" as="geometry" />
         </mxCell>
         <mxCell id="control_cambio_estado" value="7. Estado del contrato: Activo (en proceso) o Inactivo (nuevo, vencido, cancelado)&#xa;Este paso es importante debido a que si no esta en proceso el contrato, no se podrá realizar nominas para el empleado" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="720" width="240" height="80" as="geometry" />
+          <mxGeometry x="310" y="520" width="240" height="90" as="geometry" />
         </mxCell>
         <mxCell id="7uCu36Cxa_jLhvMKCSyf-5" value="4. Reloj Marcador:&#xa;Cargar ID de marcacion en el campo numero zk en la ficha del empleado para marcaciones por reloj biometrico en caso de que el cliente precise de esta opción para la asistencia asistencia" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="360" width="240" height="80" as="geometry" />
+          <mxGeometry x="400" y="120" width="170" height="140" as="geometry" />
         </mxCell>
         <mxCell id="7uCu36Cxa_jLhvMKCSyf-13" value="5. Descuento por cuotas:&#xa;Para la creacion de este tipo de descuentos, se debe tener instalado el modulo de hr_descuento_cuotas para crear los registros desde el menu &quot;Prestamo &amp; adelanto&quot;" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="460" width="240" height="80" as="geometry" />
+          <mxGeometry x="170" y="320" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.529;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="empleados" source="registro_empleado" target="asignacion_departamento">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.525;entryY=-0.005;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="empleados" source="registro_empleado" target="7uCu36Cxa_jLhvMKCSyf-5">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="asistencia" value="Módulo Asistencia" style="swimlane;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="920" y="80" width="280" height="650" as="geometry" />
+          <mxGeometry x="1130" y="80" width="280" height="650" as="geometry" />
         </mxCell>
         <mxCell id="registro_entrada" value="1. Registrar Entrada/Salida (modo nativo)" style="rounded=1;whiteSpace=wrap;" parent="asistencia" vertex="1">
           <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
@@ -74,7 +104,7 @@
           <mxGeometry x="20" y="450" width="240" height="50" as="geometry" />
         </mxCell>
         <mxCell id="ausencias" value="Módulo Ausencias" style="swimlane;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
-          <mxGeometry x="920" y="810" width="280" height="680" as="geometry" />
+          <mxGeometry x="1130" y="810" width="280" height="680" as="geometry" />
         </mxCell>
         <mxCell id="creacion_solicitud" value="1. Solicitud Ausencia:&#xa;Crear una solicitud de ausencia" style="rounded=1;whiteSpace=wrap;" parent="ausencias" vertex="1">
           <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
@@ -95,7 +125,7 @@
           <mxGeometry x="20" y="590" width="240" height="70" as="geometry" />
         </mxCell>
         <mxCell id="nomina" value="Módulo Nómina" style="swimlane;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
-          <mxGeometry x="1360" y="80" width="280" height="840" as="geometry" />
+          <mxGeometry x="1570" y="80" width="280" height="840" as="geometry" />
         </mxCell>
         <mxCell id="calculo_salario_base" value="1. Crear nomina:&#xa;Para comenzar con la nomina es importante tener todo en orden los datos del contrato, como el salario base y que el contrato este en proceso.&#xa;Se puede crear lotes de nominas o nominas individuales" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
           <mxGeometry x="20" y="40" width="240" height="90" as="geometry" />
@@ -119,7 +149,7 @@
           <mxGeometry x="20" y="440" width="240" height="90" as="geometry" />
         </mxCell>
         <mxCell id="custodia" value="Módulo Custodia" style="swimlane;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
-          <mxGeometry x="1800" y="640" width="280" height="300" as="geometry" />
+          <mxGeometry x="2110" y="640" width="280" height="300" as="geometry" />
         </mxCell>
         <mxCell id="registro_solicitud_custodia" value="1. Solicitud Custodia" style="rounded=1;whiteSpace=wrap;" parent="custodia" vertex="1">
           <mxGeometry x="20" y="50" width="240" height="40" as="geometry" />
@@ -134,7 +164,7 @@
           <mxGeometry x="20" y="230" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="amonestaciones" value="Módulo Amonestaciones" style="swimlane;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
-          <mxGeometry x="1800" y="80" width="280" height="440" as="geometry" />
+          <mxGeometry x="2110" y="80" width="280" height="440" as="geometry" />
         </mxCell>
         <mxCell id="registro_amonestacion" value="1. Registrar Amonestación" style="rounded=1;whiteSpace=wrap;" parent="amonestaciones" vertex="1">
           <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
@@ -164,85 +194,100 @@
         <mxCell id="con_empleados_nomina_contrato" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#B31F15;strokeWidth=2;fillColor=#FF1111;" parent="1" source="creacion_contrato" target="calculo_salario_base" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="840" y="660" />
-              <mxPoint x="840" y="70" />
-              <mxPoint x="1340" y="70" />
-              <mxPoint x="1340" y="150" />
+              <mxPoint x="1050" y="520" />
+              <mxPoint x="1050" y="70" />
+              <mxPoint x="1550" y="70" />
+              <mxPoint x="1550" y="150" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="con_asistencia_nomina_horas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#d6b656;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="exportacion_nomina" target="inclusion_horas_trabajadas" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1230" y="660" />
-              <mxPoint x="1230" y="310" />
+              <mxPoint x="1440" y="660" />
+              <mxPoint x="1440" y="310" />
             </Array>
-            <mxPoint x="1190" y="540" as="sourcePoint" />
+            <mxPoint x="1400" y="540" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="con_ausencias_nomina_dias" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#A680B8;strokeWidth=2;" parent="1" source="enlace_nomina" target="inclusion_ausencias" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1260" y="1300" />
-              <mxPoint x="1260" y="460" />
+              <mxPoint x="1470" y="1300" />
+              <mxPoint x="1470" y="460" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="con_empleado_amonestaciones" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="registro_empleado" target="registro_amonestacion" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="780" y="130" />
-              <mxPoint x="780" y="50" />
-              <mxPoint x="1780" y="50" />
-              <mxPoint x="1780" y="140" />
+              <mxPoint x="990" y="130" />
+              <mxPoint x="990" y="50" />
+              <mxPoint x="1990" y="50" />
+              <mxPoint x="1990" y="140" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="con_amonestaciones_historial" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#B8866E;strokeWidth=2;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1680" y="457" />
-              <mxPoint x="1680" y="950" />
-              <mxPoint x="1300" y="950" />
-              <mxPoint x="1300" y="770" />
-              <mxPoint x="780" y="770" />
-              <mxPoint x="780" y="817" />
+              <mxPoint x="1890" y="457" />
+              <mxPoint x="1890" y="950" />
+              <mxPoint x="1510" y="950" />
+              <mxPoint x="1510" y="770" />
+              <mxPoint x="990" y="770" />
+              <mxPoint x="990" y="817" />
             </Array>
-            <mxPoint x="1820" y="457" as="sourcePoint" />
-            <mxPoint x="740" y="817" as="targetPoint" />
+            <mxPoint x="2030" y="457" as="sourcePoint" />
+            <mxPoint x="950" y="817" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="con_empleado_custodia" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#B3AE23;strokeWidth=2;" parent="1" source="registro_empleado" target="registro_solicitud_custodia" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="790" y="140" />
-              <mxPoint x="790" y="60" />
-              <mxPoint x="1760" y="60" />
-              <mxPoint x="1760" y="710" />
+              <mxPoint x="1000" y="140" />
+              <mxPoint x="1000" y="60" />
+              <mxPoint x="1970" y="60" />
+              <mxPoint x="1970" y="710" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="con_custodia_estado" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;" parent="1" source="registro_devolucion" target="control_cambio_estado" edge="1">
+        <mxCell id="con_custodia_estado" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeWidth=2;strokeColor=light-dark(#000000,#B3AE23);" parent="1" source="registro_devolucion" target="control_cambio_estado" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1940" y="1000" />
-              <mxPoint x="1240" y="1000" />
-              <mxPoint x="1240" y="790" />
-              <mxPoint x="800" y="790" />
-              <mxPoint x="800" y="840" />
+              <mxPoint x="2150" y="1000" />
+              <mxPoint x="1450" y="1000" />
+              <mxPoint x="1450" y="790" />
+              <mxPoint x="1070" y="790" />
+              <mxPoint x="1070" y="640" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="7uCu36Cxa_jLhvMKCSyf-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="7uCu36Cxa_jLhvMKCSyf-13" target="generacion_recibo_nomina">
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="7uCu36Cxa_jLhvMKCSyf-13" target="generacion_recibo_nomina">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1020" y="750" as="targetPoint" />
+            <mxPoint x="1230" y="750" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="800" y="580" />
-              <mxPoint x="800" y="750" />
-              <mxPoint x="1300" y="750" />
-              <mxPoint x="1300" y="680" />
+              <mxPoint x="1020" y="440" />
+              <mxPoint x="1020" y="750" />
+              <mxPoint x="1510" y="750" />
+              <mxPoint x="1510" y="680" />
             </Array>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="7uCu36Cxa_jLhvMKCSyf-18" target="7uCu36Cxa_jLhvMKCSyf-29">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1960" y="1340" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="1970" y="1315" />
+              <mxPoint x="2050" y="1315" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-18" value="samu" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="1950" y="1340" width="40" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-29" value="chicos, estoy de vacaciones vean entre ustedes..." style="whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1990" y="1220" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
