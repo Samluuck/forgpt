@@ -32,22 +32,25 @@
           <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="asignacion_puesto" value="6. Cargar datos del contrato: Salario, fecha ingreso, fecha salida (en caso de que tenga), estructura salarial, horario de trabajo, tipo de contrato, etc." style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="600" width="240" height="80" as="geometry" />
+          <mxGeometry x="20" y="620" width="240" height="80" as="geometry" />
         </mxCell>
         <mxCell id="asignacion_departamento" value="2. Cargar datos del empleado: Nombre y Apellido, CI, Fecha de nacimiento, Puesto, Departamento, Datos Personales, Documentacion, Direccion Laboral, etc" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="120" width="240" height="80" as="geometry" />
+          <mxGeometry x="20" y="110" width="240" height="80" as="geometry" />
         </mxCell>
         <mxCell id="creacion_contrato" value="5. Crear Contrato" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="520" width="240" height="40" as="geometry" />
+          <mxGeometry x="20" y="560" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="actualizacion_periodica" value="3. Pago por txt de banco:&#xa;Cargar datos bancarios en la ficha del empleado para casos en que el cliente quiera la opcion de realizar pagos por txt de banco. Tambien se debera completar los datos del banco de la empresa dentro de compañia" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
-          <mxGeometry x="20" y="240" width="240" height="120" as="geometry" />
+          <mxGeometry x="20" y="220" width="240" height="120" as="geometry" />
         </mxCell>
         <mxCell id="control_cambio_estado" value="7. Estado del contrato: Activo (en proceso) o Inactivo (nuevo, vencido, cancelado)&#xa;Este paso es importante debido a que si no esta en proceso el contrato, no se podrá realizar nominas para el empleado" style="rounded=1;whiteSpace=wrap;" parent="empleados" vertex="1">
           <mxGeometry x="20" y="720" width="240" height="80" as="geometry" />
         </mxCell>
         <mxCell id="7uCu36Cxa_jLhvMKCSyf-5" value="4. Reloj Marcador:&#xa;Cargar ID de marcacion en el campo numero zk en la ficha del empleado para marcaciones por reloj biometrico en caso de que el cliente precise de esta opción para la asistencia asistencia" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
-          <mxGeometry x="20" y="400" width="240" height="80" as="geometry" />
+          <mxGeometry x="20" y="360" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7uCu36Cxa_jLhvMKCSyf-13" value="5. Descuento por cuotas:&#xa;Tener instalado el modulo de hr_descuento_cuotas" style="rounded=1;whiteSpace=wrap;" vertex="1" parent="empleados">
+          <mxGeometry x="20" y="470" width="240" height="60" as="geometry" />
         </mxCell>
         <mxCell id="asistencia" value="Módulo Asistencia" style="swimlane;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1;" parent="1" vertex="1">
           <mxGeometry x="920" y="80" width="280" height="650" as="geometry" />
@@ -94,29 +97,26 @@
         <mxCell id="nomina" value="Módulo Nómina" style="swimlane;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
           <mxGeometry x="1360" y="80" width="280" height="840" as="geometry" />
         </mxCell>
-        <mxCell id="calculo_salario_base" value="1. Salario Base:&#xa;Para comenzar con la nomina es importante tener todo en orden los datos del contrato, como el salario base y que el contrato este en proceso." style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="40" width="240" height="60" as="geometry" />
+        <mxCell id="calculo_salario_base" value="1. Crear nomina:&#xa;Para comenzar con la nomina es importante tener todo en orden los datos del contrato, como el salario base y que el contrato este en proceso.&#xa;Se puede crear lotes de nominas o nominas individuales" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
+          <mxGeometry x="20" y="40" width="240" height="90" as="geometry" />
         </mxCell>
         <mxCell id="inclusion_horas_trabajadas" value="2. Días/Horas Trabajados:&#xa;Los días/horas trabajados preferentemente son utilizados de las entradas de trabajo, esto son los días por defecto que tienen los empleados de su horario de trabajo designado en su contrato. También se puede estirar del modulo de asistencia seleccionando esta opción en su contrato, pero en ese caso es recomendable para los jornaleros, a los cuales se les paga por día trabajado" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="120" width="240" height="150" as="geometry" />
+          <mxGeometry x="20" y="160" width="240" height="150" as="geometry" />
         </mxCell>
         <mxCell id="inclusion_ausencias" value="3. Deducciones Ausencias:&#xa;En caso de haber ausencias ya sea en día u horas, se debe realizar un calculo en las reglas salariales de la estructura seleccionada para la nomina" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="294" width="240" height="76" as="geometry" />
+          <mxGeometry x="20" y="334" width="240" height="76" as="geometry" />
         </mxCell>
         <mxCell id="generacion_asiento_contable" value="8. Asiento Contable" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="690" width="240" height="40" as="geometry" />
+          <mxGeometry x="20" y="770" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="validacion_recibo" value="7. Validar Recibo" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="610" width="240" height="40" as="geometry" />
+          <mxGeometry x="20" y="690" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="generacion_recibo_nomina" value="6. Generar Recibo" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="530" width="240" height="40" as="geometry" />
+          <mxGeometry x="20" y="560" width="240" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="calculo_aportes_impuestos" value="5. Aportes/Impuestos" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="460" width="240" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="inclusion_inputs_adicionales" value="4. Bonos/Descuentos" style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
-          <mxGeometry x="20" y="390" width="240" height="40" as="geometry" />
+        <mxCell id="inclusion_inputs_adicionales" value="4. Ingresos/Descuentos:&#xa;Se puede registrar montos desde el menú de ingreso/descuento para los cálculos de la nomina.&#xa;Importante: el rango de fechas del registro debe coincidir con el rango de fecha de la nomina creada." style="rounded=1;whiteSpace=wrap;" parent="nomina" vertex="1">
+          <mxGeometry x="20" y="440" width="240" height="90" as="geometry" />
         </mxCell>
         <mxCell id="custodia" value="Módulo Custodia" style="swimlane;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
           <mxGeometry x="1800" y="640" width="280" height="300" as="geometry" />
@@ -164,7 +164,7 @@
         <mxCell id="con_empleados_nomina_contrato" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#B31F15;strokeWidth=2;fillColor=#FF1111;" parent="1" source="creacion_contrato" target="calculo_salario_base" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="840" y="620" />
+              <mxPoint x="840" y="660" />
               <mxPoint x="840" y="70" />
               <mxPoint x="1340" y="70" />
               <mxPoint x="1340" y="150" />
@@ -175,7 +175,7 @@
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1230" y="660" />
-              <mxPoint x="1230" y="280" />
+              <mxPoint x="1230" y="310" />
             </Array>
             <mxPoint x="1190" y="540" as="sourcePoint" />
           </mxGeometry>
@@ -184,7 +184,7 @@
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1260" y="1300" />
-              <mxPoint x="1260" y="410" />
+              <mxPoint x="1260" y="460" />
             </Array>
           </mxGeometry>
         </mxCell>
