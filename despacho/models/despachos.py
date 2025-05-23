@@ -134,11 +134,11 @@ class Despacho(models.Model):
     manifiesto = fields.Char('Manifiesto')
     barcaza_model = fields.Many2one('despacho.barcaza', 'Barcaza', ondelete='restrict')
     recepciones_datos_id = fields.Many2one(
-        'account.voucher', 
+        'account.voucher',
         string='Recepción Cliente',
-        readonly=True,
+        domain=lambda self: [('voucher_type', '=', 'sale')],
+        context={'default_voucher_type': 'sale'},
     )
-
 
     cnu = fields.Char('CNU')
     acuerdo = fields.Char('Acuerdo')
@@ -179,9 +179,11 @@ class Despacho(models.Model):
     
     recepciones_gabi_id = fields.Many2one(
         'account.voucher',
-        string='Recepción Gabinete',
-        readonly=True
+        string='Recepción Proveedor',
+        domain=lambda self: [('voucher_type', '=', 'purchase')],
+        context={'default_voucher_type': 'purchase'},
     )
+    
     # Campos de oficialización
     # total de la oficializacion sin imputar
     total_oficializacion = fields.Float(
@@ -198,9 +200,10 @@ class Despacho(models.Model):
     )
     
     recepciones_ofi_id = fields.Many2one(
-        'account.voucher', 
-        string='Recepción Proveedor (Oficialización)',
-        readonly=True,
+        'account.voucher',
+        string='Recepción Proveedor',
+        domain=lambda self: [('voucher_type', '=', 'purchase')],
+        context={'default_voucher_type': 'purchase'},
     )
     
     oficial = fields.Char('Despacho oficializado')
@@ -241,106 +244,106 @@ class Despacho(models.Model):
     )
 
     ##### METODOS COMPUTADOS #####
-    def action_crear_recepcion_datos(self):
-        self.ensure_one()
+    # def action_crear_recepcion_datos(self):
+    #     self.ensure_one()
 
-        journal = self.env['account.journal'].search([
-            ('type', '=', 'sale'),
-            ('company_id', '=', self.company_id.id)
-        ], limit=1)
+    #     journal = self.env['account.journal'].search([
+    #         ('type', '=', 'sale'),
+    #         ('company_id', '=', self.company_id.id)
+    #     ], limit=1)
 
-        if not journal or not journal.default_account_id:
-            raise UserError("No se encontró un diario de ventas con cuenta predeterminada.")
+    #     if not journal or not journal.default_account_id:
+            # raise UserError("No se encontró un diario de ventas con cuenta predeterminada.")
 
-        recepcion = self.env['account.voucher'].create({
-            'partner_id': self.propietario.id,
-            'voucher_type': 'sale',
-            'name': f"Recepción Datos - {self.ot}",
-            'account_id': journal.default_account_id.id,
-            'journal_id': journal.id,
-            'amount': 0.0,
-        })
+    #     recepcion = self.env['account.voucher'].create({
+    #         'partner_id': self.propietario.id,
+    #         'voucher_type': 'sale',
+    #         'name': f"Recepción Datos - {self.ot}",
+    #         'account_id': journal.default_account_id.id,
+    #         'journal_id': journal.id,
+    #         'amount': 0.0,
+    #     })
 
-        self.recepciones_datos_id = recepcion.id
+    #     self.recepciones_datos_id = recepcion.id
 
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.voucher',
-            'res_id': recepcion.id,
-            'view_mode': 'form',
-            'target': 'current',
-        }
-
-
-    def action_crear_recepcion_ofi(self):
-        self.ensure_one()
-
-        if self.recepciones_ofi_id:
-            return {
-                'name': 'Recepción Oficialización',
-                'view_mode': 'form',
-                'res_model': 'account.voucher',
-                'type': 'ir.actions.act_window',
-                'res_id': self.recepciones_ofi_id.id,
-            }
-
-        journal = self.env['account.journal'].search([
-            ('type', '=', 'purchase'),
-            ('company_id', '=', self.company_id.id)
-        ], limit=1)
-
-        if not journal or not journal.default_account_id:
-            raise UserError("No se encontró un diario de compras con cuenta predeterminada.")
-
-        recepcion = self.env['account.voucher'].create({
-            'partner_id': self.propietario.id,
-            'voucher_type': 'purchase',
-            'name': f"Recepción Oficialización - {self.ot}",
-            'account_id': journal.default_account_id.id,
-            'journal_id': journal.id,
-            'amount': self.total_ofi_imputar,
-        })
-
-        self.recepciones_ofi_id = recepcion.id
-
-        return {
-            'name': 'Recepción Oficialización',
-            'view_mode': 'form',
-            'res_model': 'account.voucher',
-            'type': 'ir.actions.act_window',
-            'res_id': recepcion.id,
-        }
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'account.voucher',
+    #         'res_id': recepcion.id,
+    #         'view_mode': 'form',
+    #         'target': 'current',
+    #     }
 
 
-    def action_crear_recepcion_gabi(self):
-        self.ensure_one()
+    # def action_crear_recepcion_ofi(self):
+    #     self.ensure_one()
 
-        journal = self.env['account.journal'].search([
-            ('type', '=', 'purchase'),
-            ('company_id', '=', self.company_id.id)
-        ], limit=1)
+    #     if self.recepciones_ofi_id:
+    #         return {
+    #             'name': 'Recepción Oficialización',
+    #             'view_mode': 'form',
+    #             'res_model': 'account.voucher',
+    #             'type': 'ir.actions.act_window',
+    #             'res_id': self.recepciones_ofi_id.id,
+    #         }
 
-        if not journal:
-            raise UserError("No se encontró un diario de compras configurado para la compañía.")
+    #     journal = self.env['account.journal'].search([
+    #         ('type', '=', 'purchase'),
+    #         ('company_id', '=', self.company_id.id)
+    #     ], limit=1)
 
-        recepcion = self.env['account.voucher'].create({
-            'partner_id': self.proveedor.id,  # o el campo adecuado
-            'voucher_type': 'purchase',
-            'name': f"Recepción - {self.ot}",
-            'account_id': journal.default_account_id.id,  # Esto resuelve el error
-            'journal_id': journal.id,
-        })
+    #     if not journal or not journal.default_account_id:
+    #         raise UserError("No se encontró un diario de compras con cuenta predeterminada.")
 
-        self.recepciones_gabi_id = recepcion.id
+    #     recepcion = self.env['account.voucher'].create({
+    #         'partner_id': self.propietario.id,
+    #         'voucher_type': 'purchase',
+    #         'name': f"Recepción Oficialización - {self.ot}",
+    #         'account_id': journal.default_account_id.id,
+    #         'journal_id': journal.id,
+    #         'amount': self.total_ofi_imputar,
+    #     })
 
-        return {
-            'name': 'Recepción Gabinete',
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.voucher',
-            'view_mode': 'form',
-            'res_id': recepcion.id,
-            'target': 'current',
-        }
+    #     self.recepciones_ofi_id = recepcion.id
+
+    #     return {
+    #         'name': 'Recepción Oficialización',
+    #         'view_mode': 'form',
+    #         'res_model': 'account.voucher',
+    #         'type': 'ir.actions.act_window',
+    #         'res_id': recepcion.id,
+    #     }
+
+
+    # def action_crear_recepcion_gabi(self):
+    #     self.ensure_one()
+
+    #     journal = self.env['account.journal'].search([
+    #         ('type', '=', 'purchase'),
+    #         ('company_id', '=', self.company_id.id)
+    #     ], limit=1)
+
+    #     if not journal:
+    #         raise UserError("No se encontró un diario de compras configurado para la compañía.")
+
+    #     recepcion = self.env['account.voucher'].create({
+    #         'partner_id': self.proveedor.id,  # o el campo adecuado
+    #         'voucher_type': 'purchase',
+    #         'name': f"Recepción - {self.ot}",
+    #         'account_id': journal.default_account_id.id,  # Esto resuelve el error
+    #         'journal_id': journal.id,
+    #     })
+
+    #     self.recepciones_gabi_id = recepcion.id
+
+    #     return {
+    #         'name': 'Recepción Gabinete',
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'account.voucher',
+    #         'view_mode': 'form',
+    #         'res_id': recepcion.id,
+    #         'target': 'current',
+    #     }
 
 
     # aqui se realiza el calculo para ambos campos 'total_oficializacion' y 'total_ofi_imputar'

@@ -328,16 +328,16 @@
                                         </form>
                                     </field>
                                 </group>
-                                <group>
-                                    <field name="desconsolidacion" invisible="1"/>
+                                <group col="3">
                                     <field name="manifiesto"/>
                                     <field name="barcaza_model"/>
                                     <field name="recepciones_datos_id"/>
-                                    <button name="action_crear_recepcion_datos"
+                                    <field name="desconsolidacion" invisible="1"/>
+                                     <!-- <button name="action_crear_recepcion_datos"
                                         type="object"
                                         string="Crear Recepción"
                                         class="btn-primary"
-                                        icon="fa-truck"/>
+                                        icon="fa-truck"/> -->
 
                                 </group>
                                 <group>
@@ -385,12 +385,12 @@
                                     </field>
                                     <field name="total_gabinete"/>
                                     <field name="total_gabi_imputar"/>
-                                    <field name="recepciones_gabi_id"/>
-                                    <button name="action_crear_recepcion_gabi"
+                                    <field name="recepciones_gabi_id" colspan="1"/>
+                                    <!-- <button name="action_crear_recepcion_gabi"
                                         type="object"
                                         string="Crear Recepción"
                                         class="btn-primary"
-                                        icon="fa-truck"/>
+                                        icon="fa-truck"/> -->
                                 </group>
                             </page>
                             <page name="oficializacion" string="Oficialización">
@@ -439,12 +439,12 @@
                                     </field>
                                     <field name="total_oficializacion"/>
                                     <field name="total_ofi_imputar"/>
-                                    <field name="recepciones_ofi_id"/>
-                                    <button name="action_crear_recepcion_ofi"
+                                    <field name="recepciones_ofi_id" colspan="1"/>
+                                    <!-- <button name="action_crear_recepcion_ofi"
                                         type="object"
                                         string="Crear Recepción"
                                         class="btn-primary"
-                                        icon="fa-truck"/>
+                                        icon="fa-truck"/> -->
                                 </group>
                             </page>
                             <page name="liquidacion" string="Liquidacion">
@@ -464,7 +464,7 @@
                                     </group>
                                 </group>
                             </page>
-                            <page name="legajo" string="Legajo">
+                            <page name="documentos" string="Documentos">
                                 <group>
                                 </group>
                             </page>
