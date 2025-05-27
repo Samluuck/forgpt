@@ -1,0 +1,24 @@
+<odoo>
+  <record id="attendance_import_wizard_form" model="ir.ui.view">
+    <field name="name">attendance.import.wizard.form</field>
+    <field name="model">attendance.import.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Importar Asistencias .dat">
+        <group>
+          <field name="file_data"/>
+        </group>
+        <footer>
+          <button string="Importar" type="object" name="action_import" class="btn-primary"/>
+          <button string="Cancelar" class="btn-secondary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_attendance_import_wizard" model="ir.actions.act_window">
+    <field name="name">Importar Asistencias .dat</field>
+    <field name="res_model">attendance.import.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+</odoo>
