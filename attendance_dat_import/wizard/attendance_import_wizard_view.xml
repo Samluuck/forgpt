@@ -4,9 +4,16 @@
     <field name="model">attendance.import.wizard</field>
     <field name="arch" type="xml">
       <form string="Importar Asistencias .dat">
-        <group>
-          <field name="file_data"/>
-        </group>
+        <sheet>
+          <group>
+            <field name="file_data" filename="file_name" string="Archivo DAT"/>
+            <field name="file_name" invisible="1"/>
+          </group>
+          
+          <group string="Resultados" attrs="{'invisible': [('result_message', '=', False)]}">
+            <field name="result_message" widget="text" readonly="1"/>
+          </group>
+        </sheet>
         <footer>
           <button string="Importar" type="object" name="action_import" class="btn-primary"/>
           <button string="Cancelar" class="btn-secondary" special="cancel"/>
@@ -15,10 +22,11 @@
     </field>
   </record>
 
-  <record id="action_attendance_import_wizard" model="ir.actions.act_window">
+  <record id="attendance_import_wizard_action_window" model="ir.actions.act_window">
     <field name="name">Importar Asistencias .dat</field>
     <field name="res_model">attendance.import.wizard</field>
     <field name="view_mode">form</field>
+    <field name="view_id" ref="attendance_import_wizard_form"/>
     <field name="target">new</field>
   </record>
 </odoo>

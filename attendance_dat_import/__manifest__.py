@@ -7,7 +7,7 @@
     'category': 'Human Resources/Attendances',
     'description': 'Importa registros de asistencias desde archivos .dat personalizados',
     'data': [
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         'wizard/attendance_import_wizard_view.xml',
         'views/hr_attendance_inherit_view.xml',
     ],

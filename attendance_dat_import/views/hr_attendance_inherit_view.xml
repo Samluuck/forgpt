@@ -1,26 +1,13 @@
 <odoo>
-  <!-- Acción (ya existente) -->
-  <record id="action_attendance_import_wizard" model="ir.actions.act_window">
-    <field name="name">Importar Asistencias .dat</field>
-    <field name="res_model">attendance.import.wizard</field>
-    <field name="view_mode">form</field>
-    <field name="target">new</field>
-  </record>
-
-  <!-- Menú contextual vinculado al árbol de asistencias -->
   <record id="action_import_wizard_from_tree" model="ir.actions.server">
     <field name="name">Importar asistencias .dat</field>
     <field name="model_id" ref="hr_attendance.model_hr_attendance"/>
     <field name="binding_model_id" ref="hr_attendance.model_hr_attendance"/>
     <field name="state">code</field>
     <field name="binding_view_types">list</field>
+    <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
     <field name="code">
-      action = {
-        'type': 'ir.actions.act_window',
-        'res_model': 'attendance.import.wizard',
-        'view_mode': 'form',
-        'target': 'new',
-      }
+      action = env.ref('attendance_dat_import.attendance_import_wizard_action_window').read()[0]
     </field>
   </record>
 </odoo>
