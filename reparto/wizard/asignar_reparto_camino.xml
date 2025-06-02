@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_asignar_reparto" model="ir.ui.view">
+            <field name="name">account.invoice.assign.form</field>
+            <field name="model">wizard.asignar.reparto</field>
+            <field name="arch" type="xml">
+                <form string="Asignar Reparto">
+                    <group>
+                         <group>
+                             <field name="chofer"  domain="[('chofer','=',True)]" options="{'no_create': True}" required="1"/>
+                             <field name="fecha" required="1" options="{'no_create': True, 'no_open': True}"/>
+                             <field name="vehiculo_id" required="1" options="{'no_create': True, 'no_open': True}"/>
+                         </group>
+                    </group>
+                    <footer>
+                        <button string='Generar' name="procesar" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <act_window id="action_account_assignar_reparto"
+            multi="True"
+            key2="client_action_multi" name="Generar repartos"
+            res_model="wizard.asignar.reparto" src_model="account.invoice"
+            view_mode="form" target="new" view_type="form"
+            groups="reparto.group_reparto_invoice"
+        />
+
+        <act_window id="action_picking_assignar_reparto"
+            multi="True"
+            key2="client_action_multi" name="Generar repartos"
+            res_model="wizard.asignar.reparto" src_model="stock.picking"
+            view_mode="form" target="new" view_type="form"
+            groups="reparto.group_reparto_stock_picking"
+        />
+    </data>
+</odoo>

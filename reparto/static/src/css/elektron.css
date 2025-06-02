@@ -1,0 +1,52 @@
+.page-break  {
+    clear: left;
+    display:block;
+    page-break-after:always;
+}
+
+
+
+.avery_label{
+    float: left;
+
+    text-align: center;
+    overflow: hidden;
+
+    outline: 1px dotted; /* outline doesn't occupy space like border does */
+}
+.avery_label_8_portrait{
+    width: 99.1mm;
+    height: 67.7mm;
+    text-align: center;
+         padding: .125in .10in 0;
+            margin-right: .125in; /* the gutter */
+            margin-left: 10mm;
+        }
+
+div.contenedor{
+
+    font-size: 18px;
+}
+div.nombre{
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 10px;
+}
+.direccion{
+    text-align: left;
+    font-size: 12px;
+}
+.pais{
+    padding-top: 5px;
+    font-size: 15px;
+
+}
+.telefono{
+    padding-top: 10px;
+}
+
+.bulto{
+    text-decoration: underline;
+    font-size: 20px;
+
+}

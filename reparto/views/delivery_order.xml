@@ -1,0 +1,276 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="reparto_tree_view_invoice">
+            <field name="name">reparto.tree.invoice</field>
+            <field name="model">delivery.order</field>
+            <field name="arch" type="xml">
+                <tree string="Repartos">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="invoice_id"/>
+                    <field name="state_invoice" string="Estado Factura"/>
+                    <field name="invoice_amount" widget="monetary"/>
+                    <field name="invoice_residual" widget="monetary"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="chofer_id"/>
+                    <field name="vehiculo_id"/>
+                    <field name="fecha_salida"/>
+                    <field name="fecha_entrega"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="reparto_parent_tree_view_invoice">
+            <field name="name">reparto.parent.tree.invoice</field>
+            <field name="model">delivery.order.parent</field>
+            <field name="arch" type="xml">
+                <tree string="Repartos">
+                    <field name="name"/>
+                    <field name="chofer_id"/>
+                    <field name="fecha_salida"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="reparto_tree_view_picking">
+            <field name="name">reparto.tree.picking</field>
+            <field name="model">delivery.order</field>
+            <field name="arch" type="xml">
+                <tree string="Repartos">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="picking_id"/>
+                    <field name="chofer_id"/>
+                    <field name="vehiculo_id"/>
+                    <field name="fecha_salida"/>
+                    <field name="fecha_entrega"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="reparto_form_view">
+            <field name="name">reparto.form</field>
+            <field name="model">delivery.order</field>
+            <field name="arch" type="xml">
+                <form string="Repartos">
+                    <header>
+                        <button name="set_borrador" states="cancelado" string="Poner en borrador" type="object"/>
+                        <button name="set_cancelado" states="en_camino,entregado" string="Cancelar" type="object"/>
+                        <button name="set_entregado" states="en_camino" string="Entregar" type="object"
+                                class="oe_highlight"/>
+                        <button name="set_camino" states="borrador" string="En camino" type="object"
+                                class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group string="Datos del reparto">
+                            <field name="parent_id" string="Reparto Padre"/>
+                            <field name="chofer_id" domain="[('chofer','=',True)]" context="{'default_chofer' : True}"/>
+                            <field name="tipo_documento"/>
+                            <field name="vehiculo_id"/>
+                            <field name="fecha_salida"/>
+                            <field name="fecha_entrega"/>
+                            <field name="invoice_id" attrs="{'invisible' : [('tipo_documento','!=','invoice')]}"/>
+                            <field name="picking_id" attrs="{'invisible' : [('tipo_documento','!=','picking')]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="repartos_padre_form_view">
+            <field name="name">reparto.padre.form</field>
+            <field name="model">delivery.order.parent</field>
+            <field name="arch" type="xml">
+                <form string="Repartos">
+                    <header>
+                        <button name="set_cancelado"
+                                confirm="¿Solo se cancelaran los repartos que esten camino, esta seguro de cancelar ?"
+                                string="Cancelar" help="Se cancelaran los repartos en camino" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group string="Datos del reparto">
+                            <field name="chofer_id" domain="[('chofer','=',True)]" context="{'default_chofer' : True}"/>
+                            <field name="vehiculo_id"/>
+                            <field name="fecha_salida"/>
+                        </group>
+                        <group>
+                            <field name="delivered_documents" widget="many2many" string="Documentos Entregados">
+                                <tree decoration-danger="state == 'cancelado'">
+                                    <field name="chofer_id"/>
+                                    <field name="tipo_documento"/>
+                                    <field name="invoice_id"/>
+                                    <field name="picking_id"/>
+                                    <field name="vehiculo_id"/>
+                                    <field name="fecha_salida"/>
+                                    <field name="fecha_entrega"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_calendar_delivery_order" model="ir.ui.view">
+            <field name="model">delivery.order</field>
+            <field name="arch" type="xml">
+                <calendar date_start="fecha_salida" color="chofer_id">
+                    <field name="name"/>
+                    <field name="vehiculo_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_delivery_order_kanban">
+            <field name="name">delivery.order.kanban</field>
+            <field name="model">delivery.order</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="chofer_id"/>
+                    <field name="vehiculo_id"/>
+                    <field name="fecha_entrega"/>
+                    <field name="fecha_salida"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb16">
+                                    <div class="o_kanban_record_headings mt4">
+                                        <strong class="o_kanban_record_title"><span><t
+                                                t-esc="record.chofer_id.value"/></span></strong>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left text-muted">
+                                        <span><t t-esc="record.name.value"/> <t t-esc="record.fecha_salida.value"/> <t
+                                                t-esc="record.fecha_entrega.value"/></span>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="state" widget="label_selection"
+                                               options="{'classes': {'borrador': 'default', 'en_camino': 'default', 'entregado': 'success'}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_delivery_order_filter" model="ir.ui.view">
+            <field name="name">delivery.order.search</field>
+            <field name="model">delivery.order</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Repartos">
+                    <field name="name" filter_domain="[('name','ilike',self)]"  string="Nro. de Reparto"/>
+                    <field name="name" filter_domain="[('chofer_id','ilike',self)]" string="Chofer"/>
+                    <field name="name" filter_domain="[('partner_id','ilike',self)]" string="Empresa"/>
+                    <field name="name" filter_domain="[('picking_id','ilike',self)]" string="Albaran"/>
+                    <field name="name" filter_domain="[('invoice_id','ilike',self)]" string="Factura"/>
+                    <field name="name" filter_domain="[('vehiculo_id','ilike',self)]" string="Vehiculos"/>
+<!--                    <filter string="Facturas Pendientes" domain="[('state_invoice','!=','paid')]"-->
+<!--                            name="facturas_no_pagadas"/>-->
+                    <filter string="Borrador" domain="[('state','=','borrador')]" name="repartos_borrador"/>
+                    <filter string="En camino" domain="[('state','=','en_camino')]" name="repartos_camino"/>
+                    <filter string="Entregado" domain="[('state','=','entregado')]" name="repartos_entregado"/>
+                    <filter string="Cancelado" domain="[('state','=','cancelado')]" name="repartos_cancelado"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Estado"   domain="[]" context="{'group_by':'state'}" name="state"/>
+                        <filter string="Chofer"   domain="[]" context="{'group_by':'chofer_id'}" name="chofer"/>
+                        <filter  string="Vehiculo"   domain="[]" context="{'group_by':'vehiculo_id'}" name="vehiculo_id"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_delivery_order_pivot">
+            <field name="name">delivery.order.pivot</field>
+            <field name="model">delivery.order</field>
+            <field name="arch" type="xml">
+                <pivot string="Repartos">
+                    <field name="parent_id" type="row"/>
+                    <field name="fecha_entrega" type="row"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_reparto_invoice">
+            <field name="name">Repartos</field>
+            <field name="res_model">delivery.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,kanban,pivot,graph</field>
+            <field name="view_id" ref="reparto_tree_view_invoice"/>
+            <field name="context">
+                {'search_default_tipo_documento':'invoice','search_default_facturas_no_pagadas_filter':1}</field>
+
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Reparto
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_reparto_picking">
+            <field name="name">Repartos</field>
+            <field name="res_model">delivery.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,kanban,pivot,graph</field>
+            <field name="view_id" ref="reparto_tree_view_picking"/>
+            <field name="context">{'search_default_tipo_documento':'picking'}</field>
+            <field name="context">{ }</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Reparto
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_reparto_parent">
+            <field name="name">Repartos </field>
+            <field name="res_model">delivery.order.parent</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="reparto_parent_tree_view_invoice"/>
+            <field name="context">{}</field>
+            <field name="context">{ }</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Reparto
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_reparto_orden_entrega">
+            <field name="name">Ordenes de Entrega </field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="context">{'search_default_delivery':1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Reparto
+                </p>
+            </field>
+        </record>
+
+        <!--<menuitem-->
+        <!--action="action_reparto"-->
+        <!--id="menu_action_invoice_reparto_inventario"-->
+        <!--sequence="100"-->
+        <!--parent="stock.menu_stock_warehouse_mgmt"/>-->
+    </data>
+</odoo>

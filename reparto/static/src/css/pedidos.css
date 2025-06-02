@@ -1,0 +1,14 @@
+.contenedor{
+    font-size:10px;
+    font-family:  "DejaVu Serif", "STIX", serif;
+}
+
+.letra-mediana{
+    font-size: 15px;
+    text-align: center;
+}
+
+.letra-chica{
+    font-size: 11px;
+    text-align: left;
+}

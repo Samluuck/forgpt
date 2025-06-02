@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_asignar_reparto_entregado" model="ir.ui.view">
+            <field name="name">delivery.order.assign.entregado.form</field>
+            <field name="model">wizard.asignar.reparto.entregado</field>
+            <field name="arch" type="xml">
+                <form string="Asignar Reparto">
+                    <group>
+                       <h4>Los repartos seleccionados serán marcados como entregados, está seguro?</h4>
+                    </group>
+                    <footer>
+                        <button string='Generar' name="procesar" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <act_window id="action_account_assignar_reparto_entregado"
+            multi="True"
+            key2="client_action_multi" name="Confirmar entregas"
+            res_model="wizard.asignar.reparto.entregado" src_model="delivery.order"
+            view_mode="form" target="new" view_type="form" />
+    </data>
+</odoo>

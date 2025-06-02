@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     
+        <menuitem id="menu_reparto" name="Repartos" groups="reparto.group_reparto_invoice,reparto.group_reparto_stock_picking"  web_icon="reparto,static/description/icon.png" sequence="5"  />
+        <menuitem id="menu_ordene_de_entrega" name="Ordenes de Entrega" parent="menu_reparto" action="reparto.action_reparto_orden_entrega" sequence="3"/>
+        <menuitem id="menu_facturillas" name="Facturas de Clientes" parent="menu_reparto" action="account.action_invoice_tree1" sequence="4"/>
+        <menuitem id="submenu_rep" name="Repartos" parent="menu_reparto" sequence="2"/>
+        <menuitem id="menu_reparto_padre" name="Repartos Consolidados" parent="submenu_rep" action="reparto.action_reparto_parent" sequence="5"  />
+        <menuitem id="menu_submenu_reparto_invoice" name="Repartos Facturas" action="reparto.action_reparto_invoice" parent="submenu_rep" sequence="0" groups="reparto.group_reparto_invoice" />
+        <menuitem id="menu_submenu_reparto_picking" name="Repartos Remisiones" action="reparto.action_reparto_picking" parent="submenu_rep" sequence="0" groups="reparto.group_reparto_stock_picking" />
+        <menuitem id="menu_submenu_chofer" name="Choferes" action="reparto.action_chofer_tree_reparto" parent="submenu_rep" sequence="1" groups="reparto.group_reparto_invoice,reparto.group_reparto_stock_picking" />
+    </data>
+</odoo>

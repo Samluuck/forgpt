@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!--REGLA DE REPARTO PARA LA VISUALIZACION POR COMPAÑIA-->
+        <record id="regla_company_reparto" model="ir.rule">
+            <field name="name">repartos</field>
+            <field name="model_id" ref="model_delivery_order"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">
+                [('company_id.id','=',user.company_id.id)]
+            </field>
+        </record>
+
+
+</odoo>

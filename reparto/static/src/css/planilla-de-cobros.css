@@ -1,0 +1,100 @@
+.page{
+    font-size: 9px;
+}
+.mayuscula{
+    text-transform: uppercase;
+}
+.sin-borde {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+
+}
+
+.sin-borde th{
+    background-color:rgba(0,0,0,0.15) ;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    border-left: 0.5px solid black ;
+    border-right: 0.5px solid black ;
+}
+
+table.sin-borde th:nth-child(1){
+    width: 20%;
+    text-align: left !important;
+}
+table.sin-borde th:nth-child(2){
+    width: 10%;
+}
+table.sin-borde th:nth-child(3){
+    width: 10%;
+}
+table.sin-borde th:nth-child(4){
+    width: 10%;
+}
+table.sin-borde th:nth-child(5){
+    width: 10%;
+}
+table.sin-borde th:nth-child(6){
+    width: 10%;
+}
+table.sin-borde th:nth-child(7){
+    margin-left: 5px;
+    width: 10%;
+}
+table.sin-borde th:nth-child(8){
+    width: 10%;
+}
+table.sin-borde th:nth-child(9){
+    width: 5%;
+}
+
+
+table.sin-borde td:nth-child(1){
+    text-align: left !important;
+}
+
+.totales td{
+    border: 0.1px solid black;
+    padding: 2px;
+    width: 75px;
+}
+
+thead { display: table-header-group }
+tr { page-break-inside: avoid }
+
+.totales td:nth-child(even){
+    text-align: right;
+}
+
+hr {
+    border-bottom: 0.5px solid black;
+    /*border-top: none ;*/
+}
+
+.linea{
+    border-bottom: 0.5px solid black;
+}
+
+.firma  td{
+    width: 200px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+
+}
+
+.filtros{
+    margin-bottom: 0px;
+}
+
+.con-bordes{
+    border: 0.5px solid black;
+}
+
+td{
+    padding: 0px 2px 0px 2px;
+}
