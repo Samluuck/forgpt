@@ -20,12 +20,11 @@ class DepositoFacturasWizard(models.TransientModel):
             ('fecha_salida', '<=', self.fecha_fin),
             ('tipo_documento', '=', 'invoice'),
         ])
-        return self.env.ref('reparto_yasy.action_reporte_deposito_facturas').report_action(
-            self, data={
-                'entregado_a': self.entregado_a,
-                'fecha_inicio': self.fecha_inicio.strftime('%Y-%m-%d %H:%M:%S'),
-                'fecha_fin': self.fecha_fin.strftime('%Y-%m-%d %H:%M:%S'),
-                'chofer_id': self.chofer_id.id,
-                'ids': repartos.ids,
-            }
-        )
+        return self.env.ref('reparto_yasy.action_reporte_deposito_facturas').report_action([], data={
+            'entregado_a': self.entregado_a,
+            'fecha_inicio': self.fecha_inicio.strftime('%Y-%m-%d %H:%M:%S'),
+            'fecha_fin': self.fecha_fin.strftime('%Y-%m-%d %H:%M:%S'),
+            'chofer_id': self.chofer_id.id,
+            'ids': repartos.ids,
+        })
+
