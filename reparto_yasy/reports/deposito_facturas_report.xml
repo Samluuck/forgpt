@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+
+        <report
+            id="action_reporte_deposito_facturas"
+            model="wizard.deposito.facturas"
+            string="Depósito de Facturas"
+            report_type="qweb-pdf"
+            name="reparto_yasy.deposito_facturas_report_template"
+            file="reparto_yasy.deposito_facturas_report_template"
+        />
+
+    </data>
+</odoo>

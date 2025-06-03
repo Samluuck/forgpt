@@ -24,17 +24,10 @@
                         <header class="header" style="display: flex !important; flex-direction: row; justify-content: space-between;">
                             
                             <div class="date-container">
-<<<<<<< HEAD
-                                <p style="font-size: 20px; margin-right: 0px;">Fecha de Generación del Informe: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></p>
-                            </div>
-                        </header>
-                       <div class="row">
-=======
                                 <p style="font-size: 20px; margin-right: 0px; font-weight:bold;">Fecha de Generación del Informe: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></p>
                             </div>
                         </header>
                         <div class="row">
->>>>>>> ed44e70de31031ba3459ccca1552ae7dacd4b937
                             <div class="col-xs-12 text-center" style="margin-left:410px;">
                                 <h2 style="text-decoration:underline; font-size:60px;">Informe de Carga</h2>
                             </div>
@@ -43,11 +36,7 @@
 
                         <hr class="linea"/>
 
-<<<<<<< HEAD
-                        <div class="row" style="font-size:27px;">
-=======
                         <div class="row" style="font-size:30px;font-weight:bold;">
->>>>>>> ed44e70de31031ba3459ccca1552ae7dacd4b937
                             <div class="col-xs-6">
                                 <p><b>Chofer:  </b><span t-field="o.chofer_id.name"/></p>
                             </div>
@@ -57,11 +46,7 @@
                             
                         </div>
 
-<<<<<<< HEAD
-                        <div class="row" style="font-size:27px;">
-=======
                         <div class="row" style="font-size:30px;font-weight:bold;">
->>>>>>> ed44e70de31031ba3459ccca1552ae7dacd4b937
                             <div class="col-xs-6">
                                 <p><b>Vehiculo:  </b><span t-field="o.vehiculo_id.name"/></p>
                             </div>
@@ -69,15 +54,11 @@
                                 <p><b>Fecha de Salida:  </b><span t-field="o.fecha_salida"/></p>
                             </div>
                         </div>
-<<<<<<< HEAD
-                        <br></br>
-                        <div class="row body">
-                            <table class="table table-bordered" style="margin-right: 30px !important; font-size:22px;">
-=======
+
                         <br/>
                         <div class="row body">
                             <table class="table table-bordered" style="margin-right: 30px !important; font-size:24px; font-weight:bold;">
->>>>>>> ed44e70de31031ba3459ccca1552ae7dacd4b937
+
                                 <thead>
                                     <tr>
                                   
@@ -101,11 +82,8 @@
   
                         <hr class="linea"/>
                         <div class="row">
-<<<<<<< HEAD
-                            <table class="table table-bordered" style="margin-right: 30px !important; font-size:22px;">
-=======
+
                             <table class="table table-bordered" style="margin-right: 30px !important; font-size:24px; font-weight:bold;">
->>>>>>> ed44e70de31031ba3459ccca1552ae7dacd4b937
                                 <thead>
                                     <tr>
                                         <th class="text-center">EMPRESAS DESTINO</th>
@@ -142,55 +120,34 @@
                         <div style="page-break-inside: avoid;">
                             <hr class="linea"/>
                             <div class="row">
-<<<<<<< HEAD
-                                <div class="col-xs-12" style="font-size:27px;">
-                                    <span>Firma del Chofer:____________________________</span>
-                                    <br/>
-                                </div>
-                                <div class="col-xs-12 text-right" style="margin-left:250px; font-size:27px;">
-=======
+
                                 <div class="col-xs-12" style="font-size:27px; font-weight:bold;">
                                     <span>Firma del Chofer:____________________________</span>
                                     <br/>
                                 </div>
                                 <div class="col-xs-12 text-right" style="margin-left:250px; font-size:27px; font-weight:bold;">
->>>>>>> ed44e70de31031ba3459ccca1552ae7dacd4b937
                                     <span>Firma Encargado de Carga:_______________________________</span>
                                     <br/>
                                 </div>
                             </div>
                             <div class="row">
-<<<<<<< HEAD
-                                <div class="col-xs-12" style="margin-top: 20px; font-size:27px;">
-                                    <span>Aclaración:_____________________________</span>
-                                    <br/>
-                                </div>
-                                <div class="col-xs-12 text-right" style="margin-top: 20px; margin-left:400px; font-size:27px;">
-=======
+
                                 <div class="col-xs-12" style="margin-top: 20px; font-size:27px;font-weight:bold;">
                                     <span>Aclaración:_____________________________</span>
                                     <br/>
                                 </div>
                                 <div class="col-xs-12 text-right" style="margin-top: 20px; margin-left:400px; font-size:27px;font-weight:bold;">
->>>>>>> ed44e70de31031ba3459ccca1552ae7dacd4b937
                                     <span>Aclaración:_____________________________</span>
                                     <br/>
                                 </div>
                             </div>
                             <div class="row">
-<<<<<<< HEAD
-                                <div class="col-xs-12" style="margin-top: 20px; font-size:27px;">
-                                    <span>CI. Nro:________________________________</span>
-                                    <br/>
-                                </div>
-                                <div class="col-xs-12 text-right" style="margin-top: 20px; margin-left:400px; font-size:27px;">
-=======
+
                                 <div class="col-xs-12" style="margin-top: 20px; font-size:27px;font-weight:bold;">
                                     <span>CI. Nro:________________________________</span>
                                     <br/>
                                 </div>
                                 <div class="col-xs-12 text-right" style="margin-top: 20px; margin-left:400px; font-size:27px;font-weight:bold;">
->>>>>>> ed44e70de31031ba3459ccca1552ae7dacd4b937
                                     <span>CI. Nro:________________________________</span>
                                     <br/>
                                 </div>
@@ -203,7 +160,6 @@
             </t>
         </t>
     </template>
-
 
 
 </odoo>

@@ -23,6 +23,9 @@
         'views/delivery_order_inherit_view.xml',
         'views/product_template_extended.xml',
         'reports/informe_carga.xml',
+        'reports/deposito_facturas_template.xml',
+        'reports/deposito_facturas_report.xml',
+        'wizard/deposito_facturas_wizard.xml',
     
     ],
 
