@@ -1,58 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="deposito_facturas_report_template">
-        <!-- Usamos layout vacío sin encabezado corporativo -->
-        <t t-call="web.minimal_layout">
-            <div class="page" style="font-size:13px; padding:30px;">
+  <template id="deposito_facturas_report_template">
+    <t t-call="web.minimal_layout">
+      <div class="page">
+        <h2 style="text-align:center;">Depósito de Facturas</h2>
 
-                <!-- Cabecera -->
-                <div style="display: flex; justify-content: space-between;">
-                    <div><strong>"<t t-esc="user.company_id.name"/>”</strong></div>
-                    <div><strong>Fecha: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></strong></div>
-                </div>
+        <table style="width:100%; margin-top:20px;">
+          <tr>
+            <td><strong>Chofer:</strong> <t t-esc="docs[0]['chofer_id'].name"/></td>
+            <td><strong>Entregado a:</strong> <t t-esc="docs[0]['entregado_a']"/></td>
+          </tr>
+          <tr>
+            <td><strong>Desde:</strong> <t t-esc="data['fecha_inicio']"/></td>
+            <td><strong>Hasta:</strong> <t t-esc="data['fecha_fin']"/></td>
+          </tr>
+        </table>
 
-                <!-- Título -->
-                <h3 style="margin-top: 25px;">"Depósito de Facturas"</h3>
+        <br/>
+        <table style="width:100%; border-collapse: collapse; margin-top: 30px;" border="1">
+          <thead>
+            <tr style="background-color: #eaeaea;">
+              <th style="padding:5px;">#</th>
+              <th style="padding:5px;">Cliente</th>
+              <th style="padding:5px;">Factura</th>
+              <th style="padding:5px;">Fecha Salida</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr t-foreach="docs[0]['repartos']" t-as="rep" t-set="index" t-value="0">
+              <td style="padding:5px;"><t t-esc="rep.index() + 1"/></td>
+              <td style="padding:5px;"><t t-esc="rep.invoice_id.partner_id.name"/></td>
+              <td style="padding:5px;"><t t-esc="rep.invoice_id.number or rep.invoice_id.name"/></td>
+              <td style="padding:5px;"><t t-esc="rep.fecha_salida.strftime('%Y-%m-%d %H:%M') if rep.fecha_salida else ''"/></td>
+            </tr>
+          </tbody>
+        </table>
 
-                <!-- Datos generales -->
-                <div style="margin-top: 10px; line-height: 1.5;">
-                    <p>Chofer = <t t-esc="docs[0]['chofer_id'].name or ''"/></p>
-                    <p>Entregado a = <t t-esc="docs[0]['entregado_a'] or ''"/></p>
-                </div>
-
-                <!-- Tabla de clientes -->
-                <table class="table table-sm table-bordered" style="margin-top: 25px; width: 100%; border-collapse: collapse;" border="1">
-                    <thead>
-                        <tr>
-                            <th style="padding: 5px;">Clientes</th>
-                            <th style="padding: 5px; text-align: center;">Efectivo</th>
-                            <th style="padding: 5px; text-align: center;">Cheque</th>
-                            <th style="padding: 5px; text-align: center;">Transferencia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="docs[0]['repartos']" t-as="line">
-                            <tr>
-                                <td style="padding: 5px;"><t t-esc="line.invoice_id.partner_id.name"/></td>
-                                <td style="text-align: center;">✓</td>
-                                <td style="text-align: center;">✓</td>
-                                <td style="text-align: center;">✓</td>
-                            </tr>
-                        </t>
-                    </tbody>
-                </table>
-
-                <!-- Total y Firma -->
-                <div style="margin-top: 40px;">
-                    <p>Monto total = gs.</p>
-                </div>
-
-                <div style="margin-top: 60px;">
-                    <p>Firma</p>
-                    <p>_______________</p>
-                </div>
-
-            </div>
-        </t>
-    </template>
+        <br/><br/><br/>
+        <p style="text-align:right;">
+          ____________________________<br/>
+          Firma del responsable
+        </p>
+      </div>
+    </t>
+  </template>
 </odoo>
