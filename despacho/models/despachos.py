@@ -3,7 +3,10 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 import base64
+import io
+from PyPDF2 import PdfMerger
 import logging
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -44,6 +47,132 @@ class Despacho(models.Model):
     _description = 'Orden de Trabajo'
     _rec_name = 'ot'
     _check_company_auto = True
+    
+    def importar_documentos_legajo(self):
+        """Método para importar documentos al legajo desde diferentes orígenes, solo los marcados para imputar"""
+        for rec in self:
+            rec.documentos_legajo.unlink()  # Limpiar documentos existentes
+
+            modelos = [
+                ('documentos', 'datos', 'archivo', 'imputar', 'despacho.documento', 'factura_proveedor_id'),
+                ('documentos_sin_monto', 'gabinete', 'archivo', 'imputar', 'despacho.documento_previo', 'factura_proveedor_id'),
+                ('documentos_oficializacion', 'oficializacion', 'documento', 'imputar', 'despacho.documento_oficializacion', 'factura_proveedor_id'),
+                ('presupuesto', 'presupuesto', 'despacho_provisorio', None, 'despacho.presupuesto', None),
+            ]
+
+            for campo_relacion, origen, campo_binario, campo_imputar, modelo_origen, campo_factura in modelos:
+                documentos = getattr(rec, campo_relacion, False)
+                for doc in documentos:
+                    if campo_imputar is None or getattr(doc, campo_imputar, False):
+                        archivo = getattr(doc, campo_binario, False)
+                        if archivo:
+                            # Obtener el valor actual de imputar del documento original
+                            imputado = getattr(doc, campo_imputar, False) if campo_imputar else False
+                            
+                            # Obtener factura relacionada si existe
+                            factura_id = getattr(doc, campo_factura, False).id if campo_factura and getattr(doc, campo_factura, False) else False
+                            
+                            # Guardamos referencia al documento original
+                            rec.env['despacho.documento_legajo'].create({
+                                'name': doc.numero or (doc.tipo.name if hasattr(doc, 'tipo') and doc.tipo else 'Documento'),
+                                'archivo': archivo,
+                                'origen': origen,
+                                'despacho_id': rec.id,
+                                'fecha_documento': doc.fecha if hasattr(doc, 'fecha') else fields.Date.today(),
+                                'tipo_documento': doc.tipo.name if hasattr(doc, 'tipo') and doc.tipo else origen.upper(),
+                                'monto': doc.monto if hasattr(doc, 'monto') else 0.0,
+                                'imputado': imputado,
+                                'documento_origen_id': doc.id,
+                                'modelo_origen': modelo_origen,
+                                'factura_id': factura_id,
+                            })
+
+            # Importar factura de cliente si existe
+            if rec.factura_cliente_id:
+                rec.env['despacho.documento_legajo'].create({
+                    'name': f"Factura Cliente {rec.factura_cliente_id.name}",
+                    'archivo': False,  # Podrías añadir lógica para adjuntar el PDF de la factura aquí
+                    'origen': 'liquidacion',
+                    'despacho_id': rec.id,
+                    'fecha_documento': rec.factura_cliente_id.invoice_date,
+                    'tipo_documento': 'FACTURA CLIENTE',
+                    'monto': rec.factura_cliente_id.amount_total,
+                    'imputado': True,
+                    'factura_id': rec.factura_cliente_id.id,
+                })
+
+    def action_generar_legajo_pdf(self):
+        """Generar un PDF unificado con todos los documentos del legajo"""
+        self.ensure_one()
+        documentos = self.documentos_legajo.sorted(key=lambda d: (d.sequence, d.origen))
+        merger = PdfMerger()
+
+        for doc in documentos:
+            if doc.archivo:
+                try:
+                    pdf_data = base64.b64decode(doc.archivo)
+                    merger.append(io.BytesIO(pdf_data))
+                except Exception as e:
+                    _logger.error(f"Error al procesar el PDF del documento '{doc.name}': {str(e)}")
+
+        output_stream = io.BytesIO()
+        merger.write(output_stream)
+        merger.close()
+        output_stream.seek(0)
+
+        nombre_archivo = f"legajo_OT_{self.ot}.pdf"
+        attachment = self.env['ir.attachment'].create({
+            'name': nombre_archivo,
+            'type': 'binary',
+            'datas': base64.b64encode(output_stream.read()),
+            'res_model': self._name,
+            'res_id': self.id,
+            'mimetype': 'application/pdf',
+        })
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'self',
+        }
+    
+    def importar_documentos_unificados(self):
+        for rec in self:
+            rec.documentos_unificados.unlink()  # Limpia anterior
+
+            modelos = [
+                ('documentos', 'datos', 'archivo'),
+                ('documentos_sin_monto', 'gabinete', 'archivo'),
+                ('documentos_oficializacion', 'oficializacion', 'documento'),
+            ]
+
+            for campo_relacion, origen, campo_binario in modelos:
+                documentos = getattr(rec, campo_relacion, False)
+                for doc in documentos:
+                    archivo = getattr(doc, campo_binario, False)
+                    if archivo:
+                        rec.env['despacho.documento_unificado'].create({
+                            'name': doc.numero or (doc.tipo.name if doc.tipo else 'Documento'),
+                            'archivo': archivo,
+                            'origen': origen,
+                            'despacho_id': rec.id,
+                        })
+
+            # if rec.documento:
+            #     rec.env['despacho.documento_unificado'].create({
+            #         'name': 'Carátula de Oficialización',
+            #         'archivo': rec.documento,
+            #         'origen': 'oficializacion',
+            #         'despacho_id': rec.id,
+            #     })
+            # if rec.documento_cuerpo:
+            #     rec.env['despacho.documento_unificado'].create({
+            #         'name': 'Cuerpo de Oficialización',
+            #         'archivo': rec.documento_cuerpo,
+            #         'origen': 'oficializacion',
+            #         'despacho_id': rec.id,
+            #     })
+
 
     @api.model
     def _default_employee_id(self):
@@ -54,6 +183,56 @@ class Despacho(models.Model):
         employee = self.env.user.employee_id
         return [('id', '=', employee.id), '|', ('company_id', '=', False),
                 ('company_id', '=', employee.company_id.id)]
+        
+    # Método para generar el PDF unificado
+    def action_generar_pdf_unificado(self):
+        self.ensure_one()
+        documentos = self.documentos_unificados.sorted(key=lambda d: d.sequence)
+        merger = PdfMerger()
+
+        for doc in documentos:
+            if doc.archivo:
+                try:
+                    pdf_data = base64.b64decode(doc.archivo)
+                    merger.append(io.BytesIO(pdf_data))
+                except Exception as e:
+                    _logger.error(f"Error al procesar el PDF del documento '{doc.name}': {str(e)}")
+
+        output_stream = io.BytesIO()
+        merger.write(output_stream)
+        merger.close()
+        output_stream.seek(0)
+
+        nombre_archivo = f"documentos_OT_{self.ot}.pdf"
+        attachment = self.env['ir.attachment'].create({
+            'name': nombre_archivo,
+            'type': 'binary',
+            'datas': base64.b64encode(output_stream.read()),
+            'res_model': self._name,
+            'res_id': self.id,
+            'mimetype': 'application/pdf',
+        })
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'self',
+        }
+
+    documentos_legajo = fields.One2many(
+        'despacho.documento_legajo',
+        'despacho_id',
+        string='Documentos Legajo',
+        copy=False
+    )
+        
+    documentos_unificados = fields.One2many(
+        'despacho.documento_unificado',
+        'despacho_id',
+        string='Documentos Unificados',
+        copy=False
+    )
+
 
     ot = fields.Char(
         string="Orden de trabajo",
@@ -156,7 +335,7 @@ class Despacho(models.Model):
 
     cif = fields.Float('CIF', compute='_compute_cif', store=True)
     moneda = fields.Many2one('despacho.moneda', 'Moneda')
-    tc = fields.Float('T/C', compute='_compute_tc', inverse='_inverse_tc')
+    
     cif_guaranies = fields.Float('CIF en Gs', compute='_compute_cif_guaranies', store=True)
 
     incoterms = fields.Many2one('despacho.incoterms', 'Incoterms')
@@ -207,6 +386,15 @@ class Despacho(models.Model):
     )
     
     oficial = fields.Char('Despacho oficializado')
+    tc = fields.Float(
+        string='T/C',
+        compute='_compute_tc',
+        inverse='_inverse_tc',
+        store=True,
+        default=0.0,
+        required=False
+    )
+
     documento = fields.Binary('Despacho oficializado (Carátula)', attachment=True)
     documento_cuerpo = fields.Binary('Despacho oficializado (Cuerpo)', attachment=True)
 
@@ -345,7 +533,55 @@ class Despacho(models.Model):
     #         'target': 'current',
     #     }
 
+    # Bloqueo en frontend (no estrictamente necesario si hacés solo validación lógica)
+    @api.onchange('tc')
+    def _onchange_tc_bloqueo_manual(self):
+        for rec in self:
+            if not rec.documento and rec.tc > 0.0:
+                rec.tc = 0.0
+                return {
+                    'warning': {
+                        'title': "Advertencia",
+                        'message': "Debe subir el documento antes de ingresar el T/C.",
+                    }
+                }
 
+    @api.constrains('documento', 'tc')
+    def _check_tc_vs_documento(self):
+        for rec in self:
+            # Caso 1: cargó T/C sin documento → no permitido
+            if not rec.documento and rec.tc > 0.0:
+                raise ValidationError("No puede ingresar el T/C sin haber cargado el documento.")
+
+            # Caso 2: cargó documento pero no completó T/C → también inválido
+            if rec.documento and (rec.tc is None or rec.tc <= 0.0):
+                raise ValidationError("Debe completar el campo T/C con un valor mayor a cero luego de cargar el documento.")
+
+    @api.onchange('moneda')
+    def _compute_tc(self):
+        for record in self:
+            record.tc = 0.0
+            try:
+                import requests
+                from bs4 import BeautifulSoup
+                url = "https://www.aduana.gov.py/proc.php"
+                response = requests.get(url, timeout=10)
+                if response.status_code == 200:
+                    soup = BeautifulSoup(response.text, 'html.parser')
+                    for index, td in enumerate(soup.findAll('td')):
+                        if record.moneda.name == 'DOL' and td.text.strip() == 'DOLAR ESTADOUNIDENSE':
+                            record.tc = float(
+                                soup.findAll('td')[index + 1].text.strip().replace('.', '').replace(',', '.'))
+                        elif record.moneda.name == 'MCM' and td.text.strip() == 'MONEDA COMUN EUROPEA':
+                            record.tc = float(
+                                soup.findAll('td')[index + 1].text.strip().replace('.', '').replace(',', '.'))
+            except Exception as e:
+                _logger.error(f"Error al obtener tipo de cambio: {str(e)}")
+
+    def _inverse_tc(self):
+        pass
+    
+    ####################
     # aqui se realiza el calculo para ambos campos 'total_oficializacion' y 'total_ofi_imputar'
     @api.depends('documentos_oficializacion.imputar', 'documentos_oficializacion.monto')
     def _compute_totales_oficializacion(self):
@@ -395,27 +631,27 @@ class Despacho(models.Model):
         for record in self:
             record.regimen_name = record.regimen.name
 
-    @api.onchange('moneda')
-    def _compute_tc(self):
-        for record in self:
-            record.tc = 0
-            try:
-                url = "https://www.aduana.gov.py/proc.php"
-                response = requests.get(url, timeout=10)
-                if response.status_code == 200:
-                    soup = BeautifulSoup(response.text, 'html.parser')
-                    for index, td in enumerate(soup.findAll('td')):
-                        if record.moneda.name == 'DOL' and td.contents[0] == 'DOLAR ESTADOUNIDENSE':
-                            record.tc = float(
-                                soup.findAll('td')[index + 1].contents[0].replace('.', '').replace(',', '.'))
-                        if record.moneda.name == 'MCM' and td.contents[0] == 'MONEDA COMUN EUROPEA':
-                            record.tc = float(
-                                soup.findAll('td')[index + 1].contents[0].replace('.', '').replace(',', '.'))
-            except Exception as e:
-                _logger.error(f"Error al obtener tipo de cambio: {str(e)}")
+    # @api.onchange('moneda')
+    # def _compute_tc(self):
+    #     for record in self:
+    #         record.tc = 0
+    #         try:
+    #             url = "https://www.aduana.gov.py/proc.php"
+    #             response = requests.get(url, timeout=10)
+    #             if response.status_code == 200:
+    #                 soup = BeautifulSoup(response.text, 'html.parser')
+    #                 for index, td in enumerate(soup.findAll('td')):
+    #                     if record.moneda.name == 'DOL' and td.contents[0] == 'DOLAR ESTADOUNIDENSE':
+    #                         record.tc = float(
+    #                             soup.findAll('td')[index + 1].contents[0].replace('.', '').replace(',', '.'))
+    #                     if record.moneda.name == 'MCM' and td.contents[0] == 'MONEDA COMUN EUROPEA':
+    #                         record.tc = float(
+    #                             soup.findAll('td')[index + 1].contents[0].replace('.', '').replace(',', '.'))
+    #         except Exception as e:
+    #             _logger.error(f"Error al obtener tipo de cambio: {str(e)}")
 
-    def _inverse_tc(self):
-        pass
+    # def _inverse_tc(self):
+    #     pass
 
     # Métodos de estado
     def _expand_states(self, states, domain, order):
@@ -565,13 +801,14 @@ class Documento(models.Model):
     _name = 'despacho.documento'
     _description = 'Documento de Despacho'
 
-    tipo = fields.Many2one('despacho.tipo_documento', 'Tipo', ondelete='restrict')
+    tipo = fields.Many2one('despacho.tipo_documento', string='Tipo', ondelete='restrict')
     numero = fields.Char('Número')
     archivo = fields.Binary('Archivo', attachment=True)
     original = fields.Boolean('Original')
     visado = fields.Boolean('Visado')
     fecha = fields.Date('Fecha')
     despacho = fields.Many2one('despacho.despacho', 'Despacho', ondelete='cascade')
+    monto = fields.Float('Monto')
     imputar = fields.Boolean('Imputar')
 
     def name_get(self):
@@ -724,7 +961,7 @@ class DocumentoOficializacion(models.Model):
 
     tipo = fields.Many2one('despacho.tipo_documento_oficializacion', 'Tipo', ondelete='restrict')
     numero = fields.Char('Número')
-    documento = fields.Binary('Documento', attachment=True)
+    archivo = fields.Binary('Documento', attachment=True)
     monto = fields.Float('Monto')
     pagado_por = fields.Selection([
         ('cliente', 'Cliente'),
@@ -800,3 +1037,81 @@ class DocumentoOficializacion(models.Model):
                 'type': 'ir.actions.act_window',
                 'res_id': factura.id,
             }
+            
+class DocumentoUnificado(models.Model):
+    _name = 'despacho.documento_unificado'
+    _description = 'Documento Unificado para OT'
+    _order = 'sequence'
+
+    name = fields.Char('Nombre')
+    archivo = fields.Binary('Archivo', attachment=True, required=True)
+    despacho_id = fields.Many2one('despacho.despacho', string='Orden de Trabajo', ondelete='cascade')
+    sequence = fields.Integer(string="Orden", default=10)
+    origen = fields.Selection([
+        ('gabinete', 'Gabinete'),
+        ('datos', 'Datos'),
+        ('oficializacion', 'Oficialización'),
+        ('documentos', 'Documentos'),
+    ], string='Origen')
+
+class DocumentoLegajo(models.Model):
+    _name = 'despacho.documento_legajo'
+    _description = 'Documento para Legajo de Despacho'
+    _order = 'sequence'
+
+    name = fields.Char('Nombre', required=True)
+    archivo = fields.Binary('Archivo', attachment=True, required=True)
+    despacho_id = fields.Many2one('despacho.despacho', string='Orden de Trabajo', ondelete='cascade')
+    sequence = fields.Integer(string="Orden", default=10)
+    origen = fields.Selection([
+        ('gabinete', 'Gabinete'),
+        ('datos', 'Datos'),
+        ('oficializacion', 'Oficialización'),
+        ('presupuesto', 'Presupuesto'),
+        ('manual', 'Manual'),
+    ], string='Origen', default='manual')
+    
+    tipo_documento = fields.Char('Tipo de Documento')
+    monto = fields.Float('Monto')
+    observaciones = fields.Text('Observaciones')
+    responsable = fields.Many2one(
+        'hr.employee',
+        string='Responsable',
+        default=lambda self: self.env.user.employee_id
+    )
+    
+    # Campos para sincronización con documentos originales
+    documento_origen_id = fields.Integer('ID Documento Origen')
+    modelo_origen = fields.Char('Modelo Origen')
+    imputado = fields.Boolean('Imputado')
+    
+    # Campo para facturas relacionadas
+    factura_id = fields.Many2one('account.move', string='Factura Relacionada')
+    numero_factura = fields.Char('Número de Factura', related='factura_id.name', store=True)
+    fecha_factura = fields.Date('Fecha Factura', related='factura_id.invoice_date', store=True)
+    monto_factura = fields.Monetary('Monto Factura', related='factura_id.amount_total', store=True)
+    currency_id = fields.Many2one('res.currency', related='factura_id.currency_id', string='Moneda')
+    
+    def name_get(self):
+        return [(record.id, f"{record.tipo_documento} - {record.name}") for record in self]
+    
+    @api.onchange('imputado')
+    def _onchange_imputado(self):
+        """Sincroniza el campo imputado con el documento original"""
+        for rec in self:
+            if rec.documento_origen_id and rec.modelo_origen:
+                try:
+                    modelo = self.env[rec.modelo_origen]
+                    documento_origen = modelo.browse(rec.documento_origen_id)
+                    if documento_origen and hasattr(documento_origen, 'imputar'):
+                        documento_origen.sudo().write({'imputar': rec.imputado})
+                except Exception as e:
+                    _logger.error(f"Error al sincronizar imputado: {str(e)}")
+
+    def write(self, vals):
+        """Sincroniza el campo imputado cuando se edita directamente"""
+        res = super().write(vals)
+        if 'imputado' in vals:
+            for rec in self:
+                rec._onchange_imputado()
+        return res

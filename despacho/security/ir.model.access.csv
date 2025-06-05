@@ -24,3 +24,5 @@ access_despacho_cuentabanco,despacho.cuentabanco,model_despacho_cuentabanco,base
 access_despacho_ordenpago,despacho.ordenpago,model_despacho_ordenpago,base.group_user,1,1,1,1
 access_despacho_pago,despacho.pago,model_despacho_pago,base.group_user,1,1,1,1
 access_despacho_unidad_medida,despacho.unidad_medida,model_despacho_unidad_medida,base.group_user,1,1,1,1
+access_despacho_documento_unificado,despacho.documento_unificado,model_despacho_documento_unificado,base.group_user,1,1,1,1
+access_despacho_documento_legajo,despacho.documento_legajo,model_despacho_documento_legajo,base.group_user,1,1,1,1

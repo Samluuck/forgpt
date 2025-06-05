@@ -46,7 +46,7 @@
                     <field name="fecha"/>
                     <field name="despacho"/>
                     <field name="imputar"/>
-
+                    <field name="monto"/>
                     <field name="create_uid" string="Creado Por"/>
                     <field name="create_date" string="Fecha de creación"/>
                     <field name="write_uid" string="Actualizado Por"/>
@@ -89,7 +89,7 @@
                 <tree default_order="write_date desc">
                     <field name="tipo"/>
                     <field name="numero"/>
-                    <field name="documento"/>
+                    <field name="archivo"/>
                     <field name="monto"/>
                     <field name="pagado_por"/>
                     <field name="op"/>
@@ -113,7 +113,7 @@
                 <search string="Documentos">
                     <field name="tipo"/>
                     <field name="numero"/>
-                    <field name="archivo"/>
+                    <!-- <field name="archivo"/> -->
                     <field name="original"/>
                     <field name="visado"/>
                     <field name="fecha"/>
@@ -270,7 +270,7 @@
                                 <field name="cif"/>
                                 <field name="moneda"/>
                                 <field name="tc"/>
-                                <field name="cif_guaranies"/>
+                                <field name="cif_guaranies" readonly = "1"/>
                             </group>
                         </group>
                         <group>
@@ -300,12 +300,14 @@
                                 <group>
                                     <field name="documentos">
                                         <tree editable="bottom">
-                                            <field name="tipo" options="{'no_create_edit': True, 'no_create': True}"/>
+                                            <field name="tipo" options="{'no_create_edit': False, 'no_create': False}"/>
                                             <field name="numero"/>
                                             <field name="archivo"/>
                                             <field name="fecha"/>
                                             <field name="original"/>
                                             <field name="visado"/>
+                                            <field name="monto"/>
+                                            <field name="imputar"/>
                                         </tree>
                                         <form>
                                             <group>
@@ -397,7 +399,7 @@
                                 <group>
                                     <group>
                                         <field name="oficial"/>
-                                        <field name="documento"/>
+                                        <field name="archivo"/>
                                         <field name="documento_cuerpo"/>
                                         <field name="canal"/>
                                         <field name="fecha_oficializacion"/>
@@ -411,7 +413,7 @@
                                 <group>
                                     <field name="documentos_oficializacion">
                                         <tree editable="top">
-                                            <field name="tipo" options="{'no_create_edit': False, 'no_create': False}"/>
+                                            <field name="tipo" options="{'no_create': False}" context="{'default_name': 'Nuevo'}"/>
                                             <field name="factura_proveedor_id"/>
                                             <field name="numero"/>
                                             <field name="documento"/>
@@ -447,6 +449,7 @@
                                         icon="fa-truck"/> -->
                                 </group>
                             </page>
+
                             <page name="liquidacion" string="Liquidacion">
                                 <group>
                                     <group>
@@ -464,10 +467,87 @@
                                     </group>
                                 </group>
                             </page>
-                            <page name="documentos" string="Documentos">
-                                <group>
-                                </group>
+
+                            <page name="legajo" string="Legajo">
+                                <header>
+                                    <button name="importar_documentos_legajo" 
+                                            string="Importar Documentos" 
+                                            type="object" 
+                                            class="oe_highlight"
+                                            icon="fa-download"/>
+                                    <button name="action_generar_legajo_pdf" 
+                                            string="Generar PDF" 
+                                            type="object"
+                                            class="btn-primary"
+                                            icon="fa-file-pdf-o"/>
+                                </header>
+                                <field name="documentos_legajo">
+                                    <tree editable="bottom" default_order="sequence asc">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="tipo_documento" string="Tipo" readonly="1"/>
+                                        <field name="name" string="Número"/>
+                                        <field name="monto"/>
+                                        <field name="imputado" widget="boolean_toggle"/>
+                                        <field name="archivo" filename="name" string="Archivo" widget="binary"/>
+                                        <field name="origen" string="Origen" readonly="1"/>
+                                        <field name="numero_factura" string="Factura"/>
+                                        <field name="fecha_factura" string="Fecha Factura"/>
+                                        <field name="monto_factura" string="Monto Factura"/>
+                                        <field name="observaciones"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="tipo_documento"/>
+                                                <field name="name"/>
+                                                <field name="origen"/>
+                                                <field name="factura_id" can_open="True"/>
+                                            </group>
+                                            <group>
+                                                <field name="fecha_documento"/>
+                                                <field name="monto"/>
+                                                <field name="imputado"/>
+                                            </group>
+                                            <group>
+                                                <field name="archivo" filename="name"/>
+                                                <field name="observaciones"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
                             </page>
+                        
+                            <!-- <page name="documentos" string="Documentos">
+                                <header>
+                                    <button name="importar_documentos_unificados" 
+                                            string="Importar Documentos" 
+                                            type="object" 
+                                            class="oe_highlight"
+                                            icon="fa-download"/>
+                                    <button name="action_generar_pdf_unificado"
+                                            type="object"
+                                            class="btn-primary"
+                                            string="Generar PDF"
+                                            icon="fa-file-pdf-o"/>
+
+                                </header>
+                                <field name="documentos_unificados">
+                                    <tree editable="bottom" default_order="sequence asc">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="archivo" filename="name"/>
+                                        <field name="origen"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="archivo"/>
+                                            <field name="origen"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page> -->
+
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
@@ -526,6 +606,17 @@
             <field name="view_mode">tree,kanban,form</field>
             <field name="context">{'search_default_this_year': 1}</field>
             <field name="search_view_id" ref="despacho.despacho_view_search"/>
+        </record>
+
+        <record id="action_importar_documentos_unificados" model="ir.actions.server">
+            <field name="name">Actualizar Documentos Unificados</field>
+            <field name="model_id" ref="model_despacho_despacho"/>
+            <field name="binding_model_id" ref="model_despacho_despacho"/>
+            <field name="binding_type">action</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = env['despacho.despacho'].browse(env.context.get('active_ids')).importar_documentos_unificados()
+            </field>
         </record>
 
         <menuitem id="despacho.despacho_menu" name="Despacho" parent="despacho_menu_root" sequence="1"/>

@@ -65,6 +65,124 @@
             </field>
         </record>
 
+        <!-- Vista para Embalajes -->
+        <record model="ir.ui.view" id="despacho.embalaje_list">
+            <field name="name">Embalajes</field>
+            <field name="model">despacho.embalaje</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.embalaje_view_form" model="ir.ui.view">
+            <field name="name">despacho.embalaje.view.form</field>
+            <field name="model">despacho.embalaje</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para Embalajes -->
+        <record id="despacho.embalaje_action" model="ir.actions.act_window">
+            <field name="name">Embalajes</field>
+            <field name="res_model">despacho.embalaje</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú para Embalajes dentro de Configuraciones -->
+        <menuitem id="despacho.embalaje_menu_list" 
+                name="Embalajes" 
+                action="despacho.embalaje_action" 
+                parent="despacho.configuracion_menu"
+                sequence="15"/>
+
+        <record model="ir.ui.view" id="despacho.unidad_medida_list">
+            <field name="name">Unidades de Medida</field>
+            <field name="model">despacho.unidad_medida</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.unidad_medida_view_form" model="ir.ui.view">
+            <field name="name">despacho.unidad_medida.view.form</field>
+            <field name="model">despacho.unidad_medida</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para Unidades de Medida -->
+        <record id="despacho.unidad_medida_action" model="ir.actions.act_window">
+            <field name="name">Unidades de Medida</field>
+            <field name="res_model">despacho.unidad_medida</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú para Unidades de Medida dentro de Configuraciones -->
+        <menuitem id="despacho.unidad_medida_menu_list" 
+                name="Unidades de Medida" 
+                action="despacho.unidad_medida_action" 
+                parent="despacho.configuracion_menu"
+                sequence="20"/>
+
+        <record model="ir.ui.view" id="despacho.incoterms_list">
+            <field name="name">Incoterms</field>
+            <field name="model">despacho.incoterms</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Código"/>
+                    <field name="description" string="Descripción"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.incoterms_view_form" model="ir.ui.view">
+            <field name="name">despacho.incoterms.view.form</field>
+            <field name="model">despacho.incoterms</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" string="Código" placeholder="Ej: FOB, CIF"/>
+                            <field name="description" string="Descripción"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para Incoterms -->
+        <record id="despacho.incoterms_action" model="ir.actions.act_window">
+            <field name="name">Incoterms</field>
+            <field name="res_model">despacho.incoterms</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_name': 'FOB'}</field>  <!-- Valor por defecto común -->
+        </record>
+
+        <!-- Menú para Incoterms dentro de Configuraciones -->
+        <menuitem id="despacho.incoterms_menu_list" 
+                name="Incoterms" 
+                action="despacho.incoterms_action" 
+                parent="despacho.configuracion_menu"
+                sequence="25"/>
+
         <record model="ir.ui.view" id="despacho.tipo_contenedor_list">
             <field name="name">Tipos de contenedores</field>
             <field name="model">despacho.tipo_contenedor</field>
@@ -98,10 +216,12 @@
         </record>
 
         <menuitem
-                id="despacho_menu_root"
-                name="Despachos"
-                web_icon="despacho/static/description/icon.png"
+            id="despacho_menu_root"
+            name="Despachos"
+            web_icon="despacho,static/description/icon.png"
+            groups="base.group_user"
         />
+
         <menuitem
                 id="despacho.configuracion_menu"
                 name="Configuraciones"
