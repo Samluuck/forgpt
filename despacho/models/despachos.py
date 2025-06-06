@@ -100,6 +100,18 @@ class Despacho(models.Model):
                     'imputado': True,
                     'factura_id': rec.factura_cliente_id.id,
                 })
+                
+    @api.onchange('factura_cliente_id')
+    def _onchange_factura_cliente_id(self):
+        if self.factura_cliente_id:
+            self.fecha_facturacion = self.factura_cliente_id.invoice_date
+
+    def write(self, vals):
+        if 'factura_cliente_id' in vals:
+            factura = self.env['account.move'].browse(vals['factura_cliente_id'])
+            if factura:
+                vals['fecha_facturacion'] = factura.invoice_date
+        return super().write(vals)
 
     def action_generar_legajo_pdf(self):
         """Generar un PDF unificado con todos los documentos del legajo"""
@@ -886,10 +898,24 @@ class DocumentoPrevio(models.Model):
     op = fields.Many2one('despacho.ordenpago', 'Orden de pago')
     hr_expense = fields.Many2one('hr.expense', 'Gasto')
     imputar = fields.Boolean('Imputar')
+    
+    @api.onchange('factura_proveedor_id')
+    def _onchange_factura_proveedor(self):
+        for rec in self:
+            factura = rec.factura_proveedor_id
+            if factura:
+                rec.fecha = factura.invoice_date
+                rec.monto = factura.amount_total
 
     def create(self, vals_list):
         records = super().create(vals_list)
         for record in records:
+            # Si se asignó factura, copiar valores
+            if record.factura_proveedor_id:
+                record.fecha = record.factura_proveedor_id.invoice_date
+                record.monto = record.factura_proveedor_id.amount_total
+
+            # Crear orden de pago si hay monto
             if record.monto > 0:
                 record.op = self.env['despacho.ordenpago'].create({
                     'despacho': record.despacho.id,
@@ -900,8 +926,16 @@ class DocumentoPrevio(models.Model):
         return records
 
     def write(self, vals):
-        if 'monto' in vals and vals['monto'] > 0:
-            for record in self:
+        res = super().write(vals)
+
+        for record in self:
+            # Si se asigna factura nueva, copiar valores
+            if 'factura_proveedor_id' in vals and record.factura_proveedor_id:
+                record.fecha = record.factura_proveedor_id.invoice_date
+                record.monto = record.factura_proveedor_id.amount_total
+
+            # Si se modifica el monto, regenerar la OP
+            if 'monto' in vals and vals['monto'] > 0:
                 if record.op:
                     record.op.unlink()
                 record.op = self.env['despacho.ordenpago'].create({
@@ -910,7 +944,8 @@ class DocumentoPrevio(models.Model):
                     'fecha': fields.Date.today(),
                     'vencimiento': vals.get('vencimiento', record.vencimiento) or fields.Date.today()
                 })
-        return super().write(vals)
+
+        return res
 
     factura_proveedor_id = fields.Many2one('account.move', string='Factura')
 
@@ -962,6 +997,7 @@ class DocumentoOficializacion(models.Model):
     tipo = fields.Many2one('despacho.tipo_documento_oficializacion', 'Tipo', ondelete='restrict')
     numero = fields.Char('Número')
     archivo = fields.Binary('Documento', attachment=True)
+    fecha = fields.Date('Fecha')
     monto = fields.Float('Monto')
     pagado_por = fields.Selection([
         ('cliente', 'Cliente'),
@@ -971,31 +1007,55 @@ class DocumentoOficializacion(models.Model):
     op = fields.Many2one('despacho.ordenpago', 'Orden de pago')
     hr_expense = fields.Many2one('hr.expense', 'Gasto')
     imputar = fields.Boolean('Imputar')
+    
+    @api.onchange('factura_proveedor_id')
+    def _onchange_factura_proveedor(self):
+        for rec in self:
+            factura = rec.factura_proveedor_id
+            if factura:
+                rec.fecha = factura.invoice_date
+                rec.monto = factura.amount_total
 
     def create(self, vals_list):
         records = super().create(vals_list)
         for record in records:
+            # Si se asignó factura, completar campos desde la misma
+            if record.factura_proveedor_id:
+                record.fecha = record.factura_proveedor_id.invoice_date
+                record.monto = record.factura_proveedor_id.amount_total
+
+            # Crear OP si hay monto
             if record.monto > 0:
                 record.op = self.env['despacho.ordenpago'].create({
                     'despacho': record.despacho.id,
                     'monto': record.monto,
                     'fecha': fields.Date.today(),
-                    'vencimiento': fields.Date.today()
+                    'vencimiento': record.vencimiento or fields.Date.today()
                 })
         return records
 
+
     def write(self, vals):
-        if 'monto' in vals and vals['monto'] > 0:
-            for record in self:
+        res = super().write(vals)
+
+        for record in self:
+            # Si se asigna factura y está presente, copiar fecha y monto
+            if 'factura_proveedor_id' in vals and record.factura_proveedor_id:
+                record.fecha = record.factura_proveedor_id.invoice_date
+                record.monto = record.factura_proveedor_id.amount_total
+
+            # Si se modifica monto, regenerar OP
+            if 'monto' in vals and vals['monto'] > 0:
                 if record.op:
                     record.op.unlink()
                 record.op = self.env['despacho.ordenpago'].create({
                     'despacho': record.despacho.id,
                     'monto': vals['monto'],
                     'fecha': fields.Date.today(),
-                    'vencimiento': fields.Date.today()
+                    'vencimiento': vals.get('vencimiento', record.vencimiento) or fields.Date.today()
                 })
-        return super().write(vals)
+
+        return res
 
     factura_proveedor_id = fields.Many2one('account.move', string='Factura')
 
@@ -1069,10 +1129,12 @@ class DocumentoLegajo(models.Model):
         ('oficializacion', 'Oficialización'),
         ('presupuesto', 'Presupuesto'),
         ('manual', 'Manual'),
+        ('liquidacion', 'Liquidación'),
     ], string='Origen', default='manual')
-    
+
     tipo_documento = fields.Char('Tipo de Documento')
     monto = fields.Float('Monto')
+    fecha_documento = fields.Date('Fecha del Documento')
     observaciones = fields.Text('Observaciones')
     responsable = fields.Many2one(
         'hr.employee',

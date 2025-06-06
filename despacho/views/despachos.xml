@@ -89,7 +89,7 @@
                 <tree default_order="write_date desc">
                     <field name="tipo"/>
                     <field name="numero"/>
-                    <field name="archivo"/>
+                    <!-- <field name="archivo"/> -->
                     <field name="monto"/>
                     <field name="pagado_por"/>
                     <field name="op"/>
@@ -113,7 +113,7 @@
                 <search string="Documentos">
                     <field name="tipo"/>
                     <field name="numero"/>
-                    <!-- <field name="archivo"/> -->
+                    <field name="archivo"/>
                     <field name="original"/>
                     <field name="visado"/>
                     <field name="fecha"/>
@@ -333,7 +333,7 @@
                                 <group col="3">
                                     <field name="manifiesto"/>
                                     <field name="barcaza_model"/>
-                                    <field name="recepciones_datos_id"/>
+                                    <!-- <field name="recepciones_datos_id"/> -->
                                     <field name="desconsolidacion" invisible="1"/>
                                      <!-- <button name="action_crear_recepcion_datos"
                                         type="object"
@@ -387,7 +387,7 @@
                                     </field>
                                     <field name="total_gabinete"/>
                                     <field name="total_gabi_imputar"/>
-                                    <field name="recepciones_gabi_id" colspan="1"/>
+                                    <!-- <field name="recepciones_gabi_id" colspan="1"/> -->
                                     <!-- <button name="action_crear_recepcion_gabi"
                                         type="object"
                                         string="Crear Recepción"
@@ -399,7 +399,7 @@
                                 <group>
                                     <group>
                                         <field name="oficial"/>
-                                        <field name="archivo"/>
+                                        <field name="documento"/>
                                         <field name="documento_cuerpo"/>
                                         <field name="canal"/>
                                         <field name="fecha_oficializacion"/>
@@ -416,7 +416,8 @@
                                             <field name="tipo" options="{'no_create': False}" context="{'default_name': 'Nuevo'}"/>
                                             <field name="factura_proveedor_id"/>
                                             <field name="numero"/>
-                                            <field name="documento"/>
+                                            <field name="archivo"/>
+                                            <field name="fecha"/>
                                             <field name="monto"/>
                                             <field name="imputar"/>
                                             <button name="action_crear_factura_proveedor"
@@ -431,7 +432,7 @@
                                                     <field name="tipo"/>
                                                     <field name="factura_proveedor_id" can_open="True"/>
                                                     <field name="numero"/>
-                                                    <field name="documento"/>
+                                                    <!-- <field name="documento"/> -->
                                                 </group>
                                                 <group>
                                                     <field name="monto"/>
@@ -441,7 +442,7 @@
                                     </field>
                                     <field name="total_oficializacion"/>
                                     <field name="total_ofi_imputar"/>
-                                    <field name="recepciones_ofi_id" colspan="1"/>
+                                    <!-- <field name="recepciones_ofi_id" colspan="1"/> -->
                                     <!-- <button name="action_crear_recepcion_ofi"
                                         type="object"
                                         string="Crear Recepción"
@@ -490,7 +491,8 @@
                                         <field name="imputado" widget="boolean_toggle"/>
                                         <field name="archivo" filename="name" string="Archivo" widget="binary"/>
                                         <field name="origen" string="Origen" readonly="1"/>
-                                        <field name="numero_factura" string="Factura"/>
+                                        <field name="factura_id" string="Factura" widget="many2one" can_open="True"/>
+                                        <field name="numero_factura" invisible="1"/>
                                         <field name="fecha_factura" string="Fecha Factura"/>
                                         <field name="monto_factura" string="Monto Factura"/>
                                         <field name="observaciones"/>
@@ -501,7 +503,7 @@
                                                 <field name="tipo_documento"/>
                                                 <field name="name"/>
                                                 <field name="origen"/>
-                                                <field name="factura_id" can_open="True"/>
+                                                <field name="factura_id" string="Factura" widget="many2one" can_open="True"/>
                                             </group>
                                             <group>
                                                 <field name="fecha_documento"/>
