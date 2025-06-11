@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_presale_order_user,presale.order user,model_presale_order,base.group_user,1,1,1,1
+access_presale_order_item_user,presale.order.item user,model_presale_order_item,base.group_user,1,1,1,1
+access_presale_order_item_detail_user,presale.order.item.detail user,model_presale_order_item_detail,base.group_user,1,1,1,1
+access_presale_update_wizard_user,presale.update.wizard user,model_presale_update_wizard,base.group_user,1,1,1,1

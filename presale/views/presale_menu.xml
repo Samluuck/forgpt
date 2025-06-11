@@ -1,0 +1,33 @@
+<odoo>
+    <!-- Acción para abrir la vista de Presale Order -->
+    <record id="action_presale_order" model="ir.actions.act_window">
+        <field name="name">Presale Orders</field>
+        <field name="res_model">presale.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Acción para abrir la vista en caso de necesitar -->
+<!--    <record id="action_presale_order_item" model="ir.actions.act_window">-->
+<!--        <field name="name">Presale Order Items</field>-->
+<!--        <field name="res_model">presale.order.item</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--    </record>-->
+
+    <!-- Acción para abrir la vista en caso de necesitar -->
+<!--    <record id="action_presale_order_item_detail" model="ir.actions.act_window">-->
+<!--        <field name="name">Presale Order Item Details</field>-->
+<!--        <field name="res_model">presale.order.item.detail</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--    </record>-->
+
+    <menuitem id="menu_presale_root" name="Preventas" web_icon="presale,static/description/icon.png" sequence="10"/>
+
+    <menuitem id="menu_presale_orders" name="Preventas"
+              parent="menu_presale_root" action="action_presale_order" sequence="10"/>
+
+<!--    <menuitem id="menu_presale_order_items" name="Order Items"-->
+<!--              parent="menu_presale_root" action="action_presale_order_item" sequence="20"/>-->
+
+<!--    <menuitem id="menu_presale_order_item_details" name="Order Item Details"-->
+<!--              parent="menu_presale_root" action="action_presale_order_item_detail" sequence="30"/>-->
+</odoo>

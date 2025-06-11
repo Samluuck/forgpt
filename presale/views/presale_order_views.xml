@@ -1,0 +1,143 @@
+<odoo>
+    <record id="presale_order_form_view_custom" model="ir.ui.view">
+        <field name="name">presale.order.form.view.custom</field>
+        <field name="model">presale.order</field>
+        <field name="arch" type="xml">
+            <form string="Presale Order">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirmar" class="btn btn-success" icon="fa-check"/>
+                    <button name="action_approve" type="object" string="Aprobar" class="btn btn-primary" icon="fa-check"/>
+                    <field name="state" widget="statusbar" options="{'clickable': False}"/>
+                </header>
+
+                <sheet>
+                    <widget name="web_ribbon" title="Borrador" bg_color="bg-warning" invisible="state != 'draft'"/>
+                    <widget name="web_ribbon" title="Confirmado" bg_color="bg-info" invisible="state != 'confirmed'"/>
+                    <widget name="web_ribbon" title="Aprobado" bg_color="bg-success" invisible="state != 'approved'"/>
+
+                    <div class="oe_title">
+                        <h2>
+                            <field name="name"/>
+                        </h2>
+                    </div>
+
+                    <group col="2">
+                        <group string="Información Básica">
+                            <field name="partner_id"/>
+                            <field name="lead_id" readonly="1"/>
+                            <field name="date_order"/>
+                            <field name="ejecutivo"/>
+                            <field name="equipo_de_venta"/>
+                        </group>
+                        <group string="Información Adicional">
+                            <field name="forma_pago"/>
+                            <field name="fecha_vencimiento"/>
+                            <field name="margen"/>
+                            <!-- <field name="condiciones_pago"/> -->
+                            <!-- <field name="commercials_ids"/> -->
+                            <field name="crear_presupuesto" widget="boolean_toggle"/>
+                            <field name="lista_precios"/>
+                            <field name="cuenta_analitica"/>
+                            <field name="presupuesto_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Totales" col="2">
+                        <field name="subtotal" readonly="1"/>
+                        <field name="impuestos" readonly="1"/>
+                        <field name="total" readonly="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Líneas del Pedido">
+                            <field name="order_item_ids" context="{'default_presale_order_id': active_id}">
+                                <tree string="Líneas del Pedido">
+                                    <field name="name"/>
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                    <field name="unit_price"/>
+                                    <field name="subtotal"/>
+                                </tree>
+                                <form string="Línea del Pedido">
+                                    <sheet>
+                                        <group col="2">
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="product_id"/>
+                                            </group>
+                                            <group>
+                                                <field name="is_equipo" widget="boolean_toggle"/>
+                                                <field name="is_insumo" widget="boolean_toggle"/>
+                                                <field name="is_maquina" widget="boolean_toggle"/>
+                                                <field name="is_epi_epc" widget="boolean_toggle"/>
+                                                <field name="is_turno" widget="boolean_toggle"/>
+                                                <field name="is_otro" widget="boolean_toggle"/>
+                                                <field name="qty"/>
+                                                <field name="unit_price"/>
+                                            </group>
+                                        </group>
+                                        <group string="Subtotal">
+                                            <field name="subtotal"/>
+                                        </group>
+                                        <notebook>
+                                            <page string="Detalles del Ítem">
+                                                <field name="item_detail_ids" context="{'default_item_id': active_id}">
+                                                    <tree string="Detalles del Ítem">
+                                                        <field name="name"/>
+                                                        <field name="product_id"/>
+                                                        <field name="qty"/>
+                                                        <field name="unit_price"/>
+                                                        <field name="total"/>
+                                                    </tree>
+                                                    <form string="Detalle del Ítem">
+                                                        <sheet>
+                                                            <group col="2">
+                                                                <group>
+                                                                    <field name="name"/>
+                                                                    <field name="product_id"/>
+                                                                </group>
+                                                                <group>
+                                                                    <field name="qty"/>
+                                                                    <field name="unit_price"/>
+                                                                </group>
+                                                            </group>
+                                                            <group string="Total">
+                                                                <field name="total"/>
+                                                            </group>
+                                                        </sheet>
+                                                    </form>
+                                                </field>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+     <record id="view_presale_update_wizard_form" model="ir.ui.view">
+      <field name="name">presale.update.wizard.form</field>
+      <field name="model">presale.update.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Actualizar Orden de Venta">
+            <p>
+              La Orden de Venta ya existe y se encuentra en estado borrador.<br/>
+              ¿Desea actualizarla con la información actual de la Preventa?
+            </p>
+          <footer>
+            <button name="action_confirm_update" type="object" string="Confirmar" class="btn-primary"/>
+            <button name="action_cancel_update" type="object" string="Cancelar"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+</odoo>
