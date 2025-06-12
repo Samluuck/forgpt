@@ -58,57 +58,58 @@
                                     <field name="unit_price"/>
                                     <field name="subtotal"/>
                                 </tree>
-                                <form string="Línea del Pedido">
+                                <form>
+                                    <header>
+                                        <field name="selected_category" widget="badge"
+                                            class="oe_right"
+                                            style="font-size:1px; padding: 1px 1px; font-weight: bold;"
+                                            invisible="not selected_category"/>
+                                    </header>
                                     <sheet>
-                                        <group col="2">
-                                            <group>
+                                        <group>
+                                            <group string="">
                                                 <field name="name"/>
-                                                <field name="product_id"/>
                                             </group>
+                                            <!-- Check que se ocultan cuando otro está seleccionado -->
+                                            <group string="Seleccione una categoría">
+                                                <field name="is_equipo" widget="boolean_toggle" 
+                                                    invisible="is_insumo or is_maquina or is_epi_epc or is_turno or is_otro"/>
+                                                <field name="is_insumo" widget="boolean_toggle" 
+                                                    invisible="is_equipo or is_maquina or is_epi_epc or is_turno or is_otro"/>
+                                                <field name="is_maquina" widget="boolean_toggle" 
+                                                    invisible="is_equipo or is_insumo or is_epi_epc or is_turno or is_otro"/>
+                                                <field name="is_epi_epc" widget="boolean_toggle" 
+                                                    invisible="is_equipo or is_insumo or is_maquina or is_turno or is_otro"/>
+                                                <field name="is_turno" widget="boolean_toggle" 
+                                                    invisible="is_equipo or is_insumo or is_maquina or is_epi_epc or is_otro"/>
+                                                <field name="is_otro" widget="boolean_toggle" 
+                                                    invisible="is_equipo or is_insumo or is_maquina or is_epi_epc or is_turno"/>
+                                            </group>
+                                            
+                                            <!-- Campos de producto - visibles solo cuando show_product_fields es True -->
+                                            <group string="Detalles del Producto" invisible="not show_product_fields">
+                                                <field name="show_product_fields" invisible="1"/>
+                                                <field name="product_id" invisible="not show_product_fields"/>
+                                                <field name="qty" invisible="not show_product_fields"/>
+                                                <field name="unit_price" invisible="not show_product_fields"/>
+                                                <field name="subtotal" invisible="not show_product_fields"/>
+                                            </group>
+                                            
+                                            <!-- Campos de relación - visibles solo cuando show_details_fields es True -->
                                             <group>
-                                                <field name="is_equipo" widget="boolean_toggle"/>
-                                                <field name="is_insumo" widget="boolean_toggle"/>
-                                                <field name="is_maquina" widget="boolean_toggle"/>
-                                                <field name="is_epi_epc" widget="boolean_toggle"/>
-                                                <field name="is_turno" widget="boolean_toggle"/>
-                                                <field name="is_otro" widget="boolean_toggle"/>
-                                                <field name="qty"/>
-                                                <field name="unit_price"/>
+                                                <field name="show_details_fields" invisible="1"/>
+                                                <field name="presale_order_id" invisible="1"/>
                                             </group>
+                                            <field name="item_detail_ids" invisible="not show_details_fields">
+                                                <tree>
+                                                    <field name="name"/>
+                                                    <field name="product_id"/>
+                                                    <field name="qty"/>
+                                                    <field name="unit_price"/>
+                                                    <field name="total"/>
+                                                </tree>
+                                            </field>
                                         </group>
-                                        <group string="Subtotal">
-                                            <field name="subtotal"/>
-                                        </group>
-                                        <notebook>
-                                            <page string="Detalles del Ítem">
-                                                <field name="item_detail_ids" context="{'default_item_id': active_id}">
-                                                    <tree string="Detalles del Ítem">
-                                                        <field name="name"/>
-                                                        <field name="product_id"/>
-                                                        <field name="qty"/>
-                                                        <field name="unit_price"/>
-                                                        <field name="total"/>
-                                                    </tree>
-                                                    <form string="Detalle del Ítem">
-                                                        <sheet>
-                                                            <group col="2">
-                                                                <group>
-                                                                    <field name="name"/>
-                                                                    <field name="product_id"/>
-                                                                </group>
-                                                                <group>
-                                                                    <field name="qty"/>
-                                                                    <field name="unit_price"/>
-                                                                </group>
-                                                            </group>
-                                                            <group string="Total">
-                                                                <field name="total"/>
-                                                            </group>
-                                                        </sheet>
-                                                    </form>
-                                                </field>
-                                            </page>
-                                        </notebook>
                                     </sheet>
                                 </form>
                             </field>

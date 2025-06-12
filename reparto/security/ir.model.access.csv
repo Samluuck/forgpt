@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_reparto_reparto,reparto.reparto,model_delivery_order,group_reparto_invoice,1,1,1,1
-access_reparto_parent_reparto,reparto.repartoparent,model_delivery_order_parent,group_reparto_invoice,1,1,1,1
-access_reparto_reparto,reparto.reparto,model_delivery_order,group_reparto_invoice,1,1,1,1
-access_reparto_parent_reparto,reparto.repartoparent,model_delivery_order_parent,group_reparto_invoice,1,1,1,1
