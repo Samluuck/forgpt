@@ -7,8 +7,8 @@ class PresaleOrderItem(models.Model):
     name = fields.Char(string="Nombre del Ítem", required=False)
     presale_order_id = fields.Many2one('presale.order', string="Presale Order", ondelete="cascade")
     product_id = fields.Many2one('product.product', string="Producto")
-    qty = fields.Float(string="Cantidad", default=1.0)
-    unit_price = fields.Float(string="Precio Unitario")
+    qty = fields.Float(string="Cant (Hrs/Personas)", default=0.0)
+    unit_price = fields.Float(string="Precio")
     subtotal = fields.Float(string="Subtotal", compute="_calcular_subtotal", store=True)
     item_detail_ids = fields.One2many('presale.order.item.detail', 'item_id', string="Detalles del Ítem")
     
@@ -16,19 +16,19 @@ class PresaleOrderItem(models.Model):
     is_equipo = fields.Boolean(string="Equipos")
     is_insumo = fields.Boolean(string="Insumos y Elementos")
     is_maquina = fields.Boolean(string="Máquinas")
-    is_epi_epc = fields.Boolean(string="EPI / EPC (Equipo de Protección Individual)")
+    is_epi_epc = fields.Boolean(string="EPI / EPC")
     is_turno = fields.Boolean(string="Turnos")
-    is_otro = fields.Boolean(string="Otros (Comida, Bolt, Logística, Análisis Médicos, etc)")
+    is_otro = fields.Boolean(string="Otros")
 
     # Añade force_save=True a los campos computados que se usan en la vista
     show_product_fields = fields.Boolean(compute='_compute_show_fields', store=False, force_save=True)
     show_details_fields = fields.Boolean(compute='_compute_show_fields', store=False, force_save=True)
     selected_category = fields.Char(compute='_compute_selected_category', store=False, force_save=True)
 
-    @api.depends('qty', 'unit_price')
+    @api.depends('item_detail_ids.total')
     def _calcular_subtotal(self):
-        for record in self:
-            record.subtotal = record.qty * record.unit_price if record.unit_price else 0.0
+        for detalle in self:
+            detalle.subtotal = sum(line.total for line in detalle.item_detail_ids)
 
     @api.depends('is_equipo', 'is_insumo', 'is_maquina', 'is_epi_epc', 'is_turno', 'is_otro')
     @api.onchange('is_equipo', 'is_insumo', 'is_maquina', 'is_epi_epc', 'is_turno', 'is_otro')

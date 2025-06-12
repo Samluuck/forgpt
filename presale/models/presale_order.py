@@ -21,7 +21,7 @@ class PresaleOrder(models.Model):
     )
     crear_presupuesto = fields.Boolean(string="Crear Presupuesto")
     presupuesto_id = fields.Many2one('sale.order', string="Presupuesto de Venta")
-    equipo_de_venta = fields.Char(string="Equipo de Venta")
+    equipo_de_venta_id = fields.Many2one('equipo.venta', string="Equipo de Venta")
     ejecutivo = fields.Char(string="Ejecutivo")
     fecha_vencimiento = fields.Date(string="Fecha de Vencimiento")
     forma_pago = fields.Char(string="Forma de Pago")
@@ -109,3 +109,12 @@ class PresaleUpdateWizard(models.TransientModel):
 
     def action_cancel_update(self):
         return {'type': 'ir.actions.act_window_close'}
+    
+    
+class EquipoVenta(models.Model):
+    _name = 'equipo.venta'
+    _description = 'Equipo de Venta'
+
+    name = fields.Char(string='Nombre del Equipo', required=True)
+    descripcion = fields.Text(string='Descripción')
+    activo = fields.Boolean(string='Activo', default=True)

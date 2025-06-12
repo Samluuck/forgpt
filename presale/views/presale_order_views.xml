@@ -27,7 +27,7 @@
                             <field name="lead_id" readonly="1"/>
                             <field name="date_order"/>
                             <field name="ejecutivo"/>
-                            <field name="equipo_de_venta"/>
+                            <field name="equipo_de_venta_id"/>
                         </group>
                         <group string="Información Adicional">
                             <field name="forma_pago"/>
@@ -42,10 +42,10 @@
                         </group>
                     </group>
 
-                    <group string="Totales" col="2">
+                    <group string="SUBTOTAL" col="2">
                         <field name="subtotal" readonly="1"/>
-                        <field name="impuestos" readonly="1"/>
-                        <field name="total" readonly="1"/>
+                        <!-- <field name="impuestos" readonly="1"/> -->
+                        <!-- <field name="total" readonly="1"/> -->
                     </group>
 
                     <notebook>
@@ -53,7 +53,7 @@
                             <field name="order_item_ids" context="{'default_presale_order_id': active_id}">
                                 <tree string="Líneas del Pedido">
                                     <field name="name"/>
-                                    <field name="product_id"/>
+                                    <!-- <field name="product_id"/> -->
                                     <field name="qty"/>
                                     <field name="unit_price"/>
                                     <field name="subtotal"/>
@@ -89,7 +89,7 @@
                                             <!-- Campos de producto - visibles solo cuando show_product_fields es True -->
                                             <group string="Detalles del Producto" invisible="not show_product_fields">
                                                 <field name="show_product_fields" invisible="1"/>
-                                                <field name="product_id" invisible="not show_product_fields"/>
+                                                <!-- <field name="product_id" invisible="not show_product_fields"/> -->
                                                 <field name="qty" invisible="not show_product_fields"/>
                                                 <field name="unit_price" invisible="not show_product_fields"/>
                                                 <field name="subtotal" invisible="not show_product_fields"/>
@@ -141,4 +141,36 @@
         </form>
       </field>
     </record>
+
+    <record id="view_equipo_venta_tree" model="ir.ui.view">
+        <field name="name">equipo.venta.tree</field>
+        <field name="model">equipo.venta</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="activo"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_equipo_venta_form" model="ir.ui.view">
+        <field name="name">equipo.venta.form</field>
+        <field name="model">equipo.venta</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="descripcion"/>
+                    <field name="activo"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_equipo_venta" model="ir.actions.act_window">
+        <field name="name">Equipos</field>
+        <field name="res_model">equipo.venta</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
 </odoo>

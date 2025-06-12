@@ -21,9 +21,11 @@
 <!--    </record>-->
 
     <menuitem id="menu_presale_root" name="Preventas" web_icon="presale,static/description/icon.png" sequence="10"/>
-
     <menuitem id="menu_presale_orders" name="Preventas"
               parent="menu_presale_root" action="action_presale_order" sequence="10"/>
+
+    <menuitem id="menu_equipo_venta_root" name="Configuraciones" parent="menu_presale_root" sequence="20"/>
+    <menuitem id="menu_equipo_venta_submenu" name="Equipos" parent="menu_equipo_venta_root" action="action_equipo_venta"/>
 
 <!--    <menuitem id="menu_presale_order_items" name="Order Items"-->
 <!--              parent="menu_presale_root" action="action_presale_order_item" sequence="20"/>-->
