@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="deposito_facturas_report_template" name="Depósito de Facturas">
+    <t t-name="reparto_yasy.deposito_facturas_report_template">
+      <t t-call="web.basic_layout">
+       <main class="o_report_layout">
+        <div class="page">
+
+          <!-- ESTILOS INLINE -->
+          <style>
+            .page {
+              font-family: Arial, sans-serif;
+              font-size: 12px;
+              padding: 20px;
+              background-color: white;
+            }
+            h2.titulo {
+              text-align: left;
+              font-size: 18px;
+              font-weight: bold;
+              margin-bottom: 25px;
+              text-transform: uppercase;
+              margin-left: 0px;
+            }
+            .cabecera-tabla {
+              width: 100%;
+              margin-bottom: 20px;
+            }
+            .cabecera-tabla td.izquierda {
+              width: 70%;
+              vertical-align: top;
+            }
+            .cabecera-tabla td.derecha {
+              width: 30%;
+              font-size: 12px;
+              vertical-align: top;
+              text-align: left;
+              padding-left: 50px;
+            }
+            .tabla-clientes {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 10px;
+              table-layout: fixed;
+            }
+            .tabla-clientes th, .tabla-clientes td {
+              border: 1px solid #000;
+              padding: 6px;
+              text-align: center;
+              word-wrap: break-word;
+            }
+            .tabla-clientes th {
+              background-color: #f0f0f0;
+              font-weight: bold;
+              text-transform: uppercase;
+              font-size: 11px;
+            }
+            .tabla-clientes td.cliente {
+              text-align: left;
+              font-size: 11px;
+            }
+            .total {
+              margin-top: 20px;
+              font-weight: bold;
+              text-align: right;
+            }
+            .firma {
+              margin-top: 60px;
+            }
+            .firma p {
+              border-top: 1px solid black;
+              width: 200px;
+              padding-top: 5px;
+              font-style: italic;
+            }
+          </style>
+
+          <!-- ENCABEZADO -->
+          <table class="cabecera-tabla">
+            <tr>
+              <td class="izquierda">
+                <t t-if="docs and docs[0].get('repartos') and docs[0]['repartos'] and docs[0]['repartos'][0].company_id">
+                  <h6><t t-esc="docs[0]['repartos'][0].company_id.name"/></h6>
+                </t>
+                <h2 class="titulo">Depósito de Facturas</h2>
+              </td>
+              <td class="derecha">
+                <p><strong>Chofer:</strong> <t t-esc="docs[0].get('chofer_id', {}).name or '________________'"/></p>
+                <p><strong>Fecha:</strong>
+                  <t t-if="docs[0].get('repartos') and docs[0]['repartos'][0].fecha_salida">
+                    <t t-esc="docs[0]['repartos'][0].fecha_salida.strftime('%d/%m/%Y')"/>
+                  </t>
+                  <t t-else="">________________</t>
+                </p>
+                <p><strong>Entregado a:</strong> <t t-esc="docs[0].get('entregado_a', '________________')"/></p>
+              </td>
+            </tr>
+          </table>
+
+          <!-- TABLA DE CLIENTES -->
+          <t t-if="docs[0].get('repartos') and docs[0]['repartos']">
+            <table class="tabla-clientes">
+              <thead>
+                <tr>
+                  <th style="width: 15%;">Nro. Factura</th>
+                  <th style="width: 40%;">Cliente</th>
+                  <th style="width: 14%;">Efectivo</th>
+                  <th style="width: 14%;">Cheque</th>
+                  <th style="width: 17%;">Transferencia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr t-foreach="docs[0]['repartos']" t-as="rep">
+                  <td class="cliente"><t t-esc="rep.invoice_id.number or rep.invoice_id.name or ''"/></td>
+                  <td class="cliente"><t t-esc="(rep.invoice_id.partner_id.parent_id and rep.invoice_id.partner_id.parent_id.name) or (rep.invoice_id.partner_id and rep.invoice_id.partner_id.name) or ''"/></td>
+                  <td>
+                    <t t-if="rep.medio_pago_efectivo">☑</t><t t-else="">⎕</t>
+                  </td>
+                  <td>
+                    <t t-if="rep.medio_pago_cheque">☑</t><t t-else="">⎕</t>
+                  </td>
+                  <td>
+                    <t t-if="rep.medio_pago_transferencia">☑</t><t t-else="">⎕</t>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </t>
+          <t t-else="">
+            <p style="margin-top:20px; color:red;"><em>No se encontraron facturas en el rango seleccionado.</em></p>
+          </t>
+
+          <!-- TOTAL -->
+          <t t-set="total" t-value="sum([r.invoice_id.amount_total for r in docs[0].get('repartos', []) if r.invoice_id])"/>
+          <t t-if="total">
+            <div class="total">
+              MONTO TOTAL: 
+              <t t-esc="docs[0]['puntodemiles'](total)"/> Gs.
+            </div>
+          </t>
+
+          <!-- FIRMA -->
+          <div class="firma">
+            <p>Firma</p>
+          </div>
+
+        </div>
+       </main>
+      </t>
+    </t>
+  </template>
+</odoo>

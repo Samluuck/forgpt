@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="reparto_yasy_report_custom"
+            model="delivery.order.parent"
+            string="Informe de Carga"
+            report_type="qweb-pdf"
+            name="reparto_yasy.reparto_yasy_report_custom_view"
+            file="reparto_yasy.reparto_yasy_report_custom_view"
+        />
+        
+    </data>
+
+    <template id="reparto_yasy_report_custom_view">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <link rel="stylesheet" href="/reparto_yasy/reports/reparto_yasy.css"/>
+
+                        <!-- Cabecera Personalizada -->
+                        <header class="header" style="display: flex !important; flex-direction: row; justify-content: space-between;">
+                            
+                            <div class="date-container">
+                                <p style="font-size: 20px; margin-right: 0px; font-weight:bold;">Fecha de Generación del Informe: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></p>
+                            </div>
+                        </header>
+                        <div class="row">
+                            <div class="col-xs-12 text-center" style="margin-left:410px;">
+                                <h2 style="text-decoration:underline; font-size:60px;">Informe de Carga</h2>
+                            </div>
+                        </div>
+
+
+                        <hr class="linea"/>
+
+                        <div class="row" style="font-size:30px;font-weight:bold;">
+                            <div class="col-xs-6">
+                                <p><b>Chofer:  </b><span t-field="o.chofer_id.name"/></p>
+                            </div>
+                            <div class="col-xs-6 text-right" style="margin-left:470px;">
+                                <p><b>Reparto:  </b><span t-field="o.name"/></p>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row" style="font-size:30px;font-weight:bold;">
+                            <div class="col-xs-6">
+                                <p><b>Vehiculo:  </b><span t-field="o.vehiculo_id.name"/></p>
+                            </div>
+                            <div class="col-xs-6" style="margin-left:350px; position:relative; top:5px;">
+                                <p><b>Fecha de Salida:  </b><span t-field="o.fecha_salida"/></p>
+                            </div>
+                        </div>
+
+                        <br/>
+                        <div class="row body">
+                            <table class="table table-bordered" style="margin-right: 30px !important; font-size:24px; font-weight:bold;">
+
+                                <thead>
+                                    <tr>
+                                  
+                                        <th class="text-center" style="width: 30%;">PRODUCTO</th>
+                                        <th class="text-center" style="width: 10%;">FARDO</th>
+                                        <th class="text-center" style="width: 50%;">UNIDAD</th>
+                          
+                                    </tr>
+                                </thead>
+                                    <tbody>
+                                        <t t-foreach="o.get_invoice_details()[1]" t-as="detail">
+                                            <tr>
+                                                <td class="text-left"><t t-esc="detail.product_name"/></td>
+                                                <td class="text-center"><t t-esc="detail.acumulado_fardo"/></td>
+                                                <td class="text-left"><t t-esc="detail.acumulado_unidad_str"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                            </table>
+                        </div>
+  
+                        <hr class="linea"/>
+                        <div class="row">
+
+                            <table class="table table-bordered" style="margin-right: 30px !important; font-size:24px; font-weight:bold;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">EMPRESAS DESTINO</th>
+                                        <th class="text-center">FACTURA ASOCIADA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.get_invoice_details()[0]" t-as="partner_name">
+                                        <tr>
+                                            <td class="text-left"><t t-esc="partner_name"/></td>
+                                            <td class="text-left">
+                                                <t t-set="invoice_nros" t-value="o.get_invoice_details()[2][partner_name]"/>
+                                                <t t-if="len(invoice_nros) &gt; 1">
+                                                    <t t-foreach="invoice_nros" t-as="invoice_nro">
+                                                        <span><t t-esc="invoice_nro"/></span><br/>
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <span><t t-esc="invoice_nros[0]"/></span><br/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+
+
+                            </table>
+                        </div>
+
+
+                        <hr class="linea"/>
+
+
+                        <div style="page-break-inside: avoid;">
+                            <hr class="linea"/>
+                            <div class="row">
+
+                                <div class="col-xs-12" style="font-size:27px; font-weight:bold;">
+                                    <span>Firma del Chofer:____________________________</span>
+                                    <br/>
+                                </div>
+                                <div class="col-xs-12 text-right" style="margin-left:250px; font-size:27px; font-weight:bold;">
+                                    <span>Firma Encargado de Carga:_______________________________</span>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-xs-12" style="margin-top: 20px; font-size:27px;font-weight:bold;">
+                                    <span>Aclaración:_____________________________</span>
+                                    <br/>
+                                </div>
+                                <div class="col-xs-12 text-right" style="margin-top: 20px; margin-left:400px; font-size:27px;font-weight:bold;">
+                                    <span>Aclaración:_____________________________</span>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-xs-12" style="margin-top: 20px; font-size:27px;font-weight:bold;">
+                                    <span>CI. Nro:________________________________</span>
+                                    <br/>
+                                </div>
+                                <div class="col-xs-12 text-right" style="margin-top: 20px; margin-left:400px; font-size:27px;font-weight:bold;">
+                                    <span>CI. Nro:________________________________</span>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                    </div> <!-- end page -->
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

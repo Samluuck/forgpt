@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Agrega los campos a la vista de formulario del producto -->
+        <record id="view_product_template_common_form_inherit" model="ir.ui.view">
+            <field name="name">product.template.common.form.inherit</field>
+            <field name="model">product.template</field> 
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='group_standard_price']" position="after">
+                    <group>
+                        <field name="presentacion_por_fardo"/>
+                        <field name="cantidad_unidades_por_fardo" attrs="{'invisible': [('presentacion_por_fardo', '=', False)]}"/>
+                        <field name="producto_secuencia"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

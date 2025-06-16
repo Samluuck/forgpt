@@ -1,0 +1,39 @@
+<odoo>
+    <record id="view_wizard_deposito_facturas_form" model="ir.ui.view">
+        <field name="name">wizard.deposito.facturas.form</field>
+        <field name="model">wizard.deposito.facturas</field>
+        <field name="arch" type="xml">
+            <form string="Depósito de Facturas">
+                <group>
+                    <field name="chofer_id"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_fin"/>
+                    <field name="entregado_a"/>
+                </group>
+                <footer>
+                    <button string="Imprimir" name="imprimir" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_wizard_deposito_facturas"
+        name="Depósito de Facturas"
+        res_model="wizard.deposito.facturas"
+        view_mode="form"
+        target="new"
+        view_id="view_wizard_deposito_facturas_form"
+    />
+
+    <menuitem id="menu_informes_reparto"
+              name="Informes"
+              parent="reparto.menu_reparto"
+              sequence="50" />
+
+    <menuitem id="menu_deposito_facturas"
+              name="Depósito de Facturas"
+              parent="reparto_yasy.menu_informes_reparto"
+              action="reparto_yasy.action_wizard_deposito_facturas"
+              sequence="1"/>
+</odoo>
