@@ -1,6 +1,5 @@
 <odoo>
     <data>
-
         <record id="paperformat_deposito_facturas" model="report.paperformat">
             <field name="name">Depósito Facturas Custom</field>
             <field name="default" eval="True"/>
@@ -15,7 +14,7 @@
             <field name="header_line" eval="False"/>
             <field name="header_spacing">0</field>
             <field name="dpi">96</field>
-            </record>
+        </record>
 
         <report
             id="action_reporte_deposito_facturas"
@@ -27,6 +26,5 @@
             paperformat="reparto_yasy.paperformat_deposito_facturas"
             print_report_name="'Deposito de Facturas - %s' % (object.name if object else '')"
         />
-
     </data>
 </odoo>

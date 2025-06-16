@@ -24,7 +24,7 @@
         'reports/deposito_facturas_template.xml',
         'reports/deposito_facturas_report.xml',
         'reports/informe_carga.xml',
-        'wizard/deposito_facturas_wizard.xml',
+        # 'wizard/deposito_facturas_wizard.xml',
     ],
 
 }

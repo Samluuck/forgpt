@@ -8,6 +8,7 @@
             <field name="inherit_id" ref="reparto.reparto_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='invoice_id']" position = 'after'>
+                    <field name="entregado_a"/>
                     <field name="medio_pago_efectivo" widget="toggle"/>
                     <field name="medio_pago_cheque" widget="toggle"/>
                     <field name="medio_pago_transferencia" widget="toggle"/>

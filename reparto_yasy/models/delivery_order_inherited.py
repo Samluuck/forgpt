@@ -58,9 +58,13 @@ class DeliveryOrderParentCustom(models.Model):
 class DeliveryOrderCustom(models.Model):
     _inherit = 'delivery.order'
     
+    # checks para seleccionar tipo de pago para el reporte de deposito de facturas
     medio_pago_efectivo = fields.Boolean(string="Efectivo")
     medio_pago_cheque = fields.Boolean(string="Cheque")
     medio_pago_transferencia = fields.Boolean(string="Transferencia")
+    
+    # campo para cargar a quien se entregara el producto
+    entregado_a = fields.Char(string="Entregado a", required=True)
 
     # Campo relacionado para obtener los detalles de la factura
     invoice_details = fields.One2many(
@@ -147,3 +151,4 @@ class DeliveryOrderInvoiceDetail(models.Model):
             else:
                 record.acumulado_fardo = 0
                 record.acumulado_unidad = record.quantity
+

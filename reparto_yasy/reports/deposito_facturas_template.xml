@@ -59,6 +59,10 @@
               text-align: left;
               font-size: 11px;
             }
+            .tabla-clientes td.monto {
+              text-align: right;
+              font-size: 11px;
+            }
             .total {
               margin-top: 20px;
               font-weight: bold;
@@ -104,6 +108,7 @@
                 <tr>
                   <th style="width: 15%;">Nro. Factura</th>
                   <th style="width: 40%;">Cliente</th>
+                  <th style="width: 15%;">Monto</th>
                   <th style="width: 14%;">Efectivo</th>
                   <th style="width: 14%;">Cheque</th>
                   <th style="width: 17%;">Transferencia</th>
@@ -113,6 +118,14 @@
                 <tr t-foreach="docs[0]['repartos']" t-as="rep">
                   <td class="cliente"><t t-esc="rep.invoice_id.number or rep.invoice_id.name or ''"/></td>
                   <td class="cliente"><t t-esc="(rep.invoice_id.partner_id.parent_id and rep.invoice_id.partner_id.parent_id.name) or (rep.invoice_id.partner_id and rep.invoice_id.partner_id.name) or ''"/></td>
+                  <td class="monto">
+                    <t t-if="rep.invoice_id">
+                      <t t-esc="docs[0]['puntodemiles'](rep.invoice_id.amount_total)"/> Gs.
+                    </t>
+                    <t t-else="">
+                      0 Gs.
+                    </t>
+                  </td>
                   <td>
                     <t t-if="rep.medio_pago_efectivo">☑</t><t t-else="">⎕</t>
                   </td>
@@ -132,10 +145,22 @@
 
           <!-- TOTAL -->
           <t t-set="total" t-value="sum([r.invoice_id.amount_total for r in docs[0].get('repartos', []) if r.invoice_id])"/>
+          <t t-set="cantidad_facturas" t-value="len([r for r in docs[0].get('repartos', []) if r.invoice_id])"/>
+          
           <t t-if="total">
-            <div class="total">
-              MONTO TOTAL: 
-              <t t-esc="docs[0]['puntodemiles'](total)"/> Gs.
+            <div style="margin-top: 20px; text-align: right;">
+              <div style="margin-bottom: 5px;">
+                <strong>CANTIDAD DE FACTURAS: </strong>
+                <span t-esc="cantidad_facturas"/>
+              </div>
+              <div style="margin-bottom: 5px;">
+                <strong>MONTO TOTAL: </strong>
+                <span t-esc="docs[0]['puntodemiles'](total)"/> Gs.
+              </div>
+              <div style="font-style: italic;">
+                <strong>SON: </strong>
+                <span t-esc="docs[0]['numero_a_letras'](total)"/> guaraníes
+              </div>
             </div>
           </t>
 
