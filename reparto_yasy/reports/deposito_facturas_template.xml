@@ -3,174 +3,320 @@
   <template id="deposito_facturas_report_template" name="Depósito de Facturas">
     <t t-name="reparto_yasy.deposito_facturas_report_template">
       <t t-call="web.basic_layout">
-       <main class="o_report_layout">
-        <div class="page">
+        <link rel="stylesheet" href="/reparto_yasy/static/src/css/estilo_deposito_factura.css"/>
+        <style>
+          .page {
+            font-family: Arial, sans-serif;
+            font-size: 12px; /* Aumentado de 10px */
+            padding: 0;
+            margin: 0;
+            background-color: white;
+            width: 100%;
+          }
+          .copy-container {
+            position: absolute;
+            width: 95%;
+            left: 2.5%;
+            page-break-inside: avoid;
+          }
+          .copy-container.first-copy {
+            top: 0;
+            height: 13.30cm;
+          }
+          .copy-container.second-copy {
+            top: 13.50cm;
+            height: 13.60cm;
+          }
+          h2.titulo {
+            text-align: left;
+            font-size: 16px; /* Aumentado de 14px */
+            font-weight: bold;
+            margin-bottom: 12px; /* Aumentado de 10px */
+            text-transform: uppercase;
+          }
+          .cabecera-tabla {
+            width: 100%;
+            margin-bottom: 10px; /* Aumentado de 8px */
+          }
+          .cabecera-tabla td.izquierda {
+            width: 65%;
+            vertical-align: top;
+          }
+          .cabecera-tabla td.derecha {
+            width: 35%;
+            font-size: 11px; /* Aumentado de 9px */
+            vertical-align: top;
+            text-align: left;
+            padding-left: 15px;
+          }
+          .tabla-clientes {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px; /* Aumentado de 5px */
+            table-layout: fixed;
+            font-size: 11px; /* Aumentado de 9px */
+          }
+          .tabla-clientes th, .tabla-clientes td {
+            border: 1px solid #000;
+            padding: 4px; /* Aumentado de 3px */
+            text-align: center;
+            word-wrap: break-word;
+          }
+          .tabla-clientes th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 10px; /* Aumentado de 8px */
+          }
+          .tabla-clientes td.cliente {
+            text-align: left;
+            font-size: 10px; /* Aumentado de 8px */
+          }
+          .tabla-clientes td.monto {
+            text-align: right;
+            font-size: 10px; /* Aumentado de 8px */
+          }
+          .firma p {
+            border-top: 1px solid black;
+            width: 150px; /* Aumentado de 120px */
+            padding-top: 3px; /* Aumentado de 2px */
+            font-style: italic;
+            font-size: 11px; /* Aumentado de 9px */
+            margin-top: 10px; /* Aumentado de 8px */
+          }
+          .totales {
+            margin-top: 10px; /* Aumentado de 8px */
+            text-align: right;
+            font-size: 11px; /* Aumentado de 9px */
+          }
+          .company-name {
+            font-size: 11px; /* Aumentado de 9px */
+            margin-bottom: 5px; /* Aumentado de 3px */
+          }
+          .tipo-pago {
+            font-weight: bold;
+            margin-bottom: 8px; /* Aumentado de 5px */
+            font-size: 12px; /* Aumentado de 10px */
+          }
+          .numero-impresion {
+            position: absolute;
+            right: 20px;
+            top: 5px;
+            font-size: 12px;
+            font-weight: bold;
+          }
+        </style>
 
-          <!-- ESTILOS INLINE -->
-          <style>
-            .page {
-              font-family: Arial, sans-serif;
-              font-size: 12px;
-              padding: 20px;
-              background-color: white;
-            }
-            h2.titulo {
-              text-align: left;
-              font-size: 18px;
-              font-weight: bold;
-              margin-bottom: 25px;
-              text-transform: uppercase;
-              margin-left: 0px;
-            }
-            .cabecera-tabla {
-              width: 100%;
-              margin-bottom: 20px;
-            }
-            .cabecera-tabla td.izquierda {
-              width: 70%;
-              vertical-align: top;
-            }
-            .cabecera-tabla td.derecha {
-              width: 30%;
-              font-size: 12px;
-              vertical-align: top;
-              text-align: left;
-              padding-left: 50px;
-            }
-            .tabla-clientes {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 10px;
-              table-layout: fixed;
-            }
-            .tabla-clientes th, .tabla-clientes td {
-              border: 1px solid #000;
-              padding: 6px;
-              text-align: center;
-              word-wrap: break-word;
-            }
-            .tabla-clientes th {
-              background-color: #f0f0f0;
-              font-weight: bold;
-              text-transform: uppercase;
-              font-size: 11px;
-            }
-            .tabla-clientes td.cliente {
-              text-align: left;
-              font-size: 11px;
-            }
-            .tabla-clientes td.monto {
-              text-align: right;
-              font-size: 11px;
-            }
-            .total {
-              margin-top: 20px;
-              font-weight: bold;
-              text-align: right;
-            }
-            .firma {
-              margin-top: 60px;
-            }
-            .firma p {
-              border-top: 1px solid black;
-              width: 200px;
-              padding-top: 5px;
-              font-style: italic;
-            }
-          </style>
-
-          <!-- ENCABEZADO -->
-          <table class="cabecera-tabla">
-            <tr>
-              <td class="izquierda">
-                <t t-if="docs and docs[0].get('repartos') and docs[0]['repartos'] and docs[0]['repartos'][0].company_id">
-                  <h6><t t-esc="docs[0]['repartos'][0].company_id.name"/></h6>
-                </t>
-                <h2 class="titulo">Depósito de Facturas</h2>
-              </td>
-              <td class="derecha">
-                <p><strong>Chofer:</strong> <t t-esc="docs[0].get('chofer_id', {}).name or '________________'"/></p>
-                <p><strong>Fecha:</strong>
-                  <t t-if="docs[0].get('repartos') and docs[0]['repartos'][0].fecha_salida">
-                    <t t-esc="docs[0]['repartos'][0].fecha_salida.strftime('%d/%m/%Y')"/>
-                  </t>
-                  <t t-else="">________________</t>
-                </p>
-                <p><strong>Entregado a:</strong> <t t-esc="docs[0].get('entregado_a', '________________')"/></p>
-              </td>
-            </tr>
-          </table>
-
-          <!-- TABLA DE CLIENTES -->
-          <t t-if="docs[0].get('repartos') and docs[0]['repartos']">
-            <table class="tabla-clientes">
-              <thead>
-                <tr>
-                  <th style="width: 15%;">Nro. Factura</th>
-                  <th style="width: 40%;">Cliente</th>
-                  <th style="width: 15%;">Monto</th>
-                  <th style="width: 14%;">Efectivo</th>
-                  <th style="width: 14%;">Cheque</th>
-                  <th style="width: 17%;">Transferencia</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr t-foreach="docs[0]['repartos']" t-as="rep">
-                  <td class="cliente"><t t-esc="rep.invoice_id.number or rep.invoice_id.name or ''"/></td>
-                  <td class="cliente"><t t-esc="(rep.invoice_id.partner_id.parent_id and rep.invoice_id.partner_id.parent_id.name) or (rep.invoice_id.partner_id and rep.invoice_id.partner_id.name) or ''"/></td>
-                  <td class="monto">
-                    <t t-if="rep.invoice_id">
-                      <t t-esc="docs[0]['puntodemiles'](rep.invoice_id.amount_total)"/> Gs.
-                    </t>
-                    <t t-else="">
-                      0 Gs.
-                    </t>
-                  </td>
-                  <td>
-                    <t t-if="rep.medio_pago_efectivo">☑</t><t t-else="">⎕</t>
-                  </td>
-                  <td>
-                    <t t-if="rep.medio_pago_cheque">☑</t><t t-else="">⎕</t>
-                  </td>
-                  <td>
-                    <t t-if="rep.medio_pago_transferencia">☑</t><t t-else="">⎕</t>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </t>
-          <t t-else="">
-            <p style="margin-top:20px; color:red;"><em>No se encontraron facturas en el rango seleccionado.</em></p>
-          </t>
-
-          <!-- TOTAL -->
-          <t t-set="total" t-value="sum([r.invoice_id.amount_total for r in docs[0].get('repartos', []) if r.invoice_id])"/>
-          <t t-set="cantidad_facturas" t-value="len([r for r in docs[0].get('repartos', []) if r.invoice_id])"/>
-          
-          <t t-if="total">
-            <div style="margin-top: 20px; text-align: right;">
-              <div style="margin-bottom: 5px;">
-                <strong>CANTIDAD DE FACTURAS: </strong>
-                <span t-esc="cantidad_facturas"/>
-              </div>
-              <div style="margin-bottom: 5px;">
-                <strong>MONTO TOTAL: </strong>
-                <span t-esc="docs[0]['puntodemiles'](total)"/> Gs.
-              </div>
-              <div style="font-style: italic;">
-                <strong>SON: </strong>
-                <span t-esc="docs[0]['numero_a_letras'](total)"/> guaraníes
-              </div>
+        <main class="o_report_layout">
+          <!-- PRIMERA COPIA - FACTURAS DE CONTADO -->
+          <div class="copy-container first-copy">
+            <div class="numero-impresion">
+                <t t-set="contador" t-value="docs[0].numero_impresion if docs and docs[0] else 0"/>
+                REP<t t-esc="'{:04d}'.format(contador)"/>
             </div>
-          </t>
+            
+            <table class="cabecera-tabla">
+              <tr>
+                <td class="izquierda">
+                  <t t-if="docs and docs[0].get('repartos') and docs[0]['repartos'] and docs[0]['repartos'][0].company_id">
+                    <h6 class="company-name"><t t-esc="docs[0]['repartos'][0].company_id.name"/></h6>
+                  </t>
+                  <h2 class="titulo">Depósito de Facturas</h2>
+                  <div class="tipo-pago">CONTADO</div>
+                </td>
+                <td class="derecha">
+                  <p><strong>Chofer:</strong> <t t-esc="docs[0].get('chofer_id', {}).name or '__________'"/></p>
+                  <p><strong>Fecha:</strong>
+                    <t t-if="docs[0].get('repartos') and docs[0]['repartos'][0].fecha_salida">
+                      <t t-esc="docs[0]['repartos'][0].fecha_salida.strftime('%d/%m/%Y')"/>
+                    </t>
+                    <t t-else="">__________</t>
+                  </p>
+                  <p><strong>Entregado a:</strong> <t t-esc="docs[0].get('entregado_a', '__________')"/></p>
+                </td>
+              </tr>
+            </table>
 
-          <!-- FIRMA -->
-          <div class="firma">
-            <p>Firma</p>
+            <t t-set="repartos_contado" t-value="[r for r in docs[0].get('repartos', []) if r.invoice_id and r.invoice_id.tipo_factura == 1]"/>
+            
+            <t t-if="repartos_contado">
+              <table class="tabla-clientes">
+                <thead>
+                  <tr>
+                    <th style="width: 12%;">Nro. Factura</th>
+                    <th style="width: 38%;">Cliente</th>
+                    <th style="width: 12%;">Monto</th>
+                    <th style="width: 9%;">Efectivo</th>
+                    <th style="width: 9%;">Cheque</th>
+                    <th style="width: 10%;">Transf</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr t-foreach="repartos_contado" t-as="rep">
+                    <td class="cliente"><t t-esc="rep.invoice_id.number or rep.invoice_id.name or ''"/></td>
+                    <td class="cliente">
+                      <t t-if="rep.invoice_id and rep.invoice_id.partner_id">
+                        <t t-set="partner_name" t-value="rep.invoice_id.partner_id.name or ''"/>
+                        <t t-set="parent_name" t-value="rep.invoice_id.partner_id.parent_id.name if rep.invoice_id.partner_id.parent_id else ''"/>
+                        <t t-esc="', '.join(filter(None, [parent_name, partner_name]))"/>
+                      </t>
+                    </td>
+                    <td class="monto">
+                      <t t-if="rep.invoice_id">
+                        <t t-esc="docs[0]['puntodemiles'](rep.invoice_id.amount_total)"/> Gs.
+                      </t>
+                      <t t-else="">
+                        0 Gs.
+                      </t>
+                    </td>
+                    <td>
+                      <t t-if="rep.medio_pago_efectivo">☑</t><t t-else="">⎕</t>
+                    </td>
+                    <td>
+                      <t t-if="rep.medio_pago_cheque">☑</t><t t-else="">⎕</t>
+                    </td>
+                    <td>
+                      <t t-if="rep.medio_pago_transferencia">☑</t><t t-else="">⎕</t>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </t>
+            <t t-else="">
+              <p style="margin-top:10px; color:red; font-size: 11px;"><em>No se encontraron facturas de contado.</em></p>
+            </t>
+
+            <t t-set="total_contado" t-value="sum([r.invoice_id.amount_total for r in repartos_contado if r.invoice_id])"/>
+            <t t-set="cantidad_facturas_contado" t-value="len(repartos_contado)"/>
+            
+            <t t-if="total_contado">
+              <div class="totales">
+                <div style="margin-bottom: 3px;">
+                  <strong>Cantidad: </strong>
+                  <span t-esc="cantidad_facturas_contado"/>
+                </div>
+                <div style="margin-bottom: 3px;">
+                  <strong>Total: </strong>
+                  <span t-esc="docs[0]['puntodemiles'](total_contado)"/> Gs.
+                </div>
+                <div style="font-style: italic;">
+                  <strong>Son: </strong>
+                  <span t-esc="docs[0]['calcular_letras'](total_contado)"/>
+                </div>
+              </div>
+            </t>
+
+            <div class="firma">
+              <p>Firma</p>
+              <p>Aclaración</p>
+            </div>
           </div>
 
-        </div>
-       </main>
+          <!-- SEGUNDA COPIA - FACTURAS DE CRÉDITO -->
+          <div class="copy-container second-copy">
+            <div class="numero-impresion">
+                <t t-set="contador" t-value="docs[0].numero_impresion if docs and docs[0] else 0"/>
+                REP<t t-esc="'{:04d}'.format(contador)"/>
+            </div>
+            
+            <table class="cabecera-tabla">
+              <tr>
+                <td class="izquierda">
+                  <t t-if="docs and docs[0].get('repartos') and docs[0]['repartos'] and docs[0]['repartos'][0].company_id">
+                    <h6 class="company-name"><t t-esc="docs[0]['repartos'][0].company_id.name"/></h6>
+                  </t>
+                  <h2 class="titulo">Depósito de Facturas</h2>
+                  <div class="tipo-pago">CRÉDITO</div>
+                </td>
+                <td class="derecha">
+                  <p><strong>Chofer:</strong> <t t-esc="docs[0].get('chofer_id', {}).name or '__________'"/></p>
+                  <p><strong>Fecha:</strong>
+                    <t t-if="docs[0].get('repartos') and docs[0]['repartos'][0].fecha_salida">
+                      <t t-esc="docs[0]['repartos'][0].fecha_salida.strftime('%d/%m/%Y')"/>
+                    </t>
+                    <t t-else="">__________</t>
+                  </p>
+                  <p><strong>Entregado a:</strong> <t t-esc="docs[0].get('entregado_a', '__________')"/></p>
+                </td>
+              </tr>
+            </table>
+
+            <t t-set="repartos_credito" t-value="[r for r in docs[0].get('repartos', []) if r.invoice_id and r.invoice_id.tipo_factura == 2]"/>
+            
+            <t t-if="repartos_credito">
+              <table class="tabla-clientes">
+                <thead>
+                  <tr>
+                    <th style="width: 12%;">Nro. Factura</th>
+                    <th style="width: 38%;">Cliente</th>
+                    <th style="width: 12%;">Monto</th>
+                    <th style="width: 9%;">Efectivo</th>
+                    <th style="width: 9%;">Cheque</th>
+                    <th style="width: 10%;">Transf</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr t-foreach="repartos_credito" t-as="rep">
+                    <td class="cliente"><t t-esc="rep.invoice_id.number or rep.invoice_id.name or ''"/></td>
+                    <td class="cliente">
+                      <t t-if="rep.invoice_id and rep.invoice_id.partner_id">
+                        <t t-set="partner_name" t-value="rep.invoice_id.partner_id.name or ''"/>
+                        <t t-set="parent_name" t-value="rep.invoice_id.partner_id.parent_id.name if rep.invoice_id.partner_id.parent_id else ''"/>
+                        <t t-esc="', '.join(filter(None, [parent_name, partner_name]))"/>
+                      </t>
+                    </td>
+                    <td class="monto">
+                      <t t-if="rep.invoice_id">
+                        <t t-esc="docs[0]['puntodemiles'](rep.invoice_id.amount_total)"/> Gs.
+                      </t>
+                      <t t-else="">
+                        0 Gs.
+                      </t>
+                    </td>
+                    <td>
+                      <t t-if="rep.medio_pago_efectivo">☑</t><t t-else="">⎕</t>
+                    </td>
+                    <td>
+                      <t t-if="rep.medio_pago_cheque">☑</t><t t-else="">⎕</t>
+                    </td>
+                    <td>
+                      <t t-if="rep.medio_pago_transferencia">☑</t><t t-else="">⎕</t>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </t>
+            <t t-else="">
+              <p style="margin-top:10px; color:red; font-size: 11px;"><em>No se encontraron facturas de crédito.</em></p>
+            </t>
+
+            <t t-set="total_credito" t-value="sum([r.invoice_id.amount_total for r in repartos_credito if r.invoice_id])"/>
+            <t t-set="cantidad_facturas_credito" t-value="len(repartos_credito)"/>
+            
+            <t t-if="total_credito">
+              <div class="totales">
+                <div style="margin-bottom: 3px;">
+                  <strong>Cantidad: </strong>
+                  <span t-esc="cantidad_facturas_credito"/>
+                </div>
+                <div style="margin-bottom: 3px;">
+                  <strong>Total: </strong>
+                  <span t-esc="docs[0]['puntodemiles'](total_credito)"/> Gs.
+                </div>
+                <div style="font-style: italic;">
+                  <strong>Son: </strong>
+                  <span t-esc="docs[0]['calcular_letras'](total_credito)"/>
+                </div>
+              </div>
+            </t>
+
+            <div class="firma">
+              <p>Firma</p>
+              <p>Aclaración</p>
+            </div>
+          </div>
+
+        </main>
       </t>
     </t>
   </template>

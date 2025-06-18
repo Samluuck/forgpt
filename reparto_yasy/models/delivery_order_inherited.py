@@ -4,6 +4,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 import datetime
 from collections import defaultdict
+from num2words import num2words
 
 class DeliveryOrderParentCustom(models.Model):
     
@@ -51,8 +52,6 @@ class DeliveryOrderParentCustom(models.Model):
             invoice_details_accumulated.append(detail_obj)
         
         return partner_names_array, invoice_details_accumulated, invoice_nros_por_cliente
-    
-
 
 
 class DeliveryOrderCustom(models.Model):
@@ -112,8 +111,56 @@ class DeliveryOrderCustom(models.Model):
 
             else:
                 record.invoice_details = [(5, 0, 0)]
+                
+    @api.multi
+    def calcular_letras(self, numero):
+        letras = self.monto_en_letras = num2words(numero, lang='es').upper()
+        letras = 'GUARANIES ' + letras
+        return letras
 
+    @api.multi
+    def calcular_letras_notacredito(self, numero):
+        letras = self.monto_en_letras = num2words(numero, lang='es').upper()
+        letras = '--' + letras + '--.'
+        return letras
 
+    @api.multi
+    def calcular_letras_dolar(self, numero):
+        nuevo_numero = str(numero).split('.')
+        entero= num2words(int(nuevo_numero[0]), lang='es').upper()
+        # if len(nuevo_numero[1] == 1):
+        if len(nuevo_numero[1]) == 1:
+            if nuevo_numero[1] == '0':
+                decimal = num2words(int(nuevo_numero[1]), lang='es').upper()
+            else:
+                decimal = num2words(int(nuevo_numero[1]+'0'), lang='es').upper()
+        else:
+            decimal=num2words(int(nuevo_numero[1]), lang='es').upper()
+        letras= entero + ' DOLARES ' + ' CON ' + decimal + ' CENTAVOS '
+        return letras
+
+    numero_impresion = fields.Integer(
+        string='Contador de Impresiones',
+        default=0,
+        copy=False
+    )
+    
+    def _get_report_values(self, docids, data=None):
+        """
+        Método que se ejecuta al generar el reporte
+        """
+        # Obtiene los registros
+        docs = self.env['delivery.order'].browse(docids)
+        
+        # Incrementa el contador para cada registro
+        docs.write({'numero_impresion': docs.numero_impresion + 1})
+        
+        # Datos que se pasan al template
+        return {
+            'doc_ids': docids,
+            'doc_model': 'delivery.order',
+            'docs': docs,
+        }
 
 class DeliveryOrderInvoiceDetail(models.Model):
     _name = 'delivery.order.invoice.detail'

@@ -26,5 +26,6 @@
             paperformat="reparto_yasy.paperformat_deposito_facturas"
             print_report_name="'Deposito de Facturas - %s' % (object.name if object else '')"
         />
+        
     </data>
 </odoo>
