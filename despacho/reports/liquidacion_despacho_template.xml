@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_liquidacion_despacho_document">
+    <t t-call="web.external_layout">
+      <style>
+        @page {
+          margin-top: 20px;
+          margin-bottom: 25px;
+        }
+        .page {
+          padding-top: 5px !important;
+          padding-bottom: 5px !important;
+        }
+        .table th, .table td {
+          padding: 2px !important;
+          font-size: 10px !important;
+        }
+        .table {
+          margin-bottom: 5px !important;
+        }
+      </style>
+
+    <div class="page" style="position: relative;">
+
+      <!-- CABECERA COMPACTA -->
+      <table style="width:100%; margin-bottom:5px; border-collapse:collapse;">
+        <tr>
+          <td style="width:60%;">
+            <t t-if="doc.company_id.logo">
+              <img t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode()" style="height:30px; max-width:120px;"/>
+            </t>
+            <p style="margin:2px 0; font-size:12px;"><strong>Cliente</strong> : <span t-esc="doc.propietario.name"/></p>
+          </td>
+          <td style="text-align:right; font-size:12px;">
+            <div style="display: inline-block; text-align: left;">
+              <div style="white-space: nowrap;">
+                <strong>Asunción,</strong> <t t-esc="doc.fecha_facturacion and doc.fecha_facturacion.strftime('%d de %B de %Y') or ''"/>
+              </div>
+              <div style="white-space: nowrap;">
+                <strong>Liquidación N°:</strong> <t t-esc="doc.numero_factura"/>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      
+      <!-- TABLA DE DATOS COMPACTA CON 3 COLUMNAS -->
+      <table style="width:100%; font-size:12px; line-height:1.1; margin-bottom:5px; border-collapse: collapse;">
+        <tr>
+          <!-- COLUMNA IZQUIERDA -->
+          <td style="width:33%; vertical-align: top;">
+            <table style="width:100%;">
+              <tr>
+                <td>Despacho N°:</td>
+                <td><t t-esc="doc.ot"/></td>
+              </tr>
+              <tr>
+                <td>Manifiesto N°:</td>
+                <td><t t-esc="doc.manifiesto or ''"/></td>
+              </tr>
+              <tr>
+                <td>Aduana / Depósito:</td>
+                <td><t t-esc="doc.aduana.name or ''"/></td>
+              </tr>
+              <tr>
+                <td>Factura Comercial:</td>
+                <td><t t-esc="doc.numero_factura or ''"/></td>
+              </tr>
+              <tr>
+                <td>Cantidad Bultos:</td>
+                <td><t t-esc="doc.cantidad or ''"/></td>
+              </tr>
+              <tr>
+                <td>Mercadería:</td>
+                <td><t t-esc="doc.mercaderias_model.name or ''"/></td>
+              </tr>
+              <tr>
+                <td>Peso Neto:</td>
+                <td><t t-esc="doc.peso_neto"/></td>
+              </tr>
+              <tr>
+                <td>Peso Bruto:</td>
+                <td><t t-esc="doc.peso_bruto"/></td>
+              </tr>
+            </table>
+          </td>
+          
+          <!-- COLUMNA CENTRAL -->
+          <td style="width:34%; text-align: center; vertical-align: middle;">
+            <table style="width:100%;">
+              <tr>
+                <td colspan="2">T/C: <t t-esc="doc.tc"/></td>
+              </tr>
+            </table>
+          </td>
+          
+          <!-- COLUMNA DERECHA -->
+          <td style="width:33%; vertical-align: top;">
+            <table style="width:100%;">
+              <tr>
+                <td>R.U.C. N°:</td>
+                <td><t t-esc="doc.company_id.vat or ''"/></td>
+              </tr>
+              <tr>
+                <td>Transportadora:</td>
+                <td><t t-esc="doc.transportista.name or ''"/></td>
+              </tr>
+              <tr>
+                <td>CRT / BL / AWB:</td>
+                <td><t t-esc="doc.crt or ''"/></td>
+              </tr>
+              <tr>
+                <td>País de Origen:</td>
+                <td><t t-esc="doc.pais_origen or ''"/></td>
+              </tr>
+              <tr>
+                <td>Proveedor:</td>
+                <td><t t-esc="doc.proveedor or ''"/></td>
+              </tr>
+              <tr>
+                <td>Partida Arancelaria:</td>
+                <td><t t-esc="doc.partida_arancelaria or ''"/></td>
+              </tr>
+              <tr>
+                <td>Valor Imponible Gs.:</td>
+                <td><t t-esc="'{:,.0f}'.format(doc.cif_guaranies).replace(',', '.')"/></td>
+              </tr>
+              <tr>
+                <td>Imponible USD:</td>
+                <td><t t-esc="doc.imponible_usd"/></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <!-- DETALLE DE LIQUIDACIÓN -->
+      <table class="table table-sm table-bordered" style="width:95%; margin: 10px auto; table-layout: fixed; font-size: 10px;">
+        <thead>
+          <tr>
+            <th style="width:5%;">#</th>
+            <th style="width:45%;">Descripción</th>
+            <th style="width:20%;">Comprobante</th>
+            <th class="text-end" style="width:15%;">Gs.</th>
+            <th class="text-end" style="width:15%;">USD</th>
+          </tr>
+        </thead>
+          <tbody>
+
+            <!-- SECCIÓN A -->
+            <tr><td>A.1</td><td>Derecho Aduanero</td><td></td><td></td><td></td></tr>
+            <tr><td>A.2</td><td>I.S.C.</td><td></td><td></td><td></td></tr>
+            <tr><td>A.3</td><td>Servicio Valoracion Aduanera</td><td></td><td></td><td></td></tr>
+            <tr><td>A.4</td><td>IRE General 700</td><td></td><td></td><td></td></tr>
+            <tr><td>A.5</td><td>IVA</td><td></td><td></td><td></td></tr>
+            <tr>
+              <td colspan="3"><strong>A. SUBTOTALES ADUANAS (A)</strong></td>
+              <td class="text-end"></td>
+              <td></td>
+            </tr>
+
+            <!-- SECCIÓN B -->
+            <tr><td>B.1</td><td>Canon Informático</td><td></td><td></td><td></td></tr>
+            <tr><td>B.2</td><td>Servicios Portuarios DINAC</td><td></td><td></td><td></td></tr>
+            <tr><td>B.3</td><td>IVA Portuarios</td><td></td><td></td><td></td></tr>
+            <tr><td>B.4</td><td>Comisión CDAP</td><td></td><td></td><td></td></tr>
+            <tr><td>B.5</td><td>IVA CDAP</td><td></td><td></td><td></td></tr>
+            <tr><td>B.6</td><td>Fotocopias AEDA</td><td></td><td></td><td></td></tr>
+            <tr><td>B.7</td><td>IVA AEDA</td><td></td><td></td><td></td></tr>
+            <tr><td>B.8</td><td>Liquidación LPI Dinavisa</td><td></td><td></td><td></td></tr>
+            <tr><td>B.9</td><td>Servicios Profesionales Agencia Burro y Asoc</td><td></td><td></td><td></td></tr>
+            <tr><td>B.10</td><td>IVA Servicios Profesionales</td><td></td><td></td><td></td></tr>
+            <tr>
+              <td colspan="3"><strong>B. SUBTOTALES SERVICIOS (B)</strong></td>
+              <td class="text-end"></td>
+              <td></td>
+            </tr>
+
+            <!-- C: TOTAL A + B -->
+            <tr>
+              <td colspan="3"><strong>C. SUBTOTAL GENERAL (A + B)</strong></td>
+              <td class="text-end"></td>
+              <td></td>
+            </tr>
+
+            <!-- SECCIÓN D: DESCUENTOS -->
+            <tr><td>D.1</td><td>Pagos realizado por el cliente</td><td></td><td></td><td></td></tr>
+            <tr><td>D.2</td><td>Adelanto realizado por el cliente</td><td></td><td></td><td></td></tr>
+            <tr><td>D.3</td><td>Retenciones</td><td></td><td></td><td></td></tr>
+            <tr><td>D.4</td><td>Saldos a favor cliente</td><td></td><td></td><td></td></tr>
+            <tr>
+              <td colspan="3"><strong>D. SUBTOTALES DESCUENTOS (C)</strong></td>
+              <td class="text-end"></td>
+              <td></td>
+            </tr>
+
+            <!-- TOTAL GENERAL -->
+            <tr>
+              <td colspan="3"><strong>E. TOTAL GENERAL (C - D)</strong></td>
+              <td class="text-end"><t t-esc="'{:,.0f}'.format(doc.total_general).replace(',', '.')"/></td>
+              <td></td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <!-- MONTO EN LETRAS -->
+        <table style="width:100%; border: 1px solid #ccc; border-collapse: collapse; margin-top:10px;">
+          <tr>
+            <td style="font-size:10px; padding:4px; border: 1px solid #ccc;">
+              <strong>SON GUARANÍES:</strong>
+              <span style="font-size:12px;"><t t-esc="doc.monto_en_letras or ''"/></span>
+            </td>
+          </tr>
+        </table>
+
+        <!-- DOCUMENTOS ANEXOS -->
+        <!-- <div style="width:100%; font-size:11px; margin-top:15px;">
+          <p><strong>Documentos anexos:</strong></p>
+          <ol>
+            <li>Despacho de Importación Original</li>
+            <li>Factura Servicios Portuarios Original</li>
+            <li>Factura Fotocopias AEDA Original</li>
+            <li>Factura CDAP Original</li>
+            <li>Liquidación LPI Dinavisa</li>
+            <li>Factura y Recibo Cargo Center Original</li>
+            <li>Factura Servicios Profesionales Original</li>
+            <li>Factura Comercial y PL Originales</li>
+            <li>Guía Aérea Fotocopia</li>
+            <li>Certificado Autorización Dinavisa</li>
+          </ol>
+        </div> -->
+
+        <!-- FIRMAS -->
+        <table style="width:100%; margin-top:20px; font-size:11px;">
+          <tr>
+            <td style="width:50%;">
+              <p><strong>Firma responsable:</strong></p>
+              <p>__________________________</p>
+              <p>Aclaración: ____________________</p>
+              <p style="font-size:10px;">Uso Interno Agencia</p>
+            </td>
+            <td style="width:50%;">
+              <p><strong>Recibí conforme:</strong></p>
+              <p>__________________________</p>
+              <p>Aclaración: ____________________</p>
+              <p>Fecha: ________  Hora: _______</p>
+              <p>Folios: ________ al ________</p>
+              <p style="font-size:10px;">Uso Cliente</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </t>
+  </template>
+
+  <template id="report_liquidacion_despacho">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="despacho.report_liquidacion_despacho_document"/>
+      </t>
+    </t>
+  </template>
+</odoo>
