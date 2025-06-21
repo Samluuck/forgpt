@@ -708,17 +708,40 @@ class Despacho(models.Model):
     # Métodos CRUD
     @api.model
     def create(self, vals):
-        if vals.get('ot', _('New')) == _('New'):
-            vals['ot'] = self.env['ir.sequence'].next_by_code('despacho.despacho.sequence') or _('New')
-            codigo_cliente = self.env['res.partner'].search_read(
-                [('id', '=', vals['propietario'])],
-                ['codigo'],
-                limit=1
-            )
-            if codigo_cliente and codigo_cliente[0]['codigo']:
-                numero_ot = vals['ot']
-                vals['ot'] = numero_ot[:2] + codigo_cliente[0]['codigo'] + numero_ot[2:]
+        if vals.get('ot', _('New')) == _('New') and vals.get('propietario'):
+            partner = self.env['res.partner'].browse(vals['propietario'])
+            if not partner.exists():
+                raise ValidationError("Propietario no válido.")
+
+            nombre = partner.name or ''
+            nombre = nombre.upper()
+            _logger.info(f"[OT-GEN] Nombre del propietario: {nombre}")
+
+            # Generar prefijo: 3 primeras letras alfanuméricas
+            prefijo = ''.join([c for c in nombre if c.isalnum()])[:3]
+            prefijo = prefijo.ljust(3, 'X')  # Asegura 3 caracteres
+            _logger.info(f"[OT-GEN] Prefijo generado: {prefijo}")
+
+            # Buscar últimos OTs del cliente
+            existing_ots = self.search([('ot', 'ilike', f"{prefijo}%")], order="ot desc", limit=1)
+            if existing_ots:
+                _logger.info(f"[OT-GEN] Último OT encontrado: {existing_ots.ot}")
+                try:
+                    last_number = int(existing_ots.ot[-4:])
+                    new_number = f"{last_number + 1:04d}"
+                except Exception as e:
+                    _logger.warning(f"[OT-GEN] Error extrayendo número: {e}")
+                    new_number = "0001"
+            else:
+                _logger.info(f"[OT-GEN] No se encontraron OTs previas para: {prefijo}")
+                new_number = "0001"
+
+            final_ot = f"{prefijo}{new_number}"
+            _logger.info(f"[OT-GEN] OT final generada: {final_ot}")
+            vals['ot'] = final_ot
+
         return super().create(vals)
+
 
     @api.onchange('regimen')
     def regimen_onchange(self):
@@ -891,6 +914,7 @@ class DocumentoPrevio(models.Model):
     _name = 'despacho.documento_previo'
     _description = 'Documento Previo de Despacho'
 
+    numero_orden = fields.Integer('N° Orden', store=True)
     tipo = fields.Many2one('despacho.tipo_documento_previo', 'Tipo', ondelete='cascade')
     numero = fields.Char('Número')
     archivo = fields.Binary('Archivo', attachment=True)
@@ -898,6 +922,7 @@ class DocumentoPrevio(models.Model):
     vencimiento = fields.Date('Vencimiento')
     despacho = fields.Many2one('despacho.despacho', 'Despacho')
     monto = fields.Float('Monto', compute='_compute_factura_data', store=True)
+    pagado_cliente = fields.Float('Pagado por cliente', store=True)
     pagado_por = fields.Selection([
         ('cliente', 'Cliente'),
         ('agencia', 'Agencia')

@@ -57,7 +57,7 @@ class TipoDocumentoPrevio(models.Model):
         string="Régimen",
         help="Régimen al que aplica este tipo de documento previo"
     )
-    orden = fields.Integer('Orden', default=1000)
+    orden_gabinete = fields.Char('Orden')
 
     def name_get(self):
         return [(rec.id, f"{rec.name} - {rec.description}") if rec.description else (rec.id, rec.name)

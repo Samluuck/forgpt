@@ -18,119 +18,72 @@
         .table {
           margin-bottom: 5px !important;
         }
+        .no-inner-borders * {
+            border: none !important;
+        }
       </style>
 
-    <div class="page" style="position: relative;">
+      <div class="page" style="position: relative;">
 
-      <!-- CABECERA COMPACTA -->
-      <table style="width:100%; margin-bottom:5px; border-collapse:collapse;">
-        <tr>
-          <td style="width:60%;">
-            <t t-if="doc.company_id.logo">
-              <img t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode()" style="height:30px; max-width:120px;"/>
-            </t>
-            <p style="margin:2px 0; font-size:12px;"><strong>Cliente</strong> : <span t-esc="doc.propietario.name"/></p>
-          </td>
-          <td style="text-align:right; font-size:12px;">
-            <div style="display: inline-block; text-align: left;">
-              <div style="white-space: nowrap;">
-                <strong>Asunción,</strong> <t t-esc="doc.fecha_facturacion and doc.fecha_facturacion.strftime('%d de %B de %Y') or ''"/>
+        <!-- CABECERA COMPACTA -->
+        <table style="width:100%; margin-bottom:5px; border-collapse:collapse;">
+          <tr>
+            <td style="width:60%;">
+              <!--<t t-if="doc.company_id.logo">-->
+              <!--  <img t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode()" style="height:30px; max-width:120px;"/>-->
+              <!--</t>-->
+              <p style="margin:2px 0; font-size:12px;"><strong>Cliente</strong> : <span t-esc="doc.propietario.name"/></p>
+            </td>
+            <td style="font-size:12px;">
+              <div style="display: inline-block; text-align: left;">
+                <div style="white-space: nowrap;">
+                  <strong>Asunción,</strong> <t t-esc="doc.fecha_facturacion and doc.fecha_facturacion.strftime('%d de %B de %Y') or ''"/>
+                </div>
+                <div style="white-space: nowrap;">
+                  <strong>Liquidación N°:</strong> <t t-esc="doc.numero_factura"/>
+                </div>
               </div>
-              <div style="white-space: nowrap;">
-                <strong>Liquidación N°:</strong> <t t-esc="doc.numero_factura"/>
-              </div>
-            </div>
+            </td>
+          </tr>
+        </table>
+        
+      <!-- TABLA DE DATOS COMPACTA CON 3 COLUMNAS EN UN SOLO RECUADRO -->
+      <table class="no-inner-borders" style="width:100%; font-size:12px; line-height:1.1; margin-bottom:5px; border: 1px solid #000; border-collapse: collapse;">
+        <tr style="vertical-align: top;">
+          
+          <!-- COLUMNA IZQUIERDA CON FONDO GRIS -->
+          <td style="width:40%; background-color: #f0f0f0; padding: 2px;">
+            <table style="width:100%; border: 0; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0">
+              <tr><td style="border: 0;">Despacho N°:</td><td style="border: 0;"><t t-esc="doc.ot"/></td></tr>
+              <tr><td style="border: 0;">Manifiesto N°:</td><td style="border: 0;"><t t-esc="doc.manifiesto or ''"/></td></tr>
+              <tr><td style="border: 0;">Aduana / Depósito:</td><td style="border: 0;"><t t-esc="doc.aduana.name or ''"/></td></tr>
+              <tr><td style="border: 0;">Factura Comercial:</td><td style="border: 0;"><t t-esc="doc.numero_factura or ''"/></td></tr>
+              <tr><td style="border: 0;">Cantidad Bultos:</td><td style="border: 0;"><t t-esc="doc.cantidad or ''"/></td></tr>
+              <tr><td style="border: 0;">Mercadería:</td><td style="border: 0;"><t t-esc="doc.mercaderias_model.name or ''"/></td></tr>
+              <tr><td style="border: 0;">Peso Neto:</td><td style="border: 0;"><t t-esc="doc.peso_neto"/></td></tr>
+              <tr><td style="border: 0;">Peso Bruto:</td><td style="border: 0;"><t t-esc="doc.peso_bruto"/></td></tr>
+            </table>
           </td>
-        </tr>
-      </table>
       
-      <!-- TABLA DE DATOS COMPACTA CON 3 COLUMNAS -->
-      <table style="width:100%; font-size:12px; line-height:1.1; margin-bottom:5px; border-collapse: collapse;">
-        <tr>
-          <!-- COLUMNA IZQUIERDA -->
-          <td style="width:33%; vertical-align: top;">
-            <table style="width:100%;">
-              <tr>
-                <td>Despacho N°:</td>
-                <td><t t-esc="doc.ot"/></td>
-              </tr>
-              <tr>
-                <td>Manifiesto N°:</td>
-                <td><t t-esc="doc.manifiesto or ''"/></td>
-              </tr>
-              <tr>
-                <td>Aduana / Depósito:</td>
-                <td><t t-esc="doc.aduana.name or ''"/></td>
-              </tr>
-              <tr>
-                <td>Factura Comercial:</td>
-                <td><t t-esc="doc.numero_factura or ''"/></td>
-              </tr>
-              <tr>
-                <td>Cantidad Bultos:</td>
-                <td><t t-esc="doc.cantidad or ''"/></td>
-              </tr>
-              <tr>
-                <td>Mercadería:</td>
-                <td><t t-esc="doc.mercaderias_model.name or ''"/></td>
-              </tr>
-              <tr>
-                <td>Peso Neto:</td>
-                <td><t t-esc="doc.peso_neto"/></td>
-              </tr>
-              <tr>
-                <td>Peso Bruto:</td>
-                <td><t t-esc="doc.peso_bruto"/></td>
-              </tr>
-            </table>
-          </td>
-          
           <!-- COLUMNA CENTRAL -->
-          <td style="width:34%; text-align: center; vertical-align: middle;">
-            <table style="width:100%;">
-              <tr>
-                <td colspan="2">T/C: <t t-esc="doc.tc"/></td>
-              </tr>
-            </table>
+          <td style="width:20%; text-align: center; vertical-align: middle; padding: 2px;">
+            <div style="font-weight: bold;">T/C: <t t-esc="doc.tc"/></div>
           </td>
-          
+      
           <!-- COLUMNA DERECHA -->
-          <td style="width:33%; vertical-align: top;">
-            <table style="width:100%;">
-              <tr>
-                <td>R.U.C. N°:</td>
-                <td><t t-esc="doc.company_id.vat or ''"/></td>
-              </tr>
-              <tr>
-                <td>Transportadora:</td>
-                <td><t t-esc="doc.transportista.name or ''"/></td>
-              </tr>
-              <tr>
-                <td>CRT / BL / AWB:</td>
-                <td><t t-esc="doc.crt or ''"/></td>
-              </tr>
-              <tr>
-                <td>País de Origen:</td>
-                <td><t t-esc="doc.pais_origen or ''"/></td>
-              </tr>
-              <tr>
-                <td>Proveedor:</td>
-                <td><t t-esc="doc.proveedor or ''"/></td>
-              </tr>
-              <tr>
-                <td>Partida Arancelaria:</td>
-                <td><t t-esc="doc.partida_arancelaria or ''"/></td>
-              </tr>
-              <tr>
-                <td>Valor Imponible Gs.:</td>
-                <td><t t-esc="'{:,.0f}'.format(doc.cif_guaranies).replace(',', '.')"/></td>
-              </tr>
-              <tr>
-                <td>Imponible USD:</td>
-                <td><t t-esc="doc.imponible_usd"/></td>
-              </tr>
+          <td style="width:40%; padding: 2px;">
+            <table style="width:100%; border: 0; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0">
+              <tr><td style="border: 0;">R.U.C. N°:</td><td style="border: 0;"><t t-esc="doc.company_id.vat or ''"/></td></tr>
+              <tr><td style="border: 0;">Transportadora:</td><td style="border: 0;"><t t-esc="doc.transportista.name or ''"/></td></tr>
+              <tr><td style="border: 0;">CRT / BL / AWB:</td><td style="border: 0;"><t t-esc="doc.crt or ''"/></td></tr>
+              <tr><td style="border: 0;">País de Origen:</td><td style="border: 0;"><t t-esc="doc.pais_origen or ''"/></td></tr>
+              <tr><td style="border: 0;">Proveedor:</td><td style="border: 0;"><t t-esc="doc.proveedor.name or ''"/></td></tr>
+              <tr><td style="border: 0;">Partida Arancelaria:</td><td style="border: 0;"><t t-esc="doc.partida_arancelaria or ''"/></td></tr>
+              <tr><td style="border: 0;">Valor Imponible Gs.:</td><td style="border: 0;"><t t-esc="'{:,.0f}'.format(doc.cif_guaranies).replace(',', '.')"/></td></tr>
+              <tr><td style="border: 0;">Imponible USD:</td><td style="border: 0;"><t t-esc="doc.imponible_usd"/></td></tr>
             </table>
           </td>
+      
         </tr>
       </table>
       <!-- DETALLE DE LIQUIDACIÓN -->
@@ -159,7 +112,32 @@
             </tr>
 
             <!-- SECCIÓN B -->
-            <tr><td>B.1</td><td>Canon Informático</td><td></td><td></td><td></td></tr>
+            <!--- CALCULOS SECCION B-->
+            <t t-set="canon_gab" t-value="doc.documentos_sin_monto.filtered(lambda l: l.tipo.name and l.tipo.name.upper().strip() == 'CANON INFORMATICO')"/>
+            <t t-set="canon_dat" t-value="doc.documentos.filtered(lambda l: l.tipo.name and l.tipo.name.upper().strip() == 'CANON INFORMATICO')"/>
+            <t t-set="canon_ofi" t-value="doc.documentos_oficializacion.filtered(lambda l: l.tipo.name and l.tipo.name.upper().strip() == 'CANON INFORMATICO')"/>
+
+            <t t-set="canon_total_gab" t-value="sum(l.monto for l in canon_gab)"/>
+            <t t-set="canon_total_dat" t-value="sum(l.monto for l in canon_dat)"/>
+            <t t-set="canon_total_ofi" t-value="sum(l.monto for l in canon_ofi)"/>
+
+            <t t-set="canon_total" t-value="canon_total_gab + canon_total_dat + canon_total_ofi"/>
+
+            <t t-set="canon_doc" t-value="(canon_gab or canon_dat or canon_ofi)[:1]"/>
+            <t t-set="canon_numero" t-value="canon_doc[0].numero if canon_doc else ''"/>
+            <!-- FIN DE CALCULOS SECCION B -->
+            <tr>
+              <td>B.1</td>
+              <td>Canon Informático</td>
+              <td><t t-esc="canon_numero"/></td>
+              <td class="text-end">
+                <t t-esc="'{:,.0f}'.format(canon_total).replace(',', '.') if canon_total else ''"/>
+              </td>
+              <td class="text-end">
+                <t t-esc="''"/>
+              </td>
+            </tr>
+
             <tr><td>B.2</td><td>Servicios Portuarios DINAC</td><td></td><td></td><td></td></tr>
             <tr><td>B.3</td><td>IVA Portuarios</td><td></td><td></td><td></td></tr>
             <tr><td>B.4</td><td>Comisión CDAP</td><td></td><td></td><td></td></tr>

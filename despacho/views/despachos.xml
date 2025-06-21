@@ -67,7 +67,7 @@
                     <field name="fecha"/>
                     <field name="vencimiento"/>
                     <field name="monto"/>
-                    <field name="pagado_por"/>
+                    <!-- <field name="pagado_por"/> -->
                     <field name="op"/>
                     <field name="hr_expense"/>
                     <field name="despacho"/>
@@ -91,7 +91,7 @@
                     <field name="numero"/>
                     <!-- <field name="archivo"/> -->
                     <field name="monto"/>
-                    <field name="pagado_por"/>
+                    <!-- <field name="pagado_por"/> -->
                     <field name="op"/>
                     <field name="hr_expense"/>
                     <field name="despacho"/>
@@ -119,7 +119,6 @@
                     <field name="fecha"/>
                     <field name="despacho"/>
                     <field name="imputar"/>
-
                     <field name="create_uid" string="Creado Por"/>
                     <field name="create_date" string="Fecha de creación"/>
                     <field name="write_uid" string="Actualizado Por"/>
@@ -337,7 +336,7 @@
                                 <group col="3">
                                     <field name="manifiesto"/>
                                     <field name="barcaza_model"/>
-                                    <!-- <field name="recepciones_datos_id"/> -->
+                                    <field name="recepciones_datos_id"/>
                                     <field name="desconsolidacion" invisible="1"/>
                                      <!-- <button name="action_crear_recepcion_datos"
                                         type="object"
@@ -357,6 +356,7 @@
                                     <separator string=" " colspan="4"/>
                                     <field name="documentos_sin_monto">
                                         <tree editable="bottom">
+                                            <field name="numero_orden"/>
                                             <field name="tipo" options="{'no_create_edit': False, 'no_create': False}"/>
                                             <field name="factura_proveedor_id"/>
                                             <field name="numero"/>
@@ -364,6 +364,7 @@
                                             <field name="fecha"/>
                                             <field name="vencimiento"/>
                                             <field name="monto" readonly="0"/>
+                                            <field name="pagado_cliente"/>
                                             <field name="imputar"/>
                                             <button name="action_crear_factura_proveedor"
                                                         string="Crear Factura"
@@ -391,7 +392,7 @@
                                     </field>
                                     <field name="total_gabinete"/>
                                     <field name="total_gabi_imputar"/>
-                                    <!-- <field name="recepciones_gabi_id" colspan="1"/> -->
+                                    <field name="recepciones_gabi_id" colspan="1"/>
                                     <!-- <button name="action_crear_recepcion_gabi"
                                         type="object"
                                         string="Crear Recepción"
@@ -446,7 +447,7 @@
                                     </field>
                                     <field name="total_oficializacion"/>
                                     <field name="total_ofi_imputar"/>
-                                    <!-- <field name="recepciones_ofi_id" colspan="1"/> -->
+                                    <field name="recepciones_ofi_id" colspan="1"/>
                                     <!-- <button name="action_crear_recepcion_ofi"
                                         type="object"
                                         string="Crear Recepción"

@@ -295,7 +295,7 @@
             <field name="model">despacho.tipo_documento_previo</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="orden"/>
+                    <field name="orden_gabinete"/>
                     <field name="name"/>
                     <field name="description"/>
                     <field name="regimen"/>
@@ -313,7 +313,7 @@
                             <field name="name"/>
                             <field name="description"/>
                             <field name="regimen" widget="many2many_tags"/>
-                            <field name="orden"/>
+                            <field name="orden_gabinete"/>
                         </group>
                     </sheet>
                 </form>
