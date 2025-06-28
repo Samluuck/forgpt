@@ -1,0 +1,15 @@
+<odoo>
+    <record id="product_product_form_inherit_qty_per_use" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.qty.per.use</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='standard_price_uom']" position="before">
+                <label for="qty_per_use" string="Cantidad/Vec. Uso"/>
+                <div class="o_row">
+                    <field name="qty_per_use" class="oe_inline"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

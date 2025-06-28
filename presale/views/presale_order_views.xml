@@ -70,29 +70,24 @@
                                             <group string="">
                                                 <field name="name"/>
                                             </group>
-                                            <!-- Check que se ocultan cuando otro está seleccionado -->
-                                            <group string="Seleccione una categoría">
-                                                <field name="is_equipo" widget="boolean_toggle" 
-                                                    invisible="is_insumo or is_maquina or is_epi_epc or is_turno or is_otro"/>
-                                                <field name="is_insumo" widget="boolean_toggle" 
-                                                    invisible="is_equipo or is_maquina or is_epi_epc or is_turno or is_otro"/>
-                                                <field name="is_maquina" widget="boolean_toggle" 
-                                                    invisible="is_equipo or is_insumo or is_epi_epc or is_turno or is_otro"/>
-                                                <field name="is_epi_epc" widget="boolean_toggle" 
-                                                    invisible="is_equipo or is_insumo or is_maquina or is_turno or is_otro"/>
-                                                <field name="is_turno" widget="boolean_toggle" 
-                                                    invisible="is_equipo or is_insumo or is_maquina or is_epi_epc or is_otro"/>
-                                                <field name="is_otro" widget="boolean_toggle" 
-                                                    invisible="is_equipo or is_insumo or is_maquina or is_epi_epc or is_turno"/>
+
+                                            <group string="Seleccione una categoría" invisible="is_insumo or is_maquina or is_epi_epc or is_turno or is_otro or is_equipo">
+                                                <field name="is_equipo" widget="boolean_toggle"/>
+                                                <field name="is_insumo" widget="boolean_toggle"/>
+                                                <field name="is_maquina" widget="boolean_toggle"/>
+                                                <field name="is_epi_epc" widget="boolean_toggle"/>
+                                                <field name="is_turno" widget="boolean_toggle"/>
+                                                <field name="is_otro" widget="boolean_toggle"/>
                                             </group>
                                             
                                             <!-- Campos de producto - visibles solo cuando show_product_fields es True -->
                                             <group string="Detalles del Producto" invisible="not show_product_fields">
                                                 <field name="show_product_fields" invisible="1"/>
+                                                <field name="jornada" invisible="not is_turno"/>
                                                 <!-- <field name="product_id" invisible="not show_product_fields"/> -->
-                                                <field name="qty" invisible="not show_product_fields"/>
+                                                <field name="qty" invisible="not show_product_fields and not is_turno"/>
                                                 <field name="unit_price" invisible="not show_product_fields"/>
-                                                <field name="subtotal" invisible="not show_product_fields"/>
+                                                <field name="subtotal" invisible="not show_product_fields and is_turno"/>
                                             </group>
                                             
                                             <!-- Campos de relación - visibles solo cuando show_details_fields es True -->
@@ -100,14 +95,50 @@
                                                 <field name="show_details_fields" invisible="1"/>
                                                 <field name="presale_order_id" invisible="1"/>
                                             </group>
+                                            <!-- En presale/views/presale_order_views.xml -->
                                             <field name="item_detail_ids" invisible="not show_details_fields">
-                                                <tree>
+                                                <tree string="Detalles">
+                                                    <!-- Campos comunes -->
                                                     <field name="name"/>
                                                     <field name="product_id"/>
-                                                    <field name="qty"/>
-                                                    <field name="unit_price"/>
-                                                    <field name="total"/>
+                                                    <field name="qty" string="Cantidad/Vec. Uso"/>
+                                                    <field name="unit_price" string="Precio"/>
+                                                    <field name="total" string="Precio por Uso"/>
+                                                    
+                                                    <!-- Campo de control (oculto) -->
+                                                    <field name="show_turno_fields" invisible="1"/>
+                                                    
+                                                    <!-- Campos específicos para Turnos -->
+                                                    <field name="operarios" invisible="not show_turno_fields"/>
+                                                    <field name="diurnas_semanales" invisible="not show_turno_fields"/>
+                                                    <field name="horas" invisible="not show_turno_fields"/>
+                                                    <field name="total_turno" invisible="not show_turno_fields"/>
                                                 </tree>
+                                                
+                                                <form>
+                                                    <group>
+                                                        <!-- Campo de control (oculto) -->
+                                                        <field name="show_turno_fields" invisible="1"/>
+                                                        
+                                                        <group>
+                                                            <field name="name" string="Nombre del detalle"/>
+                                                            <field name="product_id" string="Producto"/>
+                                                        </group>
+                                                        <!-- Sección común -->
+                                                        <group>
+                                                            <field name="unit_price" string="Precio"/>
+                                                            <field name="qty" string="Cantidad/Vec. Uso"/>
+                                                            <field name="total" string="Precio por Uso"/>
+                                                        </group>
+                                                        <!-- Sección específica para Turnos -->
+                                                        <group>
+                                                            <field name="operarios" invisible="not show_turno_fields"/>
+                                                            <field name="diurnas_semanales" invisible="not show_turno_fields"/>
+                                                            <field name="horas" invisible="not show_turno_fields"/>
+                                                            <field name="total_turno" readonly="1" invisible="not show_turno_fields"/>
+                                                        </group>
+                                                    </group>
+                                                </form>
                                             </field>
                                         </group>
                                     </sheet>
@@ -125,7 +156,7 @@
             </form>
         </field>
     </record>
-     <record id="view_presale_update_wizard_form" model="ir.ui.view">
+    <record id="view_presale_update_wizard_form" model="ir.ui.view">
       <field name="name">presale.update.wizard.form</field>
       <field name="model">presale.update.wizard</field>
       <field name="arch" type="xml">

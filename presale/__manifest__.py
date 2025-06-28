@@ -13,9 +13,10 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
+        'views/product_product_views.xml',
         'views/crm_lead_view.xml',
-        'views/presale_menu.xml',
         'views/presale_order_views.xml',
+        'views/presale_menu.xml',
         'views/sale_order_views.xml',
     ],
     'installable': True,
