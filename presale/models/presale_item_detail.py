@@ -15,9 +15,14 @@ class PresaleOrderItemDetail(models.Model):
     
     # Campos específicos para categoria Turnos
     operarios = fields.Integer(string="N° Operarios", help="Número de operarios para el turno")
-    diurnas_semanales = fields.Integer(string="Diurnas Semanales", help="Número de diurnas semanales")
+    diurnos_operarios = fields.Integer(string="N° Operarios Dirunos")
+    nocturnos_operarios = fields.Integer(string="N° Operarios Nocturnos")
+    diurnas_semanales = fields.Float(string="Diurnas Semanales", help="Número de diurnas semanales")
+    nocturnos_semanales = fields.Float(string="Nocturnos Semanales", help="Número de nocturnos semanales")
     horas = fields.Float(string="Horas por Turno", help="Horas totales del turno")
     total_turno = fields.Float(string="Total Turno", compute="_compute_total_turno", store=True)
+    desde = fields.Float(String="Desde", store=True)
+    hasta = fields.Float(String="Hasta", store=True)
     
     #----------------------------------------------------------#  
     show_turno_fields = fields.Boolean(

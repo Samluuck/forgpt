@@ -3,9 +3,8 @@ from odoo import models, fields, api
 class PresaleOrderItem(models.Model):
     _name = 'presale.order.item'
     _description = 'Presale Order Item'
-    
-    
-    name = fields.Char(string="Nombre del Ítem", compute="_compute_name", store=True)
+        
+    name = fields.Char(string="Nombre del Ítem", store=True)
     presale_order_id = fields.Many2one('presale.order', string="Presale Order", ondelete="cascade")
     product_id = fields.Many2one('product.product', string="Producto")
     qty = fields.Float(string="Cant (Hrs/Personas)", default=0.0)
@@ -20,32 +19,18 @@ class PresaleOrderItem(models.Model):
     is_epi_epc = fields.Boolean(string="EPI / EPC")
     is_turno = fields.Boolean(string="Turnos")
     is_otro = fields.Boolean(string="Otros")
-    
-    # Jornada para el check de turno
-    jornada = fields.Selection(
-        selection=[
-            ('diurno', 'Mano de obra diurna'),
-            ('nocturno', 'Mano de obra nocturna'),
-        ],
-        string="Jornada",
-    )
 
     # Añade force_save=True a los campos computados que se usan en la vista
     show_product_fields = fields.Boolean(compute='_compute_show_fields', store=False, force_save=True)
     show_details_fields = fields.Boolean(compute='_compute_show_fields', store=False, force_save=True)
     selected_category = fields.Char(compute='_compute_selected_category', store=False, force_save=True)
 
-    # Asigna valor al campo name de acuerdo al check marcado
-    @api.depends('is_equipo', 'is_insumo', 'is_maquina', 'is_epi_epc', 'is_turno', 'is_otro', 'jornada')
+    # Asigna valor al campo name de acuerdo al check marcado (ahora mismo es deshabilitado)
+    @api.depends('is_equipo', 'is_insumo', 'is_maquina', 'is_epi_epc', 'is_turno', 'is_otro')
     def _compute_name(self):
         for record in self:
             if record.is_turno:
-                if record.jornada == 'diurno':
-                    record.name = "Mano de obra diurna"
-                elif record.jornada == 'nocturno':
-                    record.name = "Mano de obra nocturna"
-                else:
-                    record.name = False
+                record.name = "Turno"
             elif record.is_equipo:
                 record.name = "Equipos"
             elif record.is_insumo:

@@ -17,7 +17,7 @@
 
                     <div class="oe_title">
                         <h2>
-                            <field name="name"/>
+                            <field name="name"></field>
                         </h2>
                     </div>
 
@@ -83,7 +83,6 @@
                                             <!-- Campos de producto - visibles solo cuando show_product_fields es True -->
                                             <group string="Detalles del Producto" invisible="not show_product_fields">
                                                 <field name="show_product_fields" invisible="1"/>
-                                                <field name="jornada" invisible="not is_turno"/>
                                                 <!-- <field name="product_id" invisible="not show_product_fields"/> -->
                                                 <field name="qty" invisible="not show_product_fields and not is_turno"/>
                                                 <field name="unit_price" invisible="not show_product_fields"/>
@@ -95,51 +94,181 @@
                                                 <field name="show_details_fields" invisible="1"/>
                                                 <field name="presale_order_id" invisible="1"/>
                                             </group>
-                                            <!-- En presale/views/presale_order_views.xml -->
-                                            <field name="item_detail_ids" invisible="not show_details_fields">
-                                                <tree string="Detalles">
-                                                    <!-- Campos comunes -->
-                                                    <field name="name"/>
-                                                    <field name="product_id"/>
-                                                    <field name="qty" string="Cantidad/Vec. Uso"/>
-                                                    <field name="unit_price" string="Precio"/>
-                                                    <field name="total" string="Precio por Uso"/>
-                                                    
-                                                    <!-- Campo de control (oculto) -->
-                                                    <field name="show_turno_fields" invisible="1"/>
-                                                    
-                                                    <!-- Campos específicos para Turnos -->
-                                                    <field name="operarios" invisible="not show_turno_fields"/>
-                                                    <field name="diurnas_semanales" invisible="not show_turno_fields"/>
-                                                    <field name="horas" invisible="not show_turno_fields"/>
-                                                    <field name="total_turno" invisible="not show_turno_fields"/>
-                                                </tree>
-                                                
-                                                <form>
-                                                    <group>
-                                                        <!-- Campo de control (oculto) -->
-                                                        <field name="show_turno_fields" invisible="1"/>
-                                                        
-                                                        <group>
+                                            <notebook>
+                                                <!-- Página para Equipos -->
+                                                <page string="Equipos" invisible = "not is_equipo">
+                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                        <tree string="Detalles (Equipos)">
                                                             <field name="name" string="Nombre del detalle"/>
-                                                            <field name="product_id" string="Producto"/>
-                                                        </group>
-                                                        <!-- Sección común -->
-                                                        <group>
+                                                            <field name="product_id"/>
+                                                            <field name="qty" string="Cantidad"/>
                                                             <field name="unit_price" string="Precio"/>
-                                                            <field name="qty" string="Cantidad/Vec. Uso"/>
-                                                            <field name="total" string="Precio por Uso"/>
-                                                        </group>
-                                                        <!-- Sección específica para Turnos -->
-                                                        <group>
-                                                            <field name="operarios" invisible="not show_turno_fields"/>
-                                                            <field name="diurnas_semanales" invisible="not show_turno_fields"/>
-                                                            <field name="horas" invisible="not show_turno_fields"/>
-                                                            <field name="total_turno" readonly="1" invisible="not show_turno_fields"/>
-                                                        </group>
-                                                    </group>
-                                                </form>
-                                            </field>
+                                                            <field name="total" string="Subtotal"/>
+                                                        </tree>
+                                                        <form>
+                                                            <group>
+                                                                <group>
+                                                                    <field name="name" string="Nombre del detalle"/>
+                                                                    <field name="product_id" string="Producto"/>
+                                                                </group>
+                                                                <group>
+                                                                    <field name="qty" string="Cantidad"/>
+                                                                    <field name="unit_price" string="Precio"/>
+                                                                    <field name="total" string="Subtotal" readonly="1"/>
+                                                                </group>
+                                                            </group>
+                                                        </form>
+                                                    </field>
+                                                </page>
+
+                                                <!-- Página para Maquinas -->
+                                                <page string="Maquinas" invisible = "not is_maquina">
+                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                        <tree string="Detalles (Maquinas)">
+                                                            <field name="name"/>
+                                                            <field name="product_id"/>
+                                                            <field name="qty" string="Cantidad"/>
+                                                            <field name="unit_price" string="Precio"/>
+                                                            <field name="total" string="Subtotal"/>
+                                                        </tree>
+                                                        <form>
+                                                            <group>
+                                                                <group>
+                                                                    <field name="name" string="Nombre del detalle"/>
+                                                                    <field name="product_id" string="Producto"/>
+                                                                </group>
+                                                                <group>
+                                                                    <field name="qty" string="Cantidad"/>
+                                                                    <field name="unit_price" string="Precio"/>
+                                                                    <field name="total" string="Subtotal" readonly="1"/>
+                                                                </group>
+                                                            </group>
+                                                        </form>
+                                                    </field>
+                                                </page>
+
+                                                <!-- Página para Insumos -->
+                                                <page string="Insumos" invisible = "not is_insumo">
+                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                        <tree string="Detalles (Insumos)">
+                                                            <field name="name"/>
+                                                            <field name="product_id"/>
+                                                            <field name="qty" string="Cantidad"/>
+                                                            <field name="unit_price" string="Precio"/>
+                                                            <field name="total" string="Subtotal"/>
+                                                        </tree>
+                                                        <form>
+                                                            <group>
+                                                                <group>
+                                                                    <field name="name" string="Nombre del detalle"/>
+                                                                    <field name="product_id" string="Producto"/>
+                                                                </group>
+                                                                <group>
+                                                                    <field name="qty" string="Cantidad"/>
+                                                                    <field name="unit_price" string="Precio"/>
+                                                                    <field name="total" string="Subtotal" readonly="1"/>
+                                                                </group>
+                                                            </group>
+                                                        </form>
+                                                    </field>
+                                                </page>
+
+                                                <!-- Página para Turnos -->
+                                                <page string="Turnos" invisible = "not is_turno">
+                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                        <tree string="Detalles (Turnos)">
+                                                            <field name="name"/>
+                                                            <field name="product_id"/>
+                                                            <field name="operarios" string="N° Operarios"/>
+                                                            <field name="diurnos_operarios"/>
+                                                            <field name="nocturnos_operarios"/>
+                                                            <field name="diurnas_semanales"/>
+                                                            <field name="nocturnos_semanales"/>
+                                                            <field name="horas" string="Horas por Turno"/>
+                                                            <field name="total_turno" string="Total Turno"/>
+                                                        </tree>
+                                                        <form>
+                                                            <group>
+                                                                <group>
+                                                                    <field name="name" string="Nombre"/>
+                                                                    <field name="product_id" string="Producto"/>
+                                                                    <field name="desde"/>
+                                                                    <field name="hasta"/>
+                                                                </group>
+                                                                <group>
+                                                                    <field name="operarios" string="N° Operarios"/>
+                                                                    <field name="horas" string="Horas por Turno"/>
+                                                                    <field name="total_turno" string="Total Turno" readonly="1"/>
+                                                                </group>
+                                                                <!-- CALCULOS DIURNOS -->
+                                                                <group>
+                                                                    <field name="diurnas_semanales"/>
+                                                                    <field name="horas" string="Horas por Turno"/>
+                                                                    <field name="total_turno" string="Total Turno" readonly="1"/>
+                                                                </group>
+                                                                <group>
+                                                                <!-- CALCULOS NOCTURNOS -->
+                                                                    <field name="nocturnos_semanales"/>
+                                                                    <field name="horas" string="Horas por Turno"/>
+                                                                    <field name="total_turno" string="Total Turno" readonly="1"/>
+                                                                </group>
+                                                            </group>
+                                                        </form>
+                                                    </field>
+                                                </page>
+
+                                                <!-- Página para EPI/EPC -->
+                                                <page string="EPI/EPC" invisible = "not is_epi_epc">
+                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                        <tree string="Detalles (EPI/EPC)">
+                                                            <field name="name"/>
+                                                            <field name="product_id"/>
+                                                            <field name="qty" string="Cantidad"/>
+                                                            <field name="unit_price" string="Precio"/>
+                                                            <field name="total" string="Subtotal"/>
+                                                        </tree>
+                                                        <form>
+                                                            <group>
+                                                                <group>
+                                                                    <field name="name" string="Nombre del detalle"/>
+                                                                    <field name="product_id" string="Producto"/>
+                                                                </group>
+                                                                <group>
+                                                                    <field name="qty" string="Cantidad"/>
+                                                                    <field name="unit_price" string="Precio"/>
+                                                                    <field name="total" string="Subtotal" readonly="1"/>
+                                                                </group>
+                                                            </group>
+                                                        </form>
+                                                    </field>
+                                                </page>
+
+                                                <!-- Página para Otros -->
+                                                <page string="Otros" invisible = "not is_otro">
+                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                        <tree string="Detalles (Otros)">
+                                                            <field name="name"/>
+                                                            <field name="product_id"/>
+                                                            <field name="qty" string="Cantidad"/>
+                                                            <field name="unit_price" string="Precio"/>
+                                                            <field name="total" string="Subtotal"/>
+                                                        </tree>
+                                                        <form>
+                                                            <group>
+                                                                <group>
+                                                                    <field name="name" string="Nombre del detalle"/>
+                                                                    <field name="product_id" string="Producto"/>
+                                                                </group>
+                                                                <group>
+                                                                    <field name="qty" string="Cantidad"/>
+                                                                    <field name="unit_price" string="Precio"/>
+                                                                    <field name="total" string="Subtotal" readonly="1"/>
+                                                                </group>
+                                                            </group>
+                                                        </form>
+                                                    </field>
+                                                </page>
+                                            </notebook>
                                         </group>
                                     </sheet>
                                 </form>
