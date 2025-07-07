@@ -4,3 +4,15 @@ access_presale_order_item_user,presale.order.item user,model_presale_order_item,
 access_presale_order_item_detail_user,presale.order.item.detail user,model_presale_order_item_detail,base.group_user,1,1,1,1
 access_presale_update_wizard_user,presale.update.wizard user,model_presale_update_wizard,base.group_user,1,1,1,1
 access_equipo_venta_user,equipo.venta user,model_equipo_venta,base.group_user,1,1,1,1
+access_presale_order_manager,presale.order manager,model_presale_order,sales_team.group_sale_manager,1,1,1,1
+access_presale_order_salesman,presale.order salesman,model_presale_order,sales_team.group_sale_salesman,1,1,1,0
+access_presale_order_item_manager,presale.order.item manager,model_presale_order_item,sales_team.group_sale_manager,1,1,1,1
+access_presale_order_item_salesman,presale.order.item salesman,model_presale_order_item,sales_team.group_sale_salesman,1,1,1,0
+access_presale_order_item_detail_manager,presale.order.item.detail manager,model_presale_order_item_detail,sales_team.group_sale_manager,1,1,1,1
+access_presale_order_item_detail_salesman,presale.order.item.detail salesman,model_presale_order_item_detail,sales_team.group_sale_salesman,1,1,1,0
+access_presale_item_template_confirm_wizard_user,presale.item.template.confirm.wizard.user,model_presale_item_template_confirm_wizard,base.group_user,1,1,1,1
+access_presale_item_template_save_wizard_user,presale.item.template.save.wizard.user,model_presale_item_template_save_wizard,base.group_user,1,1,1,1
+access_presale_item_from_template_wizard_user,presale.item.from.template.wizard.user,model_presale_item_from_template_wizard,base.group_user,1,1,1,1
+access_presale_item_template_confirm_wizard_manager,presale.item.template.confirm.wizard.manager,model_presale_item_template_confirm_wizard,base.group_system,1,1,1,1
+access_presale_item_template_save_wizard_manager,presale.item.template.save.wizard.manager,model_presale_item_template_save_wizard,base.group_system,1,1,1,1
+access_presale_item_from_template_wizard_manager,presale.item.from.template.wizard.manager,model_presale_item_from_template_wizard,base.group_system,1,1,1,1

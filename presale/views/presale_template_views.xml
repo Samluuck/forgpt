@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================= -->
+    <!-- VISTAS DE PLANTILLAS (SOLO HEREDADAS) -->
+    <!-- ========================================= -->
+    
+    <!-- Vista de formulario de ítem con campos de plantilla -->
+    <record id="presale_order_item_form_view_template" model="ir.ui.view">
+        <field name="name">presale.order.item.form.template</field>
+        <field name="model">presale.order.item</field>
+        <field name="inherit_id" ref="presale_order_item_form_view"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <!-- Botón para asignar plantilla a la línea de pedido -->
+                <button name="select_item_template"
+                        string="Asignar Plantilla"
+                        type="object"
+                        class="btn btn-success"
+                        icon="fa-plus"/>
+
+                <button name="action_save_as_item_template" 
+                        type="object" 
+                        string="Guardar como Plantilla" 
+                        class="btn btn-warning" 
+                        icon="fa-save"
+                        invisible="create_item_template"/>
+            </header>
+
+            <!-- Agregar campos de plantilla después del nombre -->
+            <field name="name" position="after">
+                <field name="create_item_template" widget="boolean_toggle"/>
+                <field name="template_name" invisible="not create_item_template"/>
+                <field name="item_template_ids" 
+                       invisible="create_item_template"
+                       options="{'no_create': True, 'no_edit': True}"/>
+                <field name="is_template" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Vista de lista para plantillas de ítems -->
+    <record id="presale_item_template_tree_view" model="ir.ui.view">
+        <field name="name">presale.item.template.tree</field>
+        <field name="model">presale.order.item</field>
+        <field name="arch" type="xml">
+            <tree string="Plantillas de Ítems" 
+                  decoration-info="create_item_template"
+                  default_order="template_name">
+                <field name="template_name"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="qty"/>
+                <field name="unit_price"/>
+                <field name="create_date"/>
+                <field name="create_uid"/>
+                <field name="create_item_template" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para plantillas de ítems -->
+    <record id="presale_item_template_form_view" model="ir.ui.view">
+        <field name="name">presale.item.template.form</field>
+        <field name="model">presale.order.item</field>
+        <field name="arch" type="xml">
+            <form string="Plantilla de Ítem" create="false">
+                <header>
+                    <button name="action_apply_item_template" 
+                            type="object" 
+                            string="Aplicar a Nuevo Ítem" 
+                            class="btn btn-primary" 
+                            icon="fa-copy"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h2>
+                            <field name="template_name" placeholder="Nombre de la Plantilla"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="category" readonly="1"/>
+                            <field name="qty" readonly="1"/>
+                            <field name="unit_price" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="create_date" readonly="1"/>
+                            <field name="create_uid" readonly="1"/>
+                            <field name="create_item_template" invisible="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Detalles de la Plantilla">
+                            <field name="item_detail_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                    <field name="unit_price"/>
+                                    <field name="total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Kanban para plantillas -->
+    <record id="presale_item_template_kanban_view" model="ir.ui.view">
+        <field name="name">presale.item.template.kanban</field>
+        <field name="model">presale.order.item</field>
+        <field name="arch" type="xml">
+            <kanban string="Plantillas de Ítems" 
+                    default_group_by="category"
+                    class="o_kanban_small_column">
+                <field name="template_name"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="create_item_template"/>
+                <field name="qty"/>
+                <field name="unit_price"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary">
+                                        <strong><field name="template_name"/></strong>
+                                    </div>
+                                    <div class="text-muted">
+                                        <field name="name"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <small>Cantidad:</small><br/>
+                                        <strong><field name="qty"/></strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <small>Precio:</small><br/>
+                                        <strong><field name="unit_price" widget="monetary"/></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_card_footer">
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span class="badge badge-info" 
+                                              invisible="not create_item_template">
+                                            Plantilla
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ========================================= -->
+    <!-- WIZARDS -->
+    <!-- ========================================= -->
+
+    <!-- Vista del wizard de confirmación para ítems -->
+    <record id="presale_item_template_confirm_wizard_form" model="ir.ui.view">
+        <field name="name">presale.item.template.confirm.wizard.form</field>
+        <field name="model">presale.item.template.confirm.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirmar Aplicación de Plantilla de Ítem">
+                <p>
+                    <strong>¿Está seguro que desea aplicar la plantilla al ítem?</strong>
+                </p>
+                
+                <group>
+                    <group>
+                        <field name="template_name" readonly="1"/>
+                        <field name="template_details_count" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="current_details_count" readonly="1"/>
+                        <field name="overwrite_existing"/>
+                    </group>
+                </group>
+                
+                <p invisible="not overwrite_existing">
+                    <span class="text-warning">⚠️ Se eliminarán todos los detalles actuales y se reemplazarán con los de la plantilla.</span>
+                </p>
+                
+                <p invisible="overwrite_existing">
+                    <span class="text-info">ℹ️ Los detalles de la plantilla se agregarán a los existentes.</span>
+                </p>
+                
+                <footer>
+                    <button name="action_confirm_apply" 
+                            type="object" 
+                            string="Confirmar" 
+                            class="btn-primary"/>
+                    <button name="action_cancel" 
+                            type="object" 
+                            string="Cancelar"/>
+                </footer>
+                
+                <field name="item_id" invisible="1"/>
+                <field name="template_id" invisible="1"/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista del wizard para guardar ítem como plantilla -->
+    <record id="presale_item_template_save_wizard_form" model="ir.ui.view">
+        <field name="name">presale.item.template.save.wizard.form</field>
+        <field name="model">presale.item.template.save.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Guardar Ítem como Plantilla">
+                <p>
+                    Configure los detalles de la plantilla de ítem que desea crear.
+                </p>
+                
+                <group>
+                    <field name="template_name"/>
+                    <field name="create_copy"/>
+                    <field name="details_count" readonly="1"/>
+                </group>
+                
+                <field name="template_description" placeholder="Descripción opcional de la plantilla..."/>
+                
+                <p invisible="not create_copy">
+                    <span class="text-info"> Se creará una copia independiente como plantilla.</span>
+                </p>
+                
+                <p invisible="create_copy">
+                    <span class="text-warning"> Este ítem se marcará como plantilla.</span>
+                </p>
+                
+                <footer>
+                    <button name="action_save_template" 
+                            type="object" 
+                            string="Guardar Plantilla" 
+                            class="btn-primary"/>
+                    <button name="action_cancel" 
+                            type="object" 
+                            string="Cancelar"/>
+                </footer>
+                
+                <field name="item_id" invisible="1"/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista del wizard para crear ítem desde plantilla -->
+    <record id="presale_item_from_template_wizard_form" model="ir.ui.view">
+        <field name="name">presale.item.from.template.wizard.form</field>
+        <field name="model">presale.item.from.template.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Crear Ítem desde Plantilla">
+                <p>
+                    Seleccione una plantilla y configure el nuevo ítem.
+                </p>
+                
+                <group>
+                    <field name="template_id" options="{'no_create': True}"/>
+                    <field name="item_name"/>
+                </group>
+                
+                <group string="Información de la Plantilla" invisible="not template_id">
+                    <field name="template_name" readonly="1"/>
+                    <field name="template_category" readonly="1"/>
+                    <field name="template_details_count" readonly="1"/>
+                </group>
+                
+                <footer>
+                    <button name="action_create_item" 
+                            type="object" 
+                            string="Crear Ítem" 
+                            class="btn-primary"/>
+                    <button name="action_cancel" 
+                            type="object" 
+                            string="Cancelar"/>
+                </footer>
+                
+                <field name="presale_order_id" invisible="1"/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ========================================= -->
+    <!-- ACCIONES -->
+    <!-- ========================================= -->
+
+    <!-- Acción principal para plantillas de ítems -->
+    <record id="action_presale_item_templates" model="ir.actions.act_window">
+        <field name="name">Líneas de Pedido</field>
+        <field name="res_model">presale.order.item</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[("create_item_template", "=", True)]</field>
+        <field name="context">{'default_create_item_template': True}</field>
+        <field name="search_view_id" ref="presale_order_item_search_view_template"/>
+    </record>
+
+    <!-- Acción para crear ítem desde plantilla -->
+    <record id="action_create_item_from_template" model="ir.actions.act_window">
+        <field name="name">Crear Ítem desde Plantilla</field>
+        <field name="res_model">presale.item.from.template.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ========================================= -->
+    <!-- MENÚS -->
+    <!-- ========================================= -->
+
+    <!-- Menú para plantillas de ítems -->
+    <!-- <menuitem id="menu_presale_item_templates"
+              name="Plantillas de Ítems"
+              parent="menu_presale_root"
+              action="action_presale_item_templates"
+              sequence="16"/> -->
+
+    <!-- ========================================= -->
+    <!-- FILTROS Y BÚSQUEDAS -->
+    <!-- ========================================= -->
+
+    <!-- Filtros y búsquedas para ítems -->
+    <record id="presale_order_item_search_view_template" model="ir.ui.view">
+        <field name="name">presale.order.item.search.template</field>
+        <field name="model">presale.order.item</field>
+        <field name="inherit_id" ref="presale_order_item_search_view"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <filter name="item_templates" 
+                        string="Plantillas" 
+                        domain="[('create_item_template', '=', True)]"/>
+                <filter name="not_item_templates" 
+                        string="No Plantillas" 
+                        domain="[('create_item_template', '=', False)]"/>
+                
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_by_item_template" 
+                            string="Tipo (Plantilla/Ítem)" 
+                            context="{'group_by': 'create_item_template'}"/>
+                    <filter name="group_by_category" 
+                            string="Categoría" 
+                            context="{'group_by': 'category'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Vista mejorada para la lista de ítems en la preventa -->
+    <record id="presale_order_item_tree_enhanced" model="ir.ui.view">
+        <field name="name">presale.order.item.tree.enhanced</field>
+        <field name="model">presale.order.item</field>
+        <field name="inherit_id" ref="presale_order_item_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="create_item_template" 
+                       string="Es Plantilla" 
+                       widget="boolean_toggle" 
+                       optional="hide"/>
+                <field name="template_name" 
+                       string="Nombre Plantilla" 
+                       optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- ========================================= -->
+    <!-- ACCIONES DE SERVIDOR -->
+    <!-- ========================================= -->
+
+    <!-- Acción de servidor para aplicar plantilla masivamente -->
+    <record id="action_server_apply_template" model="ir.actions.server">
+        <field name="name">Aplicar Plantilla</field>
+        <field name="model_id" ref="model_presale_order_item"/>
+        <field name="binding_model_id" ref="model_presale_order_item"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                if record.item_template_ids:
+                    record._apply_template_details(record.item_template_ids)
+        </field>
+    </record>
+
+</odoo>

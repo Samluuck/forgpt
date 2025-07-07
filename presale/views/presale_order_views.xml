@@ -1,4 +1,26 @@
 <odoo>
+    <!-- Vista de lista  -->
+    <record id="presale_order_tree_view" model="ir.ui.view">
+        <field name="name">presale.order.tree</field>
+        <field name="model">presale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Preventas" decoration-muted="state=='cancelled'" 
+                  decoration-info="state=='confirmed'" decoration-success="state=='approved'">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date_order"/>
+                <field name="user_id"/>
+                <field name="item_count" string="Ítems"/>
+                <field name="total" widget="monetary"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="state" widget="badge" 
+                       decoration-muted="state=='cancelled'"
+                       decoration-info="state=='confirmed'" 
+                       decoration-success="state=='approved'"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="presale_order_form_view_custom" model="ir.ui.view">
         <field name="name">presale.order.form.view.custom</field>
         <field name="model">presale.order</field>
@@ -33,8 +55,6 @@
                             <field name="forma_pago"/>
                             <field name="fecha_vencimiento"/>
                             <field name="margen"/>
-                            <!-- <field name="condiciones_pago"/> -->
-                            <!-- <field name="commercials_ids"/> -->
                             <field name="crear_presupuesto" widget="boolean_toggle"/>
                             <field name="lista_precios"/>
                             <field name="cuenta_analitica"/>
@@ -44,8 +64,6 @@
 
                     <group string="SUBTOTAL" col="2">
                         <field name="subtotal" readonly="1"/>
-                        <!-- <field name="impuestos" readonly="1"/> -->
-                        <!-- <field name="total" readonly="1"/> -->
                     </group>
 
                     <notebook>
@@ -53,7 +71,8 @@
                             <field name="order_item_ids" context="{'default_presale_order_id': active_id}">
                                 <tree string="Líneas del Pedido">
                                     <field name="name"/>
-                                    <!-- <field name="product_id"/> -->
+                                    <!-- Usar category en lugar de campos Boolean -->
+                                    <field name="category"/>
                                     <field name="qty"/>
                                     <field name="unit_price"/>
                                     <field name="subtotal"/>
@@ -71,33 +90,26 @@
                                                 <field name="name"/>
                                             </group>
 
-                                            <group string="Seleccione una categoría" invisible="is_insumo or is_maquina or is_epi_epc or is_turno or is_otro or is_equipo">
-                                                <field name="is_equipo" widget="boolean_toggle"/>
-                                                <field name="is_insumo" widget="boolean_toggle"/>
-                                                <field name="is_maquina" widget="boolean_toggle"/>
-                                                <field name="is_epi_epc" widget="boolean_toggle"/>
-                                                <field name="is_turno" widget="boolean_toggle"/>
-                                                <field name="is_otro" widget="boolean_toggle"/>
+                                            <!-- Usar campo category en lugar de múltiples Boolean -->
+                                            <group string="Seleccione una categoría" invisible="category">
+                                                <field name="category" widget="radio" options="{'horizontal': true}"/>
                                             </group>
                                             
-                                            <!-- Campos de producto - visibles solo cuando show_product_fields es True -->
-                                            <group string="Detalles del Producto" invisible="not show_product_fields">
-                                                <field name="show_product_fields" invisible="1"/>
-                                                <!-- <field name="product_id" invisible="not show_product_fields"/> -->
-                                                <field name="qty" invisible="not show_product_fields and not is_turno"/>
-                                                <field name="unit_price" invisible="not show_product_fields"/>
-                                                <field name="subtotal" invisible="not show_product_fields and is_turno"/>
+                                            <!-- Campos de producto - visibles solo cuando hay categoría -->
+                                            <group string="Detalles del Producto" invisible="not category">
+                                                <field name="qty" invisible="1"/>
+                                                <field name="unit_price" invisible="1"/>
+                                                <field name="subtotal" readonly="1"/>
                                             </group>
                                             
-                                            <!-- Campos de relación - visibles solo cuando show_details_fields es True -->
                                             <group>
-                                                <field name="show_details_fields" invisible="1"/>
                                                 <field name="presale_order_id" invisible="1"/>
                                             </group>
+                                            
                                             <notebook>
-                                                <!-- Página para Equipos -->
-                                                <page string="Equipos" invisible = "not is_equipo">
-                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                <!-- Páginas usando campo category -->
+                                                <page string="Equipos" invisible="category != 'equipo'">
+                                                    <field name="item_detail_ids">
                                                         <tree string="Detalles (Equipos)">
                                                             <field name="name" string="Nombre del detalle"/>
                                                             <field name="product_id"/>
@@ -121,9 +133,8 @@
                                                     </field>
                                                 </page>
 
-                                                <!-- Página para Maquinas -->
-                                                <page string="Maquinas" invisible = "not is_maquina">
-                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                <page string="Maquinas" invisible="category != 'maquina'">
+                                                    <field name="item_detail_ids">
                                                         <tree string="Detalles (Maquinas)">
                                                             <field name="name"/>
                                                             <field name="product_id"/>
@@ -147,9 +158,8 @@
                                                     </field>
                                                 </page>
 
-                                                <!-- Página para Insumos -->
-                                                <page string="Insumos" invisible = "not is_insumo">
-                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                <page string="Insumos" invisible="category != 'insumo'">
+                                                    <field name="item_detail_ids">
                                                         <tree string="Detalles (Insumos)">
                                                             <field name="name"/>
                                                             <field name="product_id"/>
@@ -173,53 +183,62 @@
                                                     </field>
                                                 </page>
 
-                                                <!-- Página para Turnos -->
-                                                <page string="Turnos" invisible = "not is_turno">
-                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                <page string="Turnos" invisible="category != 'turno'">
+                                                    <field name="item_detail_ids">
                                                         <tree string="Detalles (Turnos)">
                                                             <field name="name"/>
-                                                            <field name="product_id"/>
-                                                            <field name="operarios" string="N° Operarios"/>
-                                                            <field name="diurnos_operarios"/>
-                                                            <field name="nocturnos_operarios"/>
-                                                            <field name="diurnas_semanales"/>
-                                                            <field name="nocturnos_semanales"/>
-                                                            <field name="horas" string="Horas por Turno"/>
-                                                            <field name="total_turno" string="Total Turno"/>
+                                                            <field name="product_id" readonly="1"/>
+                                                            <field name="operarios" readonly="1"/>
+                                                            <field name="operarios_diurnos" readonly="1"/>
+                                                            <field name="operarios_nocturnos" readonly="1"/>
+                                                            <field name="diurnas_semanales" readonly="1"/>
+                                                            <field name="nocturnos_semanales" readonly="1"/>
+                                                            <field name="diurnas_mensuales" readonly="1"/>
+                                                            <field name="nocturnas_mensuales" readonly="1"/>
+                                                            <field name="horas_diurnas" readonly="1"/>
+                                                            <field name="horas_nocturnas" readonly="1"/>
+                                                            <field name="horas" readonly="1"/>
+                                                            <field name="precio_uso_turno" readonly="1"/>
+                                                            <field name="total_turno" readonly="1"/>
                                                         </tree>
                                                         <form>
                                                             <group>
-                                                                <group>
-                                                                    <field name="name" string="Nombre"/>
-                                                                    <field name="product_id" string="Producto"/>
+                                                                <group string="Informacion Basica">
+                                                                    <field name="name"/>
+                                                                    <field name="product_id"/>
+                                                                    <field name="precio_uso_turno" readonly="1"/>
+                                                                    <field name="operarios"/>
                                                                     <field name="desde"/>
                                                                     <field name="hasta"/>
+                                                                    <field name="dias_semanales"/>
+                                                                    <field name="horas_break_desde"/>
+                                                                    <field name="horas_break_hasta"/>
                                                                 </group>
-                                                                <group>
-                                                                    <field name="operarios" string="N° Operarios"/>
-                                                                    <field name="horas" string="Horas por Turno"/>
-                                                                    <field name="total_turno" string="Total Turno" readonly="1"/>
+                                                                <group string="Totales">
+                                                                    <field name="horas_diurnas" readonly="1"/>
+                                                                    <field name="horas_nocturnas" readonly="1"/>
+                                                                    <field name="horas" readonly="1"/>
+                                                                    <field name="total_turno_diurno" readonly="1"/>
+                                                                    <field name="total_turno_nocturno" readonly="1"/>
+                                                                    <field name="total_turno" readonly="1"/>
                                                                 </group>
-                                                                <!-- CALCULOS DIURNOS -->
-                                                                <group>
-                                                                    <field name="diurnas_semanales"/>
-                                                                    <field name="horas" string="Horas por Turno"/>
-                                                                    <field name="total_turno" string="Total Turno" readonly="1"/>
+                                                                <group string="Diurnas">
+                                                                    <field name="diurnas_semanales" readonly="1"/>
+                                                                    <field name="diurnas_mensuales" readonly="1"/>
+                                                                    <field name="operarios_diurnos" string="N° Operarios Diurnos" readonly="1"/>
                                                                 </group>
-                                                                <group>
-                                                                <!-- CALCULOS NOCTURNOS -->
-                                                                    <field name="nocturnos_semanales"/>
-                                                                    <field name="horas" string="Horas por Turno"/>
-                                                                    <field name="total_turno" string="Total Turno" readonly="1"/>
+                                                                <group string="Nocturnas">
+                                                                    <field name="nocturnos_semanales" readonly="1"/>
+                                                                    <field name="nocturnas_mensuales" readonly="1"/>
+                                                                    <field name="operarios_nocturnos" readonly="1"/>
                                                                 </group>
                                                             </group>
                                                         </form>
                                                     </field>
                                                 </page>
 
-                                                <!-- Página para EPI/EPC -->
-                                                <page string="EPI/EPC" invisible = "not is_epi_epc">
-                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                <page string="EPI/EPC" invisible="category != 'epi_epc'">
+                                                    <field name="item_detail_ids">
                                                         <tree string="Detalles (EPI/EPC)">
                                                             <field name="name"/>
                                                             <field name="product_id"/>
@@ -243,9 +262,8 @@
                                                     </field>
                                                 </page>
 
-                                                <!-- Página para Otros -->
-                                                <page string="Otros" invisible = "not is_otro">
-                                                    <field name="item_detail_ids" invisible="not show_details_fields">
+                                                <page string="Otros" invisible="category != 'otro'">
+                                                    <field name="item_detail_ids">
                                                         <tree string="Detalles (Otros)">
                                                             <field name="name"/>
                                                             <field name="product_id"/>
@@ -274,6 +292,8 @@
                                 </form>
                             </field>
                         </page>
+                        <page string="Resumen Ejecutivo">
+                        </page>
                     </notebook>
                 </sheet>
 
@@ -285,6 +305,7 @@
             </form>
         </field>
     </record>
+    
     <record id="view_presale_update_wizard_form" model="ir.ui.view">
       <field name="name">presale.update.wizard.form</field>
       <field name="model">presale.update.wizard</field>
@@ -333,4 +354,93 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+<!-- ========================================= -->
+    <!-- VISTAS BASE PARA ÍTEMS DE PRESALE -->
+    <!-- ========================================= -->
+
+    <!-- Vista de lista para ítems de presale -->
+    <record id="presale_order_item_tree_view" model="ir.ui.view">
+        <field name="name">presale.order.item.tree</field>
+        <field name="model">presale.order.item</field>
+        <field name="arch" type="xml">
+            <tree string="Ítems de Presale">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="qty"/>
+                <field name="unit_price"/>
+                <field name="subtotal"/>
+                <field name="create_item_template" string="Es Plantilla" widget="boolean_toggle" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para ítems de presale -->
+    <record id="presale_order_item_form_view" model="ir.ui.view">
+        <field name="name">presale.order.item.form</field>
+        <field name="model">presale.order.item</field>
+        <field name="arch" type="xml">
+            <form string="Ítem de Presale">
+                <header>
+                    <field name="selected_category" widget="badge"
+                        class="oe_right"
+                        style="font-size:1px; padding: 1px 1px; font-weight: bold;"
+                        invisible="not selected_category"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="">
+                            <field name="name"/>
+                        </group>
+
+                        <!-- Usar campo category en lugar de múltiples Boolean -->
+                        <group string="Seleccione una categoría" invisible="category">
+                            <field name="category" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        
+                        <!-- Campos de producto - visibles solo cuando hay categoría -->
+                        <group string="Detalles del Producto" invisible="not category">
+                            <field name="qty" invisible="1"/>
+                            <field name="unit_price" invisible="1"/>
+                            <field name="subtotal" readonly="1"/>
+                        </group>
+                        
+                        <group>
+                            <field name="presale_order_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para ítems de presale -->
+    <record id="presale_order_item_search_view" model="ir.ui.view">
+        <field name="name">presale.order.item.search</field>
+        <field name="model">presale.order.item</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="presale_order_id"/>
+                <filter name="templates" string="Plantillas" domain="[('create_item_template', '=', True)]"/>
+                <filter name="regular_items" string="Ítems Regulares" domain="[('create_item_template', '=', False)]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_by_category" string="Categoría" context="{'group_by': 'category'}"/>
+                    <filter name="group_by_presale" string="Presale" context="{'group_by': 'presale_order_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción para ítems de presale -->
+    <record id="action_presale_order_item" model="ir.actions.act_window">
+        <field name="name">Ítems de Presale</field>
+        <field name="res_model">presale.order.item</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                       (0, 0, {'view_mode': 'tree', 'view_id': ref('presale_order_item_tree_view')}),
+                                       (0, 0, {'view_mode': 'form', 'view_id': ref('presale_order_item_form_view')})]"/>
+        <field name="search_view_id" ref="presale_order_item_search_view"/>
+    </record>
 </odoo>

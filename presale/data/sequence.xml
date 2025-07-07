@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
   <data noupdate="1">
+    <!-- ✅ MEJORA: Secuencia optimizada con mejor configuración -->
     <record id="seq_presale_order" model="ir.sequence">
       <field name="name">Presale Order</field>
       <field name="code">presale.order</field>
-      <field name="padding">3</field>
-      <field name="prefix">PS</field>
+      <field name="padding">4</field>
+      <field name="prefix">PS%(year)s</field>
+      <field name="suffix"></field>
+      <field name="use_date_range">True</field>
+      <field name="number_next">1</field>
+      <field name="number_increment">1</field>
+      <field name="implementation">standard</field>
     </record>
+
+    <!-- ✅ MEJORA: Secuencia para ítems de preventa (opcional) -->
+    <record id="seq_presale_item" model="ir.sequence">
+      <field name="name">Presale Item</field>
+      <field name="code">presale.item</field>
+      <field name="padding">3</field>
+      <field name="prefix">PSI</field>
+      <field name="number_next">1</field>
+      <field name="number_increment">1</field>
+      <field name="implementation">standard</field>
+    </record>
+
+    <!-- ✅ MEJORA: Configurar rangos anuales para la secuencia principal -->
+    <record id="seq_presale_order_range_2025" model="ir.sequence.date_range">
+      <field name="sequence_id" ref="seq_presale_order"/>
+      <field name="date_from">2025-01-01</field>
+      <field name="date_to">2025-12-31</field>
+      <field name="number_next">1</field>
+    </record>
+
   </data>
 </odoo>

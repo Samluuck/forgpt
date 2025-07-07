@@ -24,8 +24,14 @@
     <menuitem id="menu_presale_orders" name="Preventas"
               parent="menu_presale_root" action="action_presale_order" sequence="10"/>
 
+    <!-- Menú de configuración para Equipo de venta -->
     <menuitem id="menu_equipo_venta_root" name="Configuraciones" parent="menu_presale_root" sequence="20"/>
-    <menuitem id="menu_equipo_venta_submenu" name="Equipos" parent="menu_equipo_venta_root" action="action_equipo_venta"/>
+    <menuitem id="submenu_presale_ventas_equipo" name="Equipos" parent="menu_equipo_venta_root" sequence="21"/>
+    <menuitem id="menu_equipo_venta_submenu" name="Equipos de venta" parent="submenu_presale_ventas_equipo" action="action_equipo_venta"/>
+
+    <!-- Menú de configuración para plantillas de líneas de pedido -->
+    <menuitem id="submenu_presale_item_templates" name="Plantillas de Líneas de Pedido" parent="menu_equipo_venta_root" sequence="21"/>
+    <menuitem id="menu_presale_item_templates" name="Líneas de Pedido" parent="submenu_presale_item_templates" action="action_presale_item_templates" sequence="1"/>
 
 <!--    <menuitem id="menu_presale_order_items" name="Order Items"-->
 <!--              parent="menu_presale_root" action="action_presale_order_item" sequence="20"/>-->
