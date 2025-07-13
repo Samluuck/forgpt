@@ -44,8 +44,8 @@ class HrOverTime(models.Model):
     project_id = fields.Many2one('project.project', string="Project")
     project_manager_id = fields.Many2one('res.users', string="Project Manager")
     contract_id = fields.Many2one('hr.contract', string="Contrato",
-                                  related="employee_id.contract_id",
-                                  )
+                                compute='_compute_contract_id', store=True)
+    
     date_from = fields.Datetime('Fecha inicio')
     date_to = fields.Datetime('Fecha fin')
     days_no_tmp = fields.Float('Hours', compute="_get_days", store=True)
@@ -103,6 +103,16 @@ class HrOverTime(models.Model):
     cash_hrs_amount = fields.Float(string='Overtime Amount', compute="_compute_overtime_hours", store=True, readonly=True)
     cash_day_amount = fields.Float(string='Overtime Amount', readonly=True)
     payslip_paid = fields.Boolean('Pagado en la nomina', readonly=True)
+
+    @api.depends('employee_id')
+    def _compute_contract_id(self):
+        for record in self:
+            if record.employee_id:
+                # Usar sudo() para acceder al contrato sin problemas de permisos
+                contract = record.employee_id.sudo().contract_id
+                record.contract_id = contract.id if contract else False
+            else:
+                record.contract_id = False
 
     @api.onchange('employee_id')
     def _get_defaults(self):
@@ -195,10 +205,14 @@ class HrOverTime(models.Model):
             if not all([record.overtime_type_id, record.date_from, record.date_to, record.contract_id]):
                 continue
 
+            # USAR SUDO() para acceder al contrato
+            contract = record.contract_id.sudo()
+            over_hour = contract.over_hour or 1.0
+
             start_dt = record.date_from - relativedelta.relativedelta(hours=3)
             end_dt = record.date_to - relativedelta.relativedelta(hours=3)
 
-            duration = (end_dt - start_dt).total_seconds() / 3600.0  # Convertir a horas
+            duration = (end_dt - start_dt).total_seconds() / 3600.0
             if duration <= 0:
                 continue
 
@@ -210,7 +224,6 @@ class HrOverTime(models.Model):
 
             total_diurnal_hours = 0.0
             total_diurnal_amount = 0.0
-            over_hour = record.contract_id.over_hour or 1.0
 
             for rule in record.overtime_type_id.rule_line_ids:
                 if rule.rule_type != 'diurnal':
@@ -219,7 +232,6 @@ class HrOverTime(models.Model):
                 rule_start = rule.from_hrs
                 rule_end = rule.to_hrs
                 multiplicador = rule.hrs_amount
-
 
                 if start_dt.weekday() == 5:
                     adjusted_rule_start = self._convert_time_to_float("08:00")
@@ -256,13 +268,20 @@ class HrOverTime(models.Model):
             record.nocturnal_hours = 0.0
             record.cash_hrs_nocturnal_amount = 0.0
 
-            if not all([record.overtime_type_id, record.date_from, record.date_to, record.contract_id, record.contract_id.over_hour]):
+            if not all([record.overtime_type_id, record.date_from, record.date_to, record.contract_id]):
                 continue
+
+            # USAR SUDO() para acceder al contrato
+            contract = record.contract_id.sudo()
+            if not contract.over_hour:
+                continue
+
+            over_hour = contract.over_hour
 
             start_dt = record.date_from - relativedelta.relativedelta(hours=3)
             end_dt = record.date_to - relativedelta.relativedelta(hours=3)
 
-            duration = (end_dt - start_dt).total_seconds() / 3600.0  # Convertir a horas
+            duration = (end_dt - start_dt).total_seconds() / 3600.0
             if duration <= 0:
                 continue
 
@@ -274,7 +293,6 @@ class HrOverTime(models.Model):
 
             total_nocturnal_hours = 0.0
             total_nocturnal_amount = 0.0
-            over_hour = record.contract_id.over_hour or 1.0
 
             for rule in record.overtime_type_id.rule_line_ids:
                 if rule.rule_type != 'nocturnal':
@@ -286,7 +304,7 @@ class HrOverTime(models.Model):
 
                 if start_dt.weekday() == 5:
                     adjusted_rule_start = self._convert_time_to_float("20:00")
-                    adjusted_rule_end = self._convert_time_to_float("24:00")
+                    adjusted_rule_end = rule_end
                 else:
                     adjusted_rule_start = rule_start
                     adjusted_rule_end = rule_end
@@ -451,7 +469,8 @@ class HrOverTime(models.Model):
 
         holiday = 'no'
         if self.contract_id and self.date_from and self.date_to:
-            for leaves in self.contract_id.resource_calendar_id.global_leave_ids:
+            contract = self.contract_id.sudo()
+            for leaves in contract.resource_calendar_id.global_leave_ids:
                 leave_dates = pd.date_range(leaves.date_from, leaves.date_to).date
                 overtime_dates = pd.date_range(self.date_from, self.date_to).date
                 for over_time in overtime_dates:

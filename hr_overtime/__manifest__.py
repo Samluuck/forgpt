@@ -19,6 +19,7 @@
         'python': ['pandas'],
     },
     'data': [
+        'data/supervision_groups.xml',
         'data/e_data.xml',
         'views/e_overtime_request_view.xml',
         'views/e_overtime_type.xml',

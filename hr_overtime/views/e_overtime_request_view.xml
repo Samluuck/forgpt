@@ -25,22 +25,21 @@
                         <button name="submit_to_f" string="Registrar Solicitud" type="object"
                                 class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
 
-                        <!-- Botón para aprobar la solicitud -->
+                        <!-- Botón para aprobar la solicitud - SOLO para grupos autorizados -->
                         <button name="approve" string="Aprobar" type="object" class="btn-primary"
-                                attrs="{'invisible': [('state', '!=', 'f_approve')]}" groups="hr_holidays.group_hr_holidays_user"/>
+                                attrs="{'invisible': [('state', '!=', 'f_approve')]}" 
+                                groups="hr_documenta.rrhh_responsable2,hr_holidays.group_hr_holidays_user,hr.group_hr_manager,hr_overtime.group_jefes_ti,hr_overtime.group_jefes_operaciones,hr_overtime.group_jefes_digito,hr_overtime.group_supervisores_ti,hr_overtime.group_supervisores_operaciones_cnb"/>
 
-                        <!-- Botón para rechazar la solicitud -->
+                        <!-- Botón para rechazar la solicitud - SOLO para grupos autorizados -->
                         <button name="reject" string="Rechazar" type="object" class="btn-danger"
                                 attrs="{'invisible': [('state', 'not in', ['f_approve', 'approved'])]}"
-                                groups="hr_holidays.group_hr_holidays_user"/>
+                                groups="hr_documenta.rrhh_responsable2,hr_holidays.group_hr_holidays_user,hr.group_hr_manager,hr_overtime.group_jefes_ti,hr_overtime.group_jefes_operaciones,hr_overtime.group_jefes_digito,hr_overtime.group_supervisores_ti,hr_overtime.group_supervisores_operaciones_cnb"/>
 
-                        <!-- Botón para volver a borrador -->
+                        <!-- Botón para volver a borrador - SOLO para grupos autorizados -->
                         <button name="reset_to_draft" string="Volver a Borrador" type="object" class="btn-secondary"
                                 attrs="{'invisible': [('state', 'not in', ['approved', 'refused'])]}"
-                                groups="hr_holidays.group_hr_holidays_user"/>
-
+                                groups="hr_documenta.rrhh_responsable2,hr_holidays.group_hr_holidays_user,hr.group_hr_manager,hr_overtime.group_jefes_ti,hr_overtime.group_jefes_operaciones,hr_overtime.group_jefes_digito,hr_overtime.group_supervisores_ti,hr_overtime.group_supervisores_operaciones_cnb"/>
                     </header>
-
                     <sheet>
                         <div class="oe_title">
                             <h1>
@@ -61,7 +60,7 @@
                             </group>
                             <group>
                                 <field name='current_user' invisible="1"/>
-                                <field name="contract_id"/>
+                                <field name="contract_id" groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager" readonly="1"/>
                                 <field name='attchd_copy'
                                        filename="attchd_copy_name"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
@@ -97,7 +96,7 @@
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="days_no_tmp" string="Horas" attrs="{'invisible': [('duration_type', '=', 'days')]}"/>
                                 <field name="days_no_tmp" string="Días" attrs="{'invisible': [('duration_type', '=', 'hours')]}"/>
-                                <field name="payslip_paid" readonly="1" attrs="{'invisible': [('type','!=', 'cash')]}" widget="toggle_button" groups="hr.group_hr_manager"/>
+                                <field name="payslip_paid" readonly="1" attrs="{'invisible': [('type','!=', 'cash')]}" widget="toggle_button" groups="hr.group_hr_manager, hr_documenta.rrhh_responsable2"/>
                                 <field name="days_no" readonly="1"
                                        invisible="1"/>
                             </group>
@@ -166,7 +165,7 @@
                     <field name="days_no_tmp"/>
                     <field name="state"/>
                     <field name="type" invisible="1"/>
-                    <field name="payslip_paid" groups="hr.group_hr_manager" readonly="1" attrs="{'invisible': [('type','!=', 'cash')]}" widget="toggle_button"/>
+                    <field name="payslip_paid" groups="hr.group_hr_manager, hr_documenta.rrhh_responsable2" readonly="1" attrs="{'invisible': [('type','!=', 'cash')]}" widget="toggle_button"/>
                 </tree>
             </field>
         </record>

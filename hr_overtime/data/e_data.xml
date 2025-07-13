@@ -13,11 +13,6 @@
             <field name="type_id" ref="hr_payroll_salary_structure_type_data_emp"/>
         </record>
 
-        <!-- Desactivar la regla salarial existente para Overtime -->
-<!--         <record id="hr_salary_rule_overtime" model="hr.salary.rule">
-            <field name="active">False</field>
-        </record> -->
-
         <!-- Tipo de entrada para Overtime (dejamos el registro existente sin modificarlo) -->
         <record id="input_overtime_payroll" model="hr.payslip.input.type">
             <field name="name">Overtime</field>
@@ -69,6 +64,43 @@
         <record id="hr_payroll_salary_structure_overtime_data" model="hr.payroll.structure">
             <field name="rule_ids" eval="[(4, ref('hr_salary_rule_overtime_diurnal')), (4, ref('hr_salary_rule_overtime_nocturnal'))]"/>
             <field name="input_line_type_ids" eval="[(4, ref('input_overtime_payroll')), (4, ref('input_overtime_diurnal_payroll')), (4, ref('input_overtime_nocturnal_payroll'))]"/>
+        </record>
+
+        <!-- Regla: Los usuarios básicos solo ven sus propias solicitudes de horas extras -->
+        <record id="hr_overtime_employee_own_rule" model="ir.rule">
+            <field name="name">Horas extras del propio empleado</field>
+            <field name="model_id" ref="model_hr_overtime"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <!-- Solo puede ver sus propias solicitudes -->
+            <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Regla: Los administradores de RRHH estándar ven todas las solicitudes -->
+        <record id="hr_overtime_hr_manager_rule" model="ir.rule">
+            <field name="name">Horas extras del gerente de recursos humanos</field>
+            <field name="model_id" ref="model_hr_overtime"/>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager', 'hr_documenta.rrhh_responsable2'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Regla: Tu grupo Responsable-rrhh2 ve todas las solicitudes -->
+        <record id="hr_overtime_responsable_rrhh2_rule" model="ir.rule">
+            <field name="name">Responsable RRHH2 Overtime Rule</field>
+            <field name="model_id" ref="model_hr_overtime"/>
+            <field name="groups" eval="[(4, ref('hr_documenta.rrhh_responsable2', 'hr.group_hr_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
         </record>
     </data>
 </odoo>

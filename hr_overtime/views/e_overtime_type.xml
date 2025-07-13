@@ -85,7 +85,7 @@
         <!-- MenuItems -->
         <menuitem id="overtime_type_submenu" name="Tipo de Horas Extras"
                   parent="overtime_submenu"
-                  groups="hr_holidays.group_hr_holidays_user"
+                  groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager"
                   action="hr_overtime_type_action"/>
     </data>
 </odoo>
