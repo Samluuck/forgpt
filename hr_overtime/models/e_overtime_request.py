@@ -14,12 +14,43 @@ class HrOverTime(models.Model):
     _inherit = ['mail.thread']
 
     def _get_employee_domain(self):
-        employee = self.env['hr.employee'].search(
-            [('user_id', '=', self.env.user.id)], limit=1)
-        domain = [('id', '=', employee.id)]
-        if self.env.user.has_group('hr.group_hr_user'):
-            domain = []
-        return domain
+        """
+        Define qué empleados puede seleccionar el usuario actual:
+        - RRHH/Admin: Todos los empleados
+        - Aprobadores: Empleados asignados + él mismo + subordinados directos
+        - Empleados básicos: Solo él mismo
+        """
+        current_user = self.env.user
+        
+        # RRHH y Administradores ven todos los empleados
+        if (current_user.has_group('hr_documenta.rrhh_responsable2') or 
+            current_user.has_group('hr.group_hr_manager')):
+            return []  # Sin restricción
+        
+        # Obtener empleado actual
+        current_employee = self.env['hr.employee'].search([('user_id', '=', current_user.id)], limit=1)
+        if not current_employee:
+            return [('user_id', '=', current_user.id)]  # Solo empleados con su usuario
+        
+        # Lista de empleados que puede gestionar
+        allowed_employee_ids = [current_employee.id]  # Siempre puede verse a sí mismo
+        
+        # Agregar empleados donde es aprobador (incluso sin usuario)
+        employees_as_approver = self.env['hr.employee'].search([
+            ('aprobador_hhee', 'in', [current_employee.id])
+        ])
+        allowed_employee_ids.extend(employees_as_approver.ids)
+        
+        # Agregar subordinados directos (si es gerente)
+        direct_reports = self.env['hr.employee'].search([
+            ('parent_id', '=', current_employee.id)
+        ])
+        allowed_employee_ids.extend(direct_reports.ids)
+        
+        # Eliminar duplicados
+        allowed_employee_ids = list(set(allowed_employee_ids))
+        
+        return [('id', 'in', allowed_employee_ids)]
 
     def _default_employee(self):
         return self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
@@ -55,18 +86,11 @@ class HrOverTime(models.Model):
         [
             ('draft', 'Borrador'),
             ('f_approve', 'En espera'),
+            ('ready', 'Listo para Aprobar'),
             ('approved', 'Aprobado'),
             ('refused', 'Rechazado')
         ],
         string="Estado", default="draft"
-    )
-
-    type = fields.Selection(
-        [
-            ('cash', 'Remunerado'),
-            ('leave', 'Licencia')
-        ],
-        string="Tipo de hora extra"
     )
 
 
@@ -76,8 +100,12 @@ class HrOverTime(models.Model):
     attchd_copy = fields.Binary('Adjuntar un archivo')
     attchd_copy_name = fields.Char('File Name')
     type = fields.Selection([('cash', 'Remunerado'), ('leave', 'Licencia')], default="cash", required=True, string="Tipo")  # OJO: Se repite el campo, por que?
-    overtime_type_id = fields.Many2one('overtime.type', domain="[('type','=',type),('duration_type','=', "
-                                                               "duration_type)]")
+    overtime_type_id = fields.Many2one(
+        'overtime.type',
+        string='Tipo de Horas Extras',
+        domain="[('type', '=', type), ('duration_type', '=', duration_type)]"
+    )
+
     domingo = fields.Selection(
         [('yes', 'Sí'), ('no', 'No')],
         string='Es un día Domingo',
@@ -103,6 +131,15 @@ class HrOverTime(models.Model):
     cash_hrs_amount = fields.Float(string='Overtime Amount', compute="_compute_overtime_hours", store=True, readonly=True)
     cash_day_amount = fields.Float(string='Overtime Amount', readonly=True)
     payslip_paid = fields.Boolean('Pagado en la nomina', readonly=True)
+    # Campo relacionado para múltiples aprobadores
+    aprobador_hhee = fields.Many2many(
+        'hr.employee',
+        string='Aprobadores de HHEE',
+        related='employee_id.aprobador_hhee',
+        readonly=True,
+        store=False
+    )
+    ready_to_approve = fields.Boolean('Listo para Aprobar', default=False, readonly=True)
 
     @api.depends('employee_id')
     def _compute_contract_id(self):
@@ -336,25 +373,98 @@ class HrOverTime(models.Model):
         return hours + minutes / 60.0
     
     def submit_to_f(self):
-        # notification to employee
-        recipient_partners = [(4, self.current_user.partner_id.id)]
-        body = "Your OverTime Request Waiting Finance Approve .."
-        msg = _(body)
+        """Registra la solicitud y define el estado según el usuario"""
+        for record in self:
+            # Notificación al empleado
+            recipient_partners = [(4, record.current_user.partner_id.id)]
+            body = "Your OverTime Request is now pending approval..."
+            msg = _(body)
+            
+            # Cambiar estado según si es RRHH/Admin o empleado normal
+            if record.env.user.has_group('hr_documenta.rrhh_responsable2') or \
+            record.env.user.has_group('hr.group_hr_manager'):
+                # RRHH/Admin van directamente a f_approve si tienen tipo asignado
+                if record.overtime_type_id:
+                    new_state = 'f_approve'
+                else:
+                    new_state = 'ready'
+            else:
+                # Empleados normales van a 'ready' para que RRHH configure
+                new_state = 'ready'
+            
+            record.sudo().write({'state': new_state})
+        
+        return True
 
-        # notification to finance :
-        group = self.env.ref('account.group_account_invoice', False)
-        recipient_partners = []
+    def mark_ready_to_approve(self):
+        """Marca la solicitud como lista para aprobar (solo RRHH/Admin)"""
+        for record in self:
+            if not (record.env.user.has_group('hr_documenta.rrhh_responsable2') or 
+                record.env.user.has_group('hr.group_hr_manager')):
+                raise UserError(_('Solo RRHH y Administradores pueden marcar solicitudes como listas para aprobar.'))
+            
+            if not record.overtime_type_id:
+                raise UserError(_('Debe seleccionar un tipo de horas extras antes de marcar como listo para aprobar.'))
+            
+            record.write({
+                'state': 'f_approve',
+                'ready_to_approve': True
+            })
 
-        body = "You Get New Time in Lieu Request From Employee : " + str(
-            self.employee_id.name)
-        msg = _(body)
-        return self.sudo().write({
-            'state': 'f_approve'
-        })
+    def _can_approve_overtime(self):
+        """Verifica si el usuario actual puede aprobar/rechazar esta solicitud"""
+        current_user = self.env.user
+        
+        # RRHH y Administradores siempre pueden aprobar
+        if current_user.has_group('hr_documenta.rrhh_responsable2') or \
+        current_user.has_group('hr.group_hr_manager'):
+            return True
+        
+        # Verificar si es uno de los aprobadores asignados
+        if self.employee_id.aprobador_hhee:
+            aprobador_users = self.employee_id.aprobador_hhee.mapped('user_id')
+            if current_user in aprobador_users:
+                return True
+        
+        # Verificar si es el gerente/jefe directo (parent_id)
+        if self.employee_id.parent_id and \
+        self.employee_id.parent_id.user_id and \
+        self.employee_id.parent_id.user_id.id == current_user.id:
+            return True
+        
+        # Si no tiene aprobadores asignados, automáticamente RRHH/Admin actúan como aprobadores
+        if not self.employee_id.aprobador_hhee:
+            return current_user.has_group('hr_documenta.rrhh_responsable2') or \
+                current_user.has_group('hr.group_hr_manager')
+        
+        return False
+
+    def _can_self_approve(self):
+        """Verifica si el usuario puede aprobar su propia solicitud"""
+        current_user = self.env.user
+        
+        # RRHH y Administradores pueden aprobar sus propias solicitudes
+        if current_user.has_group('hr_documenta.rrhh_responsable2') or \
+        current_user.has_group('hr.group_hr_manager'):
+            return True
+        
+        # Verificar si es su propia solicitud
+        if self.employee_id.user_id and self.employee_id.user_id.id == current_user.id:
+            return False  # No puede auto-aprobar
+        
+        return True  # Puede aprobar solicitudes de otros
 
     def approve(self):
-        """ Aprueba la solicitud de horas extras y genera una asignación de licencia si el tipo es 'leave'. """
+        """Aprueba la solicitud con validación de permisos de aprobador"""
         for record in self:
+            # Verificar permisos de aprobación
+            if not record._can_approve_overtime():
+                raise UserError(_('No tienes permisos para aprobar esta solicitud de horas extras.'))
+            
+            # Verificar auto-aprobación
+            if not record._can_self_approve():
+                raise UserError(_('No puedes aprobar tu propia solicitud de horas extras.'))
+            
             if record.overtime_type_id.type == 'leave':
                 # Verificar que se tenga un tipo de ausencia configurado
                 if not record.overtime_type_id.leave_type:
@@ -364,7 +474,6 @@ class HrOverTime(models.Model):
                 if record.duration_type == 'days':
                     number_of_days = record.days_no_tmp
                 else:  # duration_type == 'hours'
-                    # Convertir horas a días según HOURS_PER_DAY (por defecto, 8 horas por día)
                     number_of_days = record.days_no_tmp / HOURS_PER_DAY
 
                 # Crear la asignación de licencia
@@ -375,7 +484,7 @@ class HrOverTime(models.Model):
                     'notes': record.desc,
                     'holiday_type': 'employee',
                     'employee_id': record.employee_id.id,
-                    'state': 'validate',  # La asignación se valida automáticamente
+                    'state': 'validate',
                 }
                 holiday = self.env['hr.leave.allocation'].sudo().create(holiday_vals)
                 record.leave_id = holiday.id
@@ -389,8 +498,14 @@ class HrOverTime(models.Model):
             record.state = 'approved'
 
     def reject(self):
-
+        """Rechaza la solicitud con validación de permisos de aprobador"""
+        for record in self:
+            # Verificar permisos de aprobación
+            if not record._can_approve_overtime():
+                raise UserError(_('No tienes permisos para rechazar esta solicitud de horas extras.'))
+        
         self.state = 'refused'
+
 
     @api.constrains('date_from', 'date_to')
     def _check_date(self):
@@ -406,7 +521,7 @@ class HrOverTime(models.Model):
             if nholidays:
                 raise ValidationError(_(
                     'No es posible tener 2 solicitudes de horas extra que se superpongan en el mismo día'))
-
+                
     def reset_to_draft(self):
         """
         Permite volver al estado Borrador desde Rechazado.

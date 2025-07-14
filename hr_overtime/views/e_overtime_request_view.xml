@@ -19,26 +19,31 @@
             <field name="arch" type="xml">
                 <form string="Solicitud de Horas Extras">
                     <header>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,f_approve,approved,refused"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,ready,f_approve,approved,refused"/>
 
-                        <!-- Botón para registrar la solicitud -->
+                        <!-- Botón para registrar la solicitud - TODOS los usuarios -->
                         <button name="submit_to_f" string="Registrar Solicitud" type="object"
                                 class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
 
-                        <!-- Botón para aprobar la solicitud - SOLO para grupos autorizados -->
+                        <!-- NUEVO: Botón "Listo para Aprobar" - Solo RRHH y Administradores -->
+                        <button name="mark_ready_to_approve" string="Listo para Aprobar" type="object"
+                                class="btn-info" attrs="{'invisible': [('state', '!=', 'ready')]}"
+                                groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager"/>
+
+                        <!-- Botón para aprobar - Cuando esté en f_approve -->
                         <button name="approve" string="Aprobar" type="object" class="btn-primary"
                                 attrs="{'invisible': [('state', '!=', 'f_approve')]}" 
-                                groups="hr_documenta.rrhh_responsable2,hr_holidays.group_hr_holidays_user,hr.group_hr_manager,hr_overtime.group_jefes_ti,hr_overtime.group_jefes_operaciones,hr_overtime.group_jefes_digito,hr_overtime.group_supervisores_ti,hr_overtime.group_supervisores_operaciones_cnb"/>
+                                groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager,base.group_user"/>
 
-                        <!-- Botón para rechazar la solicitud - SOLO para grupos autorizados -->
+                        <!-- Botón para rechazar - Cuando esté en f_approve o approved -->
                         <button name="reject" string="Rechazar" type="object" class="btn-danger"
                                 attrs="{'invisible': [('state', 'not in', ['f_approve', 'approved'])]}"
-                                groups="hr_documenta.rrhh_responsable2,hr_holidays.group_hr_holidays_user,hr.group_hr_manager,hr_overtime.group_jefes_ti,hr_overtime.group_jefes_operaciones,hr_overtime.group_jefes_digito,hr_overtime.group_supervisores_ti,hr_overtime.group_supervisores_operaciones_cnb"/>
+                                groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager,base.group_user"/>
 
-                        <!-- Botón para volver a borrador - SOLO para grupos autorizados -->
+                        <!-- Botón para volver a borrador - Solo RRHH y Administradores -->
                         <button name="reset_to_draft" string="Volver a Borrador" type="object" class="btn-secondary"
                                 attrs="{'invisible': [('state', 'not in', ['approved', 'refused'])]}"
-                                groups="hr_documenta.rrhh_responsable2,hr_holidays.group_hr_holidays_user,hr.group_hr_manager,hr_overtime.group_jefes_ti,hr_overtime.group_jefes_operaciones,hr_overtime.group_jefes_digito,hr_overtime.group_supervisores_ti,hr_overtime.group_supervisores_operaciones_cnb"/>
+                                groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -50,10 +55,17 @@
                         <group>
                             <group>
                                 <field name='employee_id'
-                                       options="{'no_quick_create': True, 'no_create_edit' : True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    options="{'no_quick_create': True, 'no_create_edit' : True}" 
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    placeholder="Selecciona el empleado para la solicitud"/>
                                 <field name='department_id'/>
                                 <field name='job_id'/>
                                 <field name='manager_id'/>
+                                <!-- Campo del aprobador de horas extras -->
+                                <field name="aprobador_hhee" 
+                                       string="Aprobadores de HHEE" 
+                                       readonly="1"
+                                       widget="many2many_tags"/>
                                 <field name="duration_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="current_user_boolean"
                                        invisible="1"/>
@@ -65,12 +77,7 @@
                                        filename="attchd_copy_name"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name='type'  attrs="{'readonly': True}"/>
-                                <field name='overtime_type_id'
-                                       string="Tipo de Horas Extras"
-                                       groups="hr.group_hr_user"
-                                       attrs="{'readonly': [('state', '!=', 'f_approve')],
-                                               'invisible': [('state', '=', 'draft')],
-                                               'required': [('state', '=', 'f_approve')]}"/>
+                                <field name="overtime_type_id" string="Tipo de Horas Extras" groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager" attrs="{'readonly': [('state', 'not in', ['ready', 'f_approve'])], 'invisible': [('state', '=', 'draft')], 'required': [('state', 'in', ['ready', 'f_approve'])]}"/>
                                 <!-- Campo Monto por Horas -->
                                 <field name="cash_hrs_amount" force_save="1"
                                        attrs="{'invisible': ['|','|',('state', '=', 'draft'),('type','!=', 'cash'),('duration_type','!=','hours')]}"
@@ -151,15 +158,15 @@
             </field>
         </record>
 
-
-        <!-- Tree View -->
+        <!-- Tree View con agrupación por departamento -->
         <record id="hr_overtime_tree_view" model="ir.ui.view">
             <field name="name">Overtime</field>
             <field name="model">hr.overtime</field>
             <field name="arch" type="xml">
                 <tree string="Solicitud de Horas Extras">
                     <field name="employee_id"/>
-                    <field name="project_id"/>
+                    <field name="aprobador_hhee" string="Aprobadores" widget="many2many_tags"/>
+                    <field name="department_id"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="days_no_tmp"/>
@@ -170,12 +177,58 @@
             </field>
         </record>
 
+        <!-- Vista de búsqueda con filtros -->
+        <record id="hr_overtime_search_view" model="ir.ui.view">
+            <field name="name">hr.overtime.search</field>
+            <field name="model">hr.overtime</field>
+            <field name="arch" type="xml">
+                <search string="Búsqueda de Horas Extras">
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="state"/>
+                    <field name="aprobador_hhee"/>
+                    
+                    <!-- Filtros predefinidos -->
+                    <filter string="Mis Solicitudes" name="my_requests" 
+                            domain="[('employee_id.user_id', '=', uid)]"/>
+                    
+                    <filter string="Mis Aprobaciones Pendientes" name="my_approvals" 
+                            domain="['|', '|', 
+                                    ('employee_id.aprobador_hhee.user_id', '=', uid),
+                                    ('employee_id.parent_id.user_id', '=', uid),
+                                    '&amp;', ('employee_id.aprobador_hhee', '=', False), ('state', 'in', ['ready', 'f_approve'])]"/>
+                    
+                    <filter string="Pendientes de Configurar" name="pending_config"
+                            domain="[('state', '=', 'ready')]"/>
+                    
+                    <filter string="Listas para Aprobar" name="ready_approve"
+                            domain="[('state', '=', 'f_approve')]"/>
+                    
+                    <separator/>
+                    
+                    <filter string="Borrador" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="En Espera" name="waiting" domain="[('state', '=', 'f_approve')]"/>
+                    <filter string="Aprobadas" name="approved" domain="[('state', '=', 'approved')]"/>
+                    <filter string="Rechazadas" name="refused" domain="[('state', '=', 'refused')]"/>
+                    
+                    <!-- Agrupaciones -->
+                    <group expand="0" string="Agrupar Por">
+                        <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Empleado" name="group_employee" context="{'group_by': 'employee_id'}"/>
+                        <filter string="Departamento" name="group_department" context="{'group_by': 'department_id'}"/>
+                        <filter string="Fecha" name="group_date" context="{'group_by': 'date_from:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <!-- Actions -->
-        <!-- overtime -->
+        <!-- Acción principal de horas extras -->
         <record id="hr_overtime_action" model="ir.actions.act_window">
             <field name="name">Solicitud de Horas Extras</field>
             <field name="res_model">hr.overtime</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="hr_overtime_search_view"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Haz clic para crear una nueva Solicitud de Aprobación Previa de Horas Extras.
@@ -183,15 +236,40 @@
             </field>
         </record>
 
+        <!-- Acción para "Mis Aprobaciones Pendientes" -->
+        <record id="hr_overtime_my_approvals_action" model="ir.actions.act_window">
+            <field name="name">Mis Aprobaciones Pendientes</field>
+            <field name="res_model">hr.overtime</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="hr_overtime_search_view"/>
+            <field name="context">{'search_default_my_approvals': 1, 'search_default_group_department': 1}</field>
+            <field name="domain">[
+                '|', '|', 
+                ('employee_id.aprobador_hhee.user_id', '=', uid),
+                ('employee_id.parent_id.user_id', '=', uid),
+                '&amp;', ('employee_id.aprobador_hhee', '=', False), ('state', 'in', ['ready', 'f_approve'])
+            ]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No tienes solicitudes pendientes de aprobación.
+                </p>
+            </field>
+        </record>
 
         <!-- MenuItems -->
         <menuitem id="overtime_submenu" name="Solicitud de Horas Extras"
                   groups="base.group_user" web_icon="hr_overtime,static/description/overtime_icon.png"/>
+        
         <menuitem id="overtime" name="Solicitud de Horas Extras"
                   parent="overtime_submenu"
                   action="hr_overtime_action"
                   groups="base.group_user"/>
 
+        <!-- NUEVO: Menú para Mis Aprobaciones Pendientes -->
+        <menuitem id="overtime_my_approvals" name="Mis Aprobaciones Pendientes"
+                  parent="overtime_submenu"
+                  action="hr_overtime_my_approvals_action"
+                  groups="base.group_user"/>
 
     </data>
 </odoo>
