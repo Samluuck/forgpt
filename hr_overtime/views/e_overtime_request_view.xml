@@ -25,7 +25,7 @@
                         <button name="submit_to_f" string="Registrar Solicitud" type="object"
                                 class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
 
-                        <!-- NUEVO: Botón "Listo para Aprobar" - Solo RRHH y Administradores -->
+                        <!-- Botón "Listo para Aprobar" - Solo RRHH y Administradores -->
                         <button name="mark_ready_to_approve" string="Listo para Aprobar" type="object"
                                 class="btn-info" attrs="{'invisible': [('state', '!=', 'ready')]}"
                                 groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager"/>
@@ -33,16 +33,16 @@
                         <!-- Botón para aprobar - Cuando esté en f_approve -->
                         <button name="approve" string="Aprobar" type="object" class="btn-primary"
                                 attrs="{'invisible': [('state', '!=', 'f_approve')]}" 
-                                groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager,base.group_user"/>
+                                groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager,hr.group_hr_user,base.group_user"/>
 
-                        <!-- Botón para rechazar - Cuando esté en f_approve o approved -->
+                        <!-- Botón para rechazar - Cuando esté en f_approve -->
                         <button name="reject" string="Rechazar" type="object" class="btn-danger"
-                                attrs="{'invisible': [('state', 'not in', ['f_approve', 'approved'])]}"
-                                groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager,base.group_user"/>
+                                attrs="{'invisible': [('state', '!=', 'f_approve')]}"
+                                groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager,hr.group_hr_user,base.group_user"/>
 
                         <!-- Botón para volver a borrador - Solo RRHH y Administradores -->
                         <button name="reset_to_draft" string="Volver a Borrador" type="object" class="btn-secondary"
-                                attrs="{'invisible': [('state', 'not in', ['approved', 'refused'])]}"
+                                attrs="{'invisible': [('state', '!=', 'refused')]}"
                                 groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager"/>
                     </header>
                     <sheet>
@@ -77,15 +77,23 @@
                                        filename="attchd_copy_name"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name='type'  attrs="{'readonly': True}"/>
-                                <field name="overtime_type_id" string="Tipo de Horas Extras" groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager" attrs="{'readonly': [('state', 'not in', ['ready', 'f_approve'])], 'invisible': [('state', '=', 'draft')], 'required': [('state', 'in', ['ready', 'f_approve'])]}"/>
+                                
+                                <!-- CAMPO TIPO DE HORAS EXTRAS: Solo visible para RRHH cuando está en 'ready' o 'f_approve' -->
+                                <field name="overtime_type_id" 
+                                       string="Tipo de Horas Extras" 
+                                       groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager" 
+                                       attrs="{'readonly': [('state', 'not in', ['ready', 'f_approve'])], 
+                                               'invisible': [('state', 'in', ['draft', 'approved', 'refused'])], 
+                                               'required': [('state', 'in', ['ready', 'f_approve'])]}"/>
+                                
                                 <!-- Campo Monto por Horas -->
                                 <field name="cash_hrs_amount" force_save="1"
-                                       attrs="{'invisible': ['|','|',('state', '=', 'draft'),('type','!=', 'cash'),('duration_type','!=','hours')]}"
+                                       attrs="{'invisible': ['|','|',('state', 'in', ['draft', 'ready']),('type','!=', 'cash'),('duration_type','!=','hours')]}"
                                        string="Monto por Horas"/>
 
                                 <!-- Campo Monto por Días -->
                                 <field name="cash_day_amount" force_save="1"
-                                       attrs="{'invisible': ['|','|',('state', '=', 'draft'),('type','!=', 'cash'),('duration_type','!=','days')]}"
+                                       attrs="{'invisible': ['|','|',('state', 'in', ['draft', 'ready']),('type','!=', 'cash'),('duration_type','!=','days')]}"
                                        string="Monto por Días"/>
 
                                 <field name="attchd_copy_name" invisible="1"/>
@@ -134,7 +142,8 @@
                             <page string="Ausencias globales">
                                 <field name="global_leaves"/>
                             </page>
-                            <page string="Horas Extras Detalladas">
+                            <page string="Horas Extras Detalladas" 
+                                  attrs="{'invisible': [('state', 'in', ['draft', 'ready'])]}">
                                 <group>
                                     <group string="Horas Extra Diurnas">
                                         <field name="diurnal_hours" string="Horas extra diurnas"/>
@@ -158,7 +167,7 @@
             </field>
         </record>
 
-        <!-- Tree View con agrupación por departamento -->
+        <!-- Tree View con agrupación por departamento CORREGIDA -->
         <record id="hr_overtime_tree_view" model="ir.ui.view">
             <field name="name">Overtime</field>
             <field name="model">hr.overtime</field>
@@ -170,14 +179,18 @@
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="days_no_tmp"/>
-                    <field name="state"/>
+                    <field name="state" decoration-info="state == 'draft'" 
+                           decoration-warning="state == 'ready'" 
+                           decoration-primary="state == 'f_approve'"
+                           decoration-success="state == 'approved'"
+                           decoration-danger="state == 'refused'"/>
                     <field name="type" invisible="1"/>
                     <field name="payslip_paid" groups="hr.group_hr_manager, hr_documenta.rrhh_responsable2" readonly="1" attrs="{'invisible': [('type','!=', 'cash')]}" widget="toggle_button"/>
                 </tree>
             </field>
         </record>
 
-        <!-- Vista de búsqueda con filtros -->
+        <!-- Vista de búsqueda con filtros MEJORADA -->
         <record id="hr_overtime_search_view" model="ir.ui.view">
             <field name="name">hr.overtime.search</field>
             <field name="model">hr.overtime</field>
@@ -193,9 +206,10 @@
                             domain="[('employee_id.user_id', '=', uid)]"/>
                     
                     <filter string="Mis Aprobaciones Pendientes" name="my_approvals" 
-                            domain="['|', '|', 
+                            domain="['|', '|', '|',
                                     ('employee_id.aprobador_hhee.user_id', '=', uid),
                                     ('employee_id.parent_id.user_id', '=', uid),
+                                    ('employee_id.department_id.manager_id.user_id', '=', uid),
                                     '&amp;', ('employee_id.aprobador_hhee', '=', False), ('state', 'in', ['ready', 'f_approve'])]"/>
                     
                     <filter string="Pendientes de Configurar" name="pending_config"
@@ -207,11 +221,12 @@
                     <separator/>
                     
                     <filter string="Borrador" name="draft" domain="[('state', '=', 'draft')]"/>
-                    <filter string="En Espera" name="waiting" domain="[('state', '=', 'f_approve')]"/>
+                    <filter string="Listo para Configurar" name="ready" domain="[('state', '=', 'ready')]"/>
+                    <filter string="En Espera de Aprobación" name="waiting" domain="[('state', '=', 'f_approve')]"/>
                     <filter string="Aprobadas" name="approved" domain="[('state', '=', 'approved')]"/>
                     <filter string="Rechazadas" name="refused" domain="[('state', '=', 'refused')]"/>
                     
-                    <!-- Agrupaciones -->
+                    <!-- Agrupaciones CORREGIDAS -->
                     <group expand="0" string="Agrupar Por">
                         <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
                         <filter string="Empleado" name="group_employee" context="{'group_by': 'employee_id'}"/>
@@ -236,7 +251,7 @@
             </field>
         </record>
 
-        <!-- Acción para "Mis Aprobaciones Pendientes" -->
+        <!-- Acción para "Mis Aprobaciones Pendientes" CON CONTEXTO AUTOMÁTICO -->
         <record id="hr_overtime_my_approvals_action" model="ir.actions.act_window">
             <field name="name">Mis Aprobaciones Pendientes</field>
             <field name="res_model">hr.overtime</field>
@@ -244,14 +259,31 @@
             <field name="search_view_id" ref="hr_overtime_search_view"/>
             <field name="context">{'search_default_my_approvals': 1, 'search_default_group_department': 1}</field>
             <field name="domain">[
-                '|', '|', 
+                '|', '|', '|', '|',
                 ('employee_id.aprobador_hhee.user_id', '=', uid),
                 ('employee_id.parent_id.user_id', '=', uid),
-                '&amp;', ('employee_id.aprobador_hhee', '=', False), ('state', 'in', ['ready', 'f_approve'])
+                ('employee_id.department_id.manager_id.user_id', '=', uid),
+                '&amp;', ('employee_id.aprobador_hhee', '=', False), ('state', 'in', ['ready', 'f_approve']),
+                ('state', 'in', ['ready', 'f_approve'])
             ]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     No tienes solicitudes pendientes de aprobación.
+                </p>
+            </field>
+        </record>
+
+        <!-- NUEVA: Acción para RRHH - Solicitudes Pendientes de Configuración -->
+        <record id="hr_overtime_pending_config_action" model="ir.actions.act_window">
+            <field name="name">Solicitudes Pendientes de Configuración</field>
+            <field name="res_model">hr.overtime</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="hr_overtime_search_view"/>
+            <field name="context">{'search_default_pending_config': 1, 'search_default_group_department': 1}</field>
+            <field name="domain">[('state', '=', 'ready')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No hay solicitudes pendientes de configuración.
                 </p>
             </field>
         </record>
@@ -265,11 +297,17 @@
                   action="hr_overtime_action"
                   groups="base.group_user"/>
 
-        <!-- NUEVO: Menú para Mis Aprobaciones Pendientes -->
+        <!-- Menú para Mis Aprobaciones Pendientes -->
         <menuitem id="overtime_my_approvals" name="Mis Aprobaciones Pendientes"
                   parent="overtime_submenu"
                   action="hr_overtime_my_approvals_action"
                   groups="base.group_user"/>
+
+        <!-- NUEVO: Menú para RRHH - Solicitudes Pendientes de Configuración -->
+        <menuitem id="overtime_pending_config" name="Pendientes de Configuración"
+                  parent="overtime_submenu"
+                  action="hr_overtime_pending_config_action"
+                  groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager"/>
 
     </data>
 </odoo>

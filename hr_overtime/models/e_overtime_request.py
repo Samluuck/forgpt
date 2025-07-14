@@ -85,21 +85,20 @@ class HrOverTime(models.Model):
     state = fields.Selection(
         [
             ('draft', 'Borrador'),
-            ('f_approve', 'En espera'),
-            ('ready', 'Listo para Aprobar'),
+            ('ready', 'Listo para Configurar'),
+            ('f_approve', 'En espera de Aprobación'),
             ('approved', 'Aprobado'),
             ('refused', 'Rechazado')
         ],
         string="Estado", default="draft"
     )
 
-
     cancel_reason = fields.Text('Refuse Reason')
     leave_id = fields.Many2one('hr.leave.allocation',
                                string="Leave ID")
     attchd_copy = fields.Binary('Adjuntar un archivo')
     attchd_copy_name = fields.Char('File Name')
-    type = fields.Selection([('cash', 'Remunerado'), ('leave', 'Licencia')], default="cash", required=True, string="Tipo")  # OJO: Se repite el campo, por que?
+    type = fields.Selection([('cash', 'Remunerado'), ('leave', 'Licencia')], default="cash", required=True, string="Tipo")
     overtime_type_id = fields.Many2one(
         'overtime.type',
         string='Tipo de Horas Extras',
@@ -194,25 +193,6 @@ class HrOverTime(models.Model):
                 sheet.update({
                     'days_no_tmp': total_hours if sheet.duration_type == 'hours' else total_days,
                 })
-
-    # @api.onchange('overtime_type_id')
-    # def _get_hour_amount(self):
-    #     if self.overtime_type_id.rule_line_ids and self.duration_type == 'hours':
-    #         for recd in self.overtime_type_id.rule_line_ids:
-    #             if recd.from_hrs < self.days_no_tmp <= recd.to_hrs and self.contract_id:
-    #                 if self.contract_id.over_hour:
-    #                     cash_amount = self.contract_id.over_hour * recd.hrs_amount
-    #                     self.cash_hrs_amount = cash_amount
-    #                 else:
-    #                     raise UserError(_("Se necesita que este cargado el campo de salario por hora en el contrato del empleado."))
-    #     elif self.overtime_type_id.rule_line_ids and self.duration_type == 'days':
-    #         for recd in self.overtime_type_id.rule_line_ids:
-    #             if recd.from_hrs < self.days_no_tmp <= recd.to_hrs and self.contract_id:
-    #                 if self.contract_id.over_day:
-    #                     cash_amount = self.contract_id.over_day * recd.hrs_amount
-    #                     self.cash_day_amount = cash_amount
-    #                 else:
-    #                     raise UserError(_("Se necesita que este cargado el campo de salario por dia en el contrato del empleado."))
 
     @api.depends('overtime_type_id', 'date_from', 'date_to', 'contract_id', 'cash_hrs_diurnal_amount', 'cash_hrs_nocturnal_amount')
     def _compute_overtime_hours(self):
@@ -373,51 +353,101 @@ class HrOverTime(models.Model):
         return hours + minutes / 60.0
     
     def submit_to_f(self):
-        """Registra la solicitud y define el estado según el usuario"""
+        """Registra la solicitud y la envía automáticamente a 'ready' para configuración de RRHH"""
         for record in self:
+            # Validaciones básicas
+            if not record.date_from or not record.date_to:
+                raise UserError(_('Debe especificar las fechas de inicio y fin.'))
+            
+            if not record.desc:
+                raise UserError(_('Debe proporcionar una descripción del trabajo realizado.'))
+            
             # Notificación al empleado
             recipient_partners = [(4, record.current_user.partner_id.id)]
-            body = "Your OverTime Request is now pending approval..."
+            body = "Your OverTime Request is now pending configuration and approval..."
             msg = _(body)
             
-            # Cambiar estado según si es RRHH/Admin o empleado normal
-            if record.env.user.has_group('hr_documenta.rrhh_responsable2') or \
-            record.env.user.has_group('hr.group_hr_manager'):
-                # RRHH/Admin van directamente a f_approve si tienen tipo asignado
-                if record.overtime_type_id:
-                    new_state = 'f_approve'
-                else:
-                    new_state = 'ready'
-            else:
-                # Empleados normales van a 'ready' para que RRHH configure
-                new_state = 'ready'
+            # TODAS las solicitudes van a 'ready' para que RRHH configure el tipo
+            record.sudo().write({'state': 'ready'})
             
-            record.sudo().write({'state': new_state})
+            # Notificar a RRHH sobre nueva solicitud pendiente de configuración
+            rrhh_users = self.env.ref('hr_documenta.rrhh_responsable2').users
+            hr_manager_users = self.env.ref('hr.group_hr_manager').users
+            all_rrhh_users = rrhh_users | hr_manager_users
+            
+            for user in all_rrhh_users:
+                if user.partner_id:
+                    record.message_post(
+                        body=f"Nueva solicitud de {record.employee_id.name} pendiente de configuración.",
+                        partner_ids=[user.partner_id.id]
+                    )
         
         return True
 
     def mark_ready_to_approve(self):
         """Marca la solicitud como lista para aprobar (solo RRHH/Admin)"""
         for record in self:
+            # Verificar permisos
             if not (record.env.user.has_group('hr_documenta.rrhh_responsable2') or 
-                record.env.user.has_group('hr.group_hr_manager')):
+                    record.env.user.has_group('hr.group_hr_manager')):
                 raise UserError(_('Solo RRHH y Administradores pueden marcar solicitudes como listas para aprobar.'))
             
+            # Validar que esté en estado correcto
+            if record.state != 'ready':
+                raise UserError(_('Solo se pueden marcar como "Listo para Aprobar" las solicitudes en estado "Listo para Configurar".'))
+            
+            # Validar que tenga tipo configurado
             if not record.overtime_type_id:
                 raise UserError(_('Debe seleccionar un tipo de horas extras antes de marcar como listo para aprobar.'))
             
+            # Cambiar estado
             record.write({
                 'state': 'f_approve',
                 'ready_to_approve': True
             })
+            
+            # Notificar a los aprobadores
+            record._notify_approvers()
+
+    def _notify_approvers(self):
+        """Notifica a los aprobadores que hay una solicitud pendiente"""
+        for record in self:
+            approvers = record._get_all_approvers()
+            if approvers:
+                partner_ids = [user.partner_id.id for user in approvers if user.partner_id]
+                if partner_ids:
+                    record.message_post(
+                        body=f"Solicitud de {record.employee_id.name} lista para aprobación.",
+                        partner_ids=partner_ids
+                    )
+
+    def _get_all_approvers(self):
+        """Obtiene todos los usuarios que pueden aprobar esta solicitud"""
+        approvers = self.env['res.users']
+        
+        # RRHH y Administradores siempre pueden aprobar
+        rrhh_users = self.env.ref('hr_documenta.rrhh_responsable2').users
+        hr_manager_users = self.env.ref('hr.group_hr_manager').users
+        approvers |= rrhh_users | hr_manager_users
+        
+        # Aprobadores asignados específicamente
+        if self.employee_id.aprobador_hhee:
+            assigned_approvers = self.employee_id.aprobador_hhee.mapped('user_id').filtered(lambda u: u)
+            approvers |= assigned_approvers
+        
+        # Gerente directo (parent_id)
+        if self.employee_id.parent_id and self.employee_id.parent_id.user_id:
+            approvers |= self.employee_id.parent_id.user_id
+        
+        return approvers
 
     def _can_approve_overtime(self):
         """Verifica si el usuario actual puede aprobar/rechazar esta solicitud"""
         current_user = self.env.user
         
         # RRHH y Administradores siempre pueden aprobar
-        if current_user.has_group('hr_documenta.rrhh_responsable2') or \
-        current_user.has_group('hr.group_hr_manager'):
+        if (current_user.has_group('hr_documenta.rrhh_responsable2') or 
+            current_user.has_group('hr.group_hr_manager')):
             return True
         
         # Verificar si es uno de los aprobadores asignados
@@ -427,15 +457,15 @@ class HrOverTime(models.Model):
                 return True
         
         # Verificar si es el gerente/jefe directo (parent_id)
-        if self.employee_id.parent_id and \
-        self.employee_id.parent_id.user_id and \
-        self.employee_id.parent_id.user_id.id == current_user.id:
+        if (self.employee_id.parent_id and 
+            self.employee_id.parent_id.user_id and 
+            self.employee_id.parent_id.user_id.id == current_user.id):
             return True
         
         # Si no tiene aprobadores asignados, automáticamente RRHH/Admin actúan como aprobadores
         if not self.employee_id.aprobador_hhee:
-            return current_user.has_group('hr_documenta.rrhh_responsable2') or \
-                current_user.has_group('hr.group_hr_manager')
+            return (current_user.has_group('hr_documenta.rrhh_responsable2') or 
+                   current_user.has_group('hr.group_hr_manager'))
         
         return False
 
@@ -444,19 +474,23 @@ class HrOverTime(models.Model):
         current_user = self.env.user
         
         # RRHH y Administradores pueden aprobar sus propias solicitudes
-        if current_user.has_group('hr_documenta.rrhh_responsable2') or \
-        current_user.has_group('hr.group_hr_manager'):
+        if (current_user.has_group('hr_documenta.rrhh_responsable2') or 
+            current_user.has_group('hr.group_hr_manager')):
             return True
         
         # Verificar si es su propia solicitud
         if self.employee_id.user_id and self.employee_id.user_id.id == current_user.id:
-            return False  # No puede auto-aprobar
+            return False  # No puede auto-aprobar (excepto RRHH/Admin arriba)
         
         return True  # Puede aprobar solicitudes de otros
 
     def approve(self):
         """Aprueba la solicitud con validación de permisos de aprobador"""
         for record in self:
+            # Verificar que esté en estado correcto
+            if record.state != 'f_approve':
+                raise UserError(_('Solo se pueden aprobar solicitudes en estado "En espera de Aprobación".'))
+            
             # Verificar permisos de aprobación
             if not record._can_approve_overtime():
                 raise UserError(_('No tienes permisos para aprobar esta solicitud de horas extras.'))
@@ -490,9 +524,11 @@ class HrOverTime(models.Model):
                 record.leave_id = holiday.id
 
             # Notificar al usuario
-            recipient_partners = [(4, record.current_user.partner_id.id)]
-            body = "Your Time In Lieu Request Has been Approved ..."
-            msg = _(body)
+            if record.current_user and record.current_user.partner_id:
+                record.message_post(
+                    body="Your Time In Lieu Request Has been Approved ...",
+                    partner_ids=[record.current_user.partner_id.id]
+                )
 
             # Actualizar el estado a 'approved'
             record.state = 'approved'
@@ -500,12 +536,22 @@ class HrOverTime(models.Model):
     def reject(self):
         """Rechaza la solicitud con validación de permisos de aprobador"""
         for record in self:
+            # Verificar que esté en estado correcto
+            if record.state != 'f_approve':
+                raise UserError(_('Solo se pueden rechazar solicitudes en estado "En espera de Aprobación".'))
+            
             # Verificar permisos de aprobación
             if not record._can_approve_overtime():
                 raise UserError(_('No tienes permisos para rechazar esta solicitud de horas extras.'))
+            
+            # Notificar al usuario
+            if record.current_user and record.current_user.partner_id:
+                record.message_post(
+                    body="Your Overtime Request has been rejected.",
+                    partner_ids=[record.current_user.partner_id.id]
+                )
         
-        self.state = 'refused'
-
+            record.state = 'refused'
 
     @api.constrains('date_from', 'date_to')
     def _check_date(self):
@@ -527,11 +573,13 @@ class HrOverTime(models.Model):
         Permite volver al estado Borrador desde Rechazado.
         """
         for record in self:
-            #permite cambiar a borrador desde rechazado
+            # Solo permite cambiar a borrador desde rechazado
             if record.state == 'refused':
                 record.state = 'draft'
+                record.overtime_type_id = False  # Limpiar tipo para reconfigurar
+                record.ready_to_approve = False  # Reset del flag
             else:
-                raise UserError(_('solo puedes pasar a borrador si la solicitud se encuentra rechazada.'))
+                raise UserError(_('Solo puedes pasar a borrador si la solicitud se encuentra rechazada.'))
 
     @api.model
     def create(self, values):
@@ -613,6 +661,7 @@ class HrOverTime(models.Model):
             else:
                 record.domingo = 'no'
 
+
 class HrOverTimeType(models.Model):
     _name = 'overtime.type'
     _description = "HR Overtime Type"
@@ -664,6 +713,7 @@ class HrOverTimeTypeRule(models.Model):
         ('diurnal', 'Diurna'),
         ('nocturnal', 'Nocturna'),
     ], string='Tipo de Regla', required=True, default='diurnal', help="Indica si esta regla corresponde a horas extra diurnas o nocturnas.")
+    
     def _convert_float_to_time(self, float_time):
         """ Convierte un número flotante (Ej: 17.5) en una hora con formato (Ej: 17:30). """
         hours = int(float_time)
