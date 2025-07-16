@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
+
+        <menuitem
+            id="despacho_menu_root"
+            name="Despachos"
+            web_icon="despacho,static/description/icon.png"
+            groups="base.group_user"
+        />
+
+        <menuitem
+                id="despacho.configuracion_menu"
+                name="Configuraciones"
+                sequence="4"
+                parent="despacho_menu_root"
+        />
+
         <record model="ir.ui.view" id="despacho.aduana_list">
             <field name="name">Aduanas</field>
             <field name="model">despacho.aduana</field>
@@ -215,19 +230,6 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem
-            id="despacho_menu_root"
-            name="Despachos"
-            web_icon="despacho,static/description/icon.png"
-            groups="base.group_user"
-        />
-
-        <menuitem
-                id="despacho.configuracion_menu"
-                name="Configuraciones"
-                sequence="4"
-                parent="despacho_menu_root"
-        />
         <menuitem
                 id="despacho.aduana_menu_list"
                 name="Aduanas"

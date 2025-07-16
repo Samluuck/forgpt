@@ -22,7 +22,7 @@
                 <xpath expr="//sheet/group[1]" position="before">
                     <group>
                         <group string="Datos de Despacho">
-                            <field name="codigo" widget="html" class="oe_inline"/>
+                            <field name="codigo"/>
                         </group>
                     </group>
                 </xpath>

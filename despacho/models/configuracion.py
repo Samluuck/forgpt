@@ -57,6 +57,7 @@ class TipoDocumentoPrevio(models.Model):
         string="Régimen",
         help="Régimen al que aplica este tipo de documento previo"
     )
+    orden = fields.Integer('Orden')
     orden_gabinete = fields.Char('Orden')
 
     def name_get(self):

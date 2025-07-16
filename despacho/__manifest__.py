@@ -17,7 +17,7 @@
     'depends': ['base', 'hr', 'hr_expense', 'contacts'],
     'data': [
         'security/ir.model.access.csv',
-        'data/sequence.xml',
+        # 'data/sequence.xml',
         'views/views.xml',
         'views/despachos.xml',
         'views/administracion.xml',

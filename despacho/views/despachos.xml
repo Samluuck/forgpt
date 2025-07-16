@@ -405,7 +405,7 @@
                                     <group>
                                         <field name="oficial"/>
                                         <field name="documento"/>
-                                        <field name="documento_cuerpo"/>
+                                        <!-- <field name="documento_cuerpo"/> -->
                                         <field name="canal"/>
                                         <field name="fecha_oficializacion"/>
                                     </group>

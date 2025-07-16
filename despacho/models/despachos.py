@@ -171,21 +171,6 @@ class Despacho(models.Model):
                             'despacho_id': rec.id,
                         })
 
-            # if rec.documento:
-            #     rec.env['despacho.documento_unificado'].create({
-            #         'name': 'Carátula de Oficialización',
-            #         'archivo': rec.documento,
-            #         'origen': 'oficializacion',
-            #         'despacho_id': rec.id,
-            #     })
-            # if rec.documento_cuerpo:
-            #     rec.env['despacho.documento_unificado'].create({
-            #         'name': 'Cuerpo de Oficialización',
-            #         'archivo': rec.documento_cuerpo,
-            #         'origen': 'oficializacion',
-            #         'despacho_id': rec.id,
-            #     })
-
 
     @api.model
     def _default_employee_id(self):
@@ -350,7 +335,7 @@ class Despacho(models.Model):
 
     fecha_oficializacion = fields.Date('Fecha de Oficialización')
     numero_factura = fields.Char('Número de Factura')
-    fecha_facturacion = fields.Date('Fecha de Facturación', compute='_compute_factura_cliente_data', store=True)
+    fecha_facturacion = fields.Date('Fecha de Liquidación', store=False)
 
     cif = fields.Float('CIF', compute='_compute_cif', store=True)
     moneda = fields.Many2one('despacho.moneda', 'Moneda')
@@ -415,7 +400,7 @@ class Despacho(models.Model):
     )
 
     documento = fields.Binary('Despacho oficializado (Carátula)', attachment=True)
-    documento_cuerpo = fields.Binary('Despacho oficializado (Cuerpo)', attachment=True)
+    # documento_cuerpo  .Binary('Despacho oficializado (Cuerpo)', attachment=True)
 
     canal = fields.Selection([
         ('red', 'Rojo'),
@@ -449,108 +434,6 @@ class Despacho(models.Model):
         'Número de Adjuntos',
         compute='_compute_attachment_number'
     )
-
-    ##### METODOS COMPUTADOS #####
-    # def action_crear_recepcion_datos(self):
-    #     self.ensure_one()
-
-    #     journal = self.env['account.journal'].search([
-    #         ('type', '=', 'sale'),
-    #         ('company_id', '=', self.company_id.id)
-    #     ], limit=1)
-
-    #     if not journal or not journal.default_account_id:
-            # raise UserError("No se encontró un diario de ventas con cuenta predeterminada.")
-
-    #     recepcion = self.env['account.voucher'].create({
-    #         'partner_id': self.propietario.id,
-    #         'voucher_type': 'sale',
-    #         'name': f"Recepción Datos - {self.ot}",
-    #         'account_id': journal.default_account_id.id,
-    #         'journal_id': journal.id,
-    #         'amount': 0.0,
-    #     })
-
-    #     self.recepciones_datos_id = recepcion.id
-
-    #     return {
-    #         'type': 'ir.actions.act_window',
-    #         'res_model': 'account.voucher',
-    #         'res_id': recepcion.id,
-    #         'view_mode': 'form',
-    #         'target': 'current',
-    #     }
-
-
-    # def action_crear_recepcion_ofi(self):
-    #     self.ensure_one()
-
-    #     if self.recepciones_ofi_id:
-    #         return {
-    #             'name': 'Recepción Oficialización',
-    #             'view_mode': 'form',
-    #             'res_model': 'account.voucher',
-    #             'type': 'ir.actions.act_window',
-    #             'res_id': self.recepciones_ofi_id.id,
-    #         }
-
-    #     journal = self.env['account.journal'].search([
-    #         ('type', '=', 'purchase'),
-    #         ('company_id', '=', self.company_id.id)
-    #     ], limit=1)
-
-    #     if not journal or not journal.default_account_id:
-    #         raise UserError("No se encontró un diario de compras con cuenta predeterminada.")
-
-    #     recepcion = self.env['account.voucher'].create({
-    #         'partner_id': self.propietario.id,
-    #         'voucher_type': 'purchase',
-    #         'name': f"Recepción Oficialización - {self.ot}",
-    #         'account_id': journal.default_account_id.id,
-    #         'journal_id': journal.id,
-    #         'amount': self.total_ofi_imputar,
-    #     })
-
-    #     self.recepciones_ofi_id = recepcion.id
-
-    #     return {
-    #         'name': 'Recepción Oficialización',
-    #         'view_mode': 'form',
-    #         'res_model': 'account.voucher',
-    #         'type': 'ir.actions.act_window',
-    #         'res_id': recepcion.id,
-    #     }
-
-
-    # def action_crear_recepcion_gabi(self):
-    #     self.ensure_one()
-
-    #     journal = self.env['account.journal'].search([
-    #         ('type', '=', 'purchase'),
-    #         ('company_id', '=', self.company_id.id)
-    #     ], limit=1)
-
-    #     if not journal:
-    #         raise UserError("No se encontró un diario de compras configurado para la compañía.")
-
-    #     recepcion = self.env['account.voucher'].create({
-    #         'partner_id': self.proveedor.id,  # o el campo adecuado
-    #         'voucher_type': 'purchase',
-    #         'name': f"Recepción - {self.ot}",
-    #         'account_id': journal.default_account_id.id,  # Esto resuelve el error
-    #         'journal_id': journal.id,
-    #     })
-
-    #     self.recepciones_gabi_id = recepcion.id
-
-    #     return {
-    #         'name': 'Recepción Gabinete',
-    #         'type': 'ir.actions.act_window',
-    #         'res_model': 'account.voucher',
-    #         'view_mode': 'form',
-    #         'res_id': recepcion.id,
-    #         'target': 'current',
-    #     }
 
     # Bloqueo en frontend (no estrictamente necesario si hacés solo validación lógica)
     @api.onchange('tc')
@@ -650,27 +533,6 @@ class Despacho(models.Model):
         for record in self:
             record.regimen_name = record.regimen.name
 
-    # @api.onchange('moneda')
-    # def _compute_tc(self):
-    #     for record in self:
-    #         record.tc = 0
-    #         try:
-    #             url = "https://www.aduana.gov.py/proc.php"
-    #             response = requests.get(url, timeout=10)
-    #             if response.status_code == 200:
-    #                 soup = BeautifulSoup(response.text, 'html.parser')
-    #                 for index, td in enumerate(soup.findAll('td')):
-    #                     if record.moneda.name == 'DOL' and td.contents[0] == 'DOLAR ESTADOUNIDENSE':
-    #                         record.tc = float(
-    #                             soup.findAll('td')[index + 1].contents[0].replace('.', '').replace(',', '.'))
-    #                     if record.moneda.name == 'MCM' and td.contents[0] == 'MONEDA COMUN EUROPEA':
-    #                         record.tc = float(
-    #                             soup.findAll('td')[index + 1].contents[0].replace('.', '').replace(',', '.'))
-    #         except Exception as e:
-    #             _logger.error(f"Error al obtener tipo de cambio: {str(e)}")
-
-    # def _inverse_tc(self):
-    #     pass
 
     # Métodos de estado
     def _expand_states(self, states, domain, order):
@@ -681,12 +543,6 @@ class Despacho(models.Model):
         for record in self:
             if record.state != 'liquidado' and record.fecha_oficializacion and record.oficial:
                 record.state = 'oficializado'
-
-    # @api.onchange('fecha_facturacion', 'numero_factura')
-    # def _compute_liquidacion(self):
-    #     for record in self:
-    #         if record.fecha_facturacion and record.numero_factura:
-    #             record.state = 'liquidado'
 
     def action_confirm(self):
         for rec in self:
@@ -705,43 +561,66 @@ class Despacho(models.Model):
             elif rec.state == 'finiquitado':
                 rec.state = 'liquidado'
 
-    # Métodos CRUD
     @api.model
     def create(self, vals):
         if vals.get('ot', _('New')) == _('New') and vals.get('propietario'):
             partner = self.env['res.partner'].browse(vals['propietario'])
             if not partner.exists():
                 raise ValidationError("Propietario no válido.")
-
-            nombre = partner.name or ''
-            nombre = nombre.upper()
-            _logger.info(f"[OT-GEN] Nombre del propietario: {nombre}")
-
-            # Generar prefijo: 3 primeras letras alfanuméricas
-            prefijo = ''.join([c for c in nombre if c.isalnum()])[:3]
-            prefijo = prefijo.ljust(3, 'X')  # Asegura 3 caracteres
-            _logger.info(f"[OT-GEN] Prefijo generado: {prefijo}")
-
-            # Buscar últimos OTs del cliente
-            existing_ots = self.search([('ot', 'ilike', f"{prefijo}%")], order="ot desc", limit=1)
-            if existing_ots:
-                _logger.info(f"[OT-GEN] Último OT encontrado: {existing_ots.ot}")
+    
+            prefijo = (partner.codigo or '').strip().upper()
+            if not prefijo:
+                raise ValidationError("El propietario no tiene un código asignado.")
+    
+            _logger.info(f"[OT-GEN] Prefijo: {prefijo}")
+    
+            # Configuración inicial
+            MAX_ATTEMPTS = 5
+            BASE_NUMBER = 7011
+            attempt = 0
+            
+            while attempt < MAX_ATTEMPTS:
                 try:
-                    last_number = int(existing_ots.ot[-4:])
-                    new_number = f"{last_number + 1:04d}"
+                    # Obtener todas las OTs existentes (solo campo 'ot')
+                    all_ots = self.search_read([], ['ot'], order='ot desc')
+                    
+                    # Encontrar el máximo número existente
+                    max_num = BASE_NUMBER - 1
+                    for ot in all_ots:
+                        try:
+                            # Extraer los últimos dígitos (considerando hasta 6 dígitos numéricos)
+                            num_str = ''.join(filter(str.isdigit, ot['ot'][-6:]))
+                            current_num = int(num_str) if num_str else 0
+                            max_num = max(max_num, current_num)
+                        except:
+                            continue
+                    
+                    next_num = max_num + 1
+                    
+                    # Verificar si el número ya existe
+                    existing_ot = self.search([('ot', '=', f"{prefijo}{next_num:04d}")], limit=1)
+                    if not existing_ot:
+                        vals['ot'] = f"{prefijo}{next_num:04d}"
+                        _logger.info(f"[OT-GEN] OT generada: {vals['ot']}")
+                        return super().create(vals)
+                    
+                    attempt += 1
+                    _logger.warning(f"Intento {attempt}: Número {next_num} ya existe. Reintentando...")
+                    
                 except Exception as e:
-                    _logger.warning(f"[OT-GEN] Error extrayendo número: {e}")
-                    new_number = "0001"
-            else:
-                _logger.info(f"[OT-GEN] No se encontraron OTs previas para: {prefijo}")
-                new_number = "0001"
-
-            final_ot = f"{prefijo}{new_number}"
-            _logger.info(f"[OT-GEN] OT final generada: {final_ot}")
-            vals['ot'] = final_ot
-
+                    attempt += 1
+                    _logger.error(f"Error en intento {attempt}: {str(e)}")
+                    if attempt >= MAX_ATTEMPTS:
+                        raise ValidationError(
+                            "No se pudo generar el número de OT después de varios intentos. "
+                            "Por favor intente nuevamente o contacte al administrador."
+                        )
+                    # pausa antes de reintentar
+                    time.sleep(0.5)
+            
+            raise ValidationError("No se pudo generar un número único para la OT. Intente nuevamente.")
+        
         return super().create(vals)
-
 
     @api.onchange('regimen')
     def regimen_onchange(self):
@@ -826,7 +705,6 @@ class Despacho(models.Model):
 
             rec.write({
                 'numero_factura': factura.name,
-                # 'fecha_facturacion': factura.invoice_date,
                 'factura_cliente_id': factura.id,
             })
 
@@ -1047,14 +925,7 @@ class DocumentoOficializacion(models.Model):
     hr_expense = fields.Many2one('hr.expense', 'Gasto')
     imputar = fields.Boolean('Imputar')
     
-    # @api.onchange('factura_proveedor_id')
-    # def _onchange_factura_proveedor(self):
-    #     for rec in self:
-    #         factura = rec.factura_proveedor_id
-    #         if factura:
-    #             rec.fecha = factura.invoice_date
-    #             rec.monto = factura.amount_total
-    
+
     @api.depends('factura_proveedor_id.invoice_date', 'factura_proveedor_id.amount_total')
     def _compute_factura_data(self):
         for rec in self:
