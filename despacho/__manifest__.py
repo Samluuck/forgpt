@@ -16,8 +16,9 @@
     'version': '17.0.0.1',
     'depends': ['base', 'hr', 'hr_expense', 'contacts'],
     'data': [
+        'security/despacho_security.xml',
         'security/ir.model.access.csv',
-        # 'data/sequence.xml',
+        'views/res_users_view.xml',
         'views/views.xml',
         'views/despachos.xml',
         'views/administracion.xml',

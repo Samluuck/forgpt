@@ -70,7 +70,7 @@
         </record>
 
         <!-- Menú principal -->
-        <menuitem id="despacho.contacts_menu" name="Contactos" parent="despacho_menu_root" sequence="10"/>
+        <menuitem id="despacho.contacts_menu" name="Contactos" parent="despacho_menu_root" sequence="10" groups="despacho.group_despacho_admin"/>
 
         <!-- Submenú -->
         <menuitem id="contact_menu" name="Lista de Contactos"

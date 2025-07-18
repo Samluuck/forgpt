@@ -336,7 +336,9 @@
                                 <group col="3">
                                     <field name="manifiesto"/>
                                     <field name="barcaza_model"/>
-                                    <field name="recepciones_datos_id"/>
+                                    <field name="total_datos"/>
+                                    <field name="total_datos_imputar"/>
+                                    <field name="recepciones_datos_id" colspan="1"/>
                                     <field name="desconsolidacion" invisible="1"/>
                                      <!-- <button name="action_crear_recepcion_datos"
                                         type="object"

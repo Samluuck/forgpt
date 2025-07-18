@@ -29,9 +29,6 @@
         <table style="width:100%; margin-bottom:5px; border-collapse:collapse;">
           <tr>
             <td style="width:60%;">
-              <!--<t t-if="doc.company_id.logo">-->
-              <!--  <img t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode()" style="height:30px; max-width:120px;"/>-->
-              <!--</t>-->
               <p style="margin:2px 0; font-size:12px;"><strong>Cliente</strong> : <span t-esc="doc.propietario.name"/></p>
             </td>
             <td style="font-size:12px;">
@@ -40,134 +37,159 @@
                   <strong>Asunción,</strong> <t t-esc="doc.fecha_facturacion and doc.fecha_facturacion.strftime('%d de %B de %Y') or ''"/>
                 </div>
                 <div style="white-space: nowrap;">
-                  <strong>Liquidación N°:</strong> <t t-esc="doc.ot"/>
-
+                  <strong>Liquidación N°:</strong> <t t-esc="doc.numero_liquidacion"/>
                 </div>
               </div>
             </td>
           </tr>
         </table>
         
-      <!-- TABLA DE DATOS COMPACTA CON 3 COLUMNAS EN UN SOLO RECUADRO -->
-      <table class="no-inner-borders" style="width:100%; font-size:12px; line-height:1.1; margin-bottom:5px; border: 1px solid #000; border-collapse: collapse;">
-        <tr style="vertical-align: top;">
-          
-          <!-- COLUMNA IZQUIERDA CON FONDO GRIS -->
-          <td style="width:40%; background-color: #f0f0f0; padding: 2px;">
-            <table style="width:100%; border: 0; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0">
-              <tr><td style="border: 0;">Despacho N°:</td><td style="border: 0;"><t t-esc="doc.numero_factura"/></td></tr>
-              <tr><td style="border: 0;">Manifiesto N°:</td><td style="border: 0;"><t t-esc="doc.manifiesto or ''"/></td></tr>
-              <tr><td style="border: 0;">Aduana / Depósito:</td><td style="border: 0;"><t t-esc="doc.aduana.name or ''"/></td></tr>
-              <tr><td style="border: 0;">Factura Comercial:</td><td style="border: 0;"><t t-esc="doc.numero_factura or ''"/></td></tr>
-              <tr><td style="border: 0;">Cantidad Bultos:</td><td style="border: 0;"><t t-esc="doc.cantidad or ''"/></td></tr>
-              <tr><td style="border: 0;">Mercadería:</td><td style="border: 0;"><t t-esc="doc.mercaderias_model.name or ''"/></td></tr>
-              <tr><td style="border: 0;">Peso Neto:</td><td style="border: 0;"><t t-esc="doc.peso_neto"/></td></tr>
-              <tr><td style="border: 0;">Peso Bruto:</td><td style="border: 0;"><t t-esc="doc.peso_bruto"/></td></tr>
-            </table>
-          </td>
-      
-          <!-- COLUMNA CENTRAL -->
-          <td style="width:20%; text-align: center; vertical-align: middle; padding: 2px;">
-            <div style="font-weight: bold;">T/C: <t t-esc="doc.tc"/></div>
-          </td>
-      
-          <!-- COLUMNA DERECHA -->
-          <td style="width:40%; padding: 2px;">
-            <table style="width:100%; border: 0; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0">
-              <tr><td style="border: 0;">R.U.C. N°:</td><td style="border: 0;"><t t-esc="doc.company_id.vat or ''"/></td></tr>
-              <tr><td style="border: 0;">Transportadora:</td><td style="border: 0;"><t t-esc="doc.transportista.name or ''"/></td></tr>
-              <tr><td style="border: 0;">CRT / BL / AWB:</td><td style="border: 0;"><t t-esc="doc.crt or ''"/></td></tr>
-              <tr><td style="border: 0;">País de Origen:</td><td style="border: 0;"><t t-esc="doc.pais_origen or ''"/></td></tr>
-              <tr><td style="border: 0;">Proveedor:</td><td style="border: 0;"><t t-esc="doc.proveedor.name or ''"/></td></tr>
-              <tr><td style="border: 0;">Partida Arancelaria:</td><td style="border: 0;"><t t-esc="doc.partida_arancelaria or ''"/></td></tr>
-              <tr><td style="border: 0;">Valor Imponible Gs.:</td><td style="border: 0;"><t t-esc="'{:,.0f}'.format(doc.cif_guaranies).replace(',', '.')"/></td></tr>
-              <tr><td style="border: 0;">Imponible USD:</td><td style="border: 0;"><t t-esc="doc.imponible_usd"/></td></tr>
-            </table>
-          </td>
-      
-        </tr>
-      </table>
-      <!-- DETALLE DE LIQUIDACIÓN -->
-      <table class="table table-sm table-bordered" style="width:95%; margin: 10px auto; table-layout: fixed; font-size: 10px;">
-        <thead>
-          <tr>
-            <th style="width:5%;">#</th>
-            <th style="width:45%;">Descripción</th>
-            <th style="width:20%;">Comprobante</th>
-            <th class="text-end" style="width:15%;">Gs.</th>
-            <th class="text-end" style="width:15%;">USD</th>
+        <!-- TABLA DE DATOS COMPACTA CON 3 COLUMNAS EN UN SOLO RECUADRO -->
+        <table class="no-inner-borders" style="width:100%; font-size:12px; line-height:1.1; margin-bottom:5px; border: 1px solid #000; border-collapse: collapse;">
+          <tr style="vertical-align: top;">
+            
+            <!-- COLUMNA IZQUIERDA CON FONDO GRIS -->
+            <td style="width:40%; background-color: #f0f0f0; padding: 2px;">
+              <table style="width:100%; border: 0; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0">
+                <tr><td style="border: 0;">Despacho N°:</td><td style="border: 0;"><t t-esc="doc.numero_factura"/></td></tr>
+                <tr><td style="border: 0;">Manifiesto N°:</td><td style="border: 0;"><t t-esc="doc.manifiesto or ''"/></td></tr>
+                <tr><td style="border: 0;">Aduana / Depósito:</td><td style="border: 0;"><t t-esc="doc.aduana.name or ''"/></td></tr>
+                <tr><td style="border: 0;">Factura Comercial:</td><td style="border: 0;"><t t-esc="doc.numero_factura or ''"/></td></tr>
+                <tr><td style="border: 0;">Cantidad Bultos:</td><td style="border: 0;"><t t-esc="'{:,.2f}'.format(doc.cantidad or 0).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.')"/></td></tr>
+                <tr><td style="border: 0;">Mercadería:</td><td style="border: 0;"><t t-esc="doc.mercaderias_model.name or ''"/></td></tr>
+                <tr><td style="border: 0;">Peso Neto:</td><td style="border: 0;"><t t-esc="'{:,.2f}'.format(doc.peso_neto or 0).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.')"/></td></tr>
+                <tr><td style="border: 0;">Peso Bruto:</td><td style="border: 0;"><t t-esc="'{:,.2f}'.format(doc.peso_bruto or 0).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.')"/></td></tr>
+              </table>
+            </td>
+        
+            <!-- COLUMNA CENTRAL -->
+            <td style="width:20%; text-align: center; vertical-align: middle; padding: 2px;">
+              <div style="font-weight: bold;">T/C: <t t-esc="doc.tc"/></div>
+            </td>
+        
+            <!-- COLUMNA DERECHA -->
+            <td style="width:40%; padding: 2px;">
+              <table style="width:100%; border: 0; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0">
+                <tr><td style="border: 0;">R.U.C. N°:</td><td style="border: 0;"><t t-esc="doc.company_id.vat or ''"/></td></tr>
+                <tr><td style="border: 0;">Transportadora:</td><td style="border: 0;"><t t-esc="doc.transportista.name or ''"/></td></tr>
+                <tr><td style="border: 0;">CRT / BL / AWB:</td><td style="border: 0;"><t t-esc="doc.crt or ''"/></td></tr>
+                <tr><td style="border: 0;">País de Origen:</td><td style="border: 0;"><t t-esc="doc.pais_origen or ''"/></td></tr>
+                <tr><td style="border: 0;">Proveedor:</td><td style="border: 0;"><t t-esc="doc.proveedor.name or ''"/></td></tr>
+                <tr><td style="border: 0;">Partida Arancelaria:</td><td style="border: 0;"><t t-esc="doc.partida_arancelaria or ''"/></td></tr>
+                <tr><td style="border: 0;">Valor Imponible Gs.:</td><td style="border: 0;"><t t-esc="'{:,.0f}'.format(doc.cif_guaranies or 0).replace(',', '.')"/></td></tr>
+                <tr><td style="border: 0;">Imponible USD:</td><td style="border: 0;"><t t-esc="'{:,.2f}'.format(doc.imponible_usd or 0).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.')"/></td></tr>
+              </table>
+            </td>
+        
           </tr>
-        </thead>
+        </table>
+
+        <!-- DETALLE DE LIQUIDACIÓN -->
+        <table class="table table-sm table-bordered" style="width:95%; margin: 10px auto; table-layout: fixed; font-size: 10px;">
+          <thead>
+            <tr>
+              <th style="width:5%;">#</th>
+              <th style="width:45%;">Descripción</th>
+              <th style="width:20%;">Comprobante</th>
+              <th class="text-end" style="width:15%;">Gs.</th>
+              <th class="text-end" style="width:15%;">USD</th>
+            </tr>
+          </thead>
           <tbody>
 
-            <!-- SECCIÓN A -->
-            <tr><td>A.1</td><td>Derecho Aduanero</td><td></td><td></td><td></td></tr>
-            <tr><td>A.2</td><td>I.S.C.</td><td></td><td></td><td></td></tr>
-            <tr><td>A.3</td><td>Servicio Valoracion Aduanera</td><td></td><td></td><td></td></tr>
-            <tr><td>A.4</td><td>IRE General 700</td><td></td><td></td><td></td></tr>
-            <tr><td>A.5</td><td>IVA</td><td></td><td></td><td></td></tr>
+            <!-- PREPARAR DATOS DINÁMICOS DEL GABINETE -->
+            <t t-set="documentos_gabinete" t-value="doc.documentos_sin_monto.filtered(lambda d: d.imputar)"/>
+            <t t-set="seccion_a" t-value="documentos_gabinete.filtered(lambda d: d.tipo and d.tipo.orden_gabinete == 'A')"/>
+            <t t-set="seccion_b" t-value="documentos_gabinete.filtered(lambda d: d.tipo and d.tipo.orden_gabinete == 'B')"/>
+            <t t-set="total_seccion_a" t-value="0"/>
+            <t t-set="total_seccion_b" t-value="0"/>
+            <t t-set="total_seccion_a_usd" t-value="0"/>
+            <t t-set="total_seccion_b_usd" t-value="0"/>
+
+            <!-- SECCIÓN A - DINÁMICAMENTE GENERADA -->
+            <t t-foreach="seccion_a.sorted(key=lambda d: d.numero_orden or 0)" t-as="doc_a">
+              <t t-set="comprobante_a" t-value="doc_a.factura_proveedor_id.name if doc_a.factura_proveedor_id else (doc_a.numero if doc_a.numero else '/')"/>
+              <t t-set="monto_a" t-value="doc_a.factura_proveedor_id.amount_total if doc_a.factura_proveedor_id else (doc_a.monto or 0)"/>
+              <t t-set="monto_a_usd" t-value="monto_a / doc.tc if doc.tc and doc.tc > 0 else 0"/>
+              <t t-set="total_seccion_a" t-value="total_seccion_a + monto_a"/>
+              <t t-set="total_seccion_a_usd" t-value="total_seccion_a_usd + monto_a_usd"/>
+              
+              <tr>
+                <td><t t-esc="'A.' + str(doc_a.numero_orden or 0)"/></td>
+                <td><t t-esc="doc_a.tipo.name or 'Sin descripción'"/></td>
+                <td><t t-esc="comprobante_a"/></td>
+                <td class="text-end">
+                  <t t-esc="'{:,.0f}'.format(monto_a).replace(',', '.') if monto_a else ''"/>
+                </td>
+                <td class="text-end">
+                  <t t-esc="'{:,.2f}'.format(monto_a_usd).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.') if monto_a_usd else ''"/>
+                </td>
+              </tr>
+            </t>
+
+            <!-- SUBTOTAL SECCIÓN A -->
             <tr>
               <td colspan="3"><strong>A. SUBTOTALES ADUANAS (A)</strong></td>
-              <td class="text-end"></td>
-              <td></td>
-            </tr>
-
-            <!-- SECCIÓN B -->
-            <!--- CALCULOS SECCION B-->
-            <t t-set="canon_gab" t-value="doc.documentos_sin_monto.filtered(lambda l: l.tipo.name and l.tipo.name.upper().strip() == 'CANON INFORMATICO')"/>
-            <t t-set="canon_dat" t-value="doc.documentos.filtered(lambda l: l.tipo.name and l.tipo.name.upper().strip() == 'CANON INFORMATICO')"/>
-            <t t-set="canon_ofi" t-value="doc.documentos_oficializacion.filtered(lambda l: l.tipo.name and l.tipo.name.upper().strip() == 'CANON INFORMATICO')"/>
-
-            <t t-set="canon_total_gab" t-value="sum(l.monto for l in canon_gab)"/>
-            <t t-set="canon_total_dat" t-value="sum(l.monto for l in canon_dat)"/>
-            <t t-set="canon_total_ofi" t-value="sum(l.monto for l in canon_ofi)"/>
-
-            <t t-set="canon_total" t-value="canon_total_gab + canon_total_dat + canon_total_ofi"/>
-
-            <t t-set="canon_doc" t-value="(canon_gab or canon_dat or canon_ofi)[:1]"/>
-            <t t-set="canon_numero" t-value="canon_doc[0].numero if canon_doc else ''"/>
-            <!-- FIN DE CALCULOS SECCION B -->
-            <tr>
-              <td>B.1</td>
-              <td>Canon Informático</td>
-              <td><t t-esc="canon_numero"/></td>
               <td class="text-end">
-                <t t-esc="'{:,.0f}'.format(canon_total).replace(',', '.') if canon_total else ''"/>
+                <strong><t t-esc="'{:,.0f}'.format(total_seccion_a).replace(',', '.') if total_seccion_a else ''"/></strong>
               </td>
               <td class="text-end">
-                <t t-esc="''"/>
+                <strong><t t-esc="'{:,.2f}'.format(total_seccion_a_usd).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.') if total_seccion_a_usd else ''"/></strong>
               </td>
             </tr>
 
-            <tr><td>B.2</td><td>Servicios Portuarios DINAC</td><td></td><td></td><td></td></tr>
-            <tr><td>B.3</td><td>IVA Portuarios</td><td></td><td></td><td></td></tr>
-            <tr><td>B.4</td><td>Comisión CDAP</td><td></td><td></td><td></td></tr>
-            <tr><td>B.5</td><td>IVA CDAP</td><td></td><td></td><td></td></tr>
-            <tr><td>B.6</td><td>Fotocopias AEDA</td><td></td><td></td><td></td></tr>
-            <tr><td>B.7</td><td>IVA AEDA</td><td></td><td></td><td></td></tr>
-            <tr><td>B.8</td><td>Liquidación LPI Dinavisa</td><td></td><td></td><td></td></tr>
-            <tr><td>B.9</td><td>Servicios Profesionales Agencia Burro y Asoc</td><td></td><td></td><td></td></tr>
-            <tr><td>B.10</td><td>IVA Servicios Profesionales</td><td></td><td></td><td></td></tr>
+            <!-- SECCIÓN B - DINÁMICAMENTE GENERADA -->
+            <t t-foreach="seccion_b.sorted(key=lambda d: d.numero_orden or 0)" t-as="doc_b">
+              <t t-set="comprobante_b" t-value="doc_b.factura_proveedor_id.name if doc_b.factura_proveedor_id else (doc_b.numero if doc_b.numero else '/')"/>
+              <t t-set="monto_b" t-value="doc_b.factura_proveedor_id.amount_total if doc_b.factura_proveedor_id else (doc_b.monto or 0)"/>
+              <t t-set="monto_b_usd" t-value="monto_b / doc.tc if doc.tc and doc.tc > 0 else 0"/>
+              <t t-set="total_seccion_b" t-value="total_seccion_b + monto_b"/>
+              <t t-set="total_seccion_b_usd" t-value="total_seccion_b_usd + monto_b_usd"/>
+              
+              <tr>
+                <td><t t-esc="'B.' + str(doc_b.numero_orden or 0)"/></td>
+                <td><t t-esc="doc_b.tipo.name or 'Sin descripción'"/></td>
+                <td><t t-esc="comprobante_b"/></td>
+                <td class="text-end">
+                  <t t-esc="'{:,.0f}'.format(monto_b).replace(',', '.') if monto_b else ''"/>
+                </td>
+                <td class="text-end">
+                  <t t-esc="'{:,.2f}'.format(monto_b_usd).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.') if monto_b_usd else ''"/>
+                </td>
+              </tr>
+            </t>
+
+            <!-- SUBTOTAL SECCIÓN B -->
             <tr>
               <td colspan="3"><strong>B. SUBTOTALES SERVICIOS (B)</strong></td>
-              <td class="text-end"></td>
-              <td></td>
+              <td class="text-end">
+                <strong><t t-esc="'{:,.0f}'.format(total_seccion_b).replace(',', '.') if total_seccion_b else ''"/></strong>
+              </td>
+              <td class="text-end">
+                <strong><t t-esc="'{:,.2f}'.format(total_seccion_b_usd).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.') if total_seccion_b_usd else ''"/></strong>
+              </td>
             </tr>
 
             <!-- C: TOTAL A + B -->
+            <t t-set="total_general_ab" t-value="total_seccion_a + total_seccion_b"/>
+            <t t-set="total_general_ab_usd" t-value="total_seccion_a_usd + total_seccion_b_usd"/>
             <tr>
               <td colspan="3"><strong>C. SUBTOTAL GENERAL (A + B)</strong></td>
-              <td class="text-end"></td>
-              <td></td>
+              <td class="text-end">
+                <strong><t t-esc="'{:,.0f}'.format(total_general_ab).replace(',', '.') if total_general_ab else ''"/></strong>
+              </td>
+              <td class="text-end">
+                <strong><t t-esc="'{:,.2f}'.format(total_general_ab_usd).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.') if total_general_ab_usd else ''"/></strong>
+              </td>
             </tr>
 
-            <!-- SECCIÓN D: DESCUENTOS -->
+            <!-- SECCIÓN D: DESCUENTOS (HARDCODEADA POR AHORA) -->
             <tr><td>D.1</td><td>Pagos realizado por el cliente</td><td></td><td></td><td></td></tr>
             <tr><td>D.2</td><td>Adelanto realizado por el cliente</td><td></td><td></td><td></td></tr>
             <tr><td>D.3</td><td>Retenciones</td><td></td><td></td><td></td></tr>
             <tr><td>D.4</td><td>Saldos a favor cliente</td><td></td><td></td><td></td></tr>
             <tr>
-              <td colspan="3"><strong>D. SUBTOTALES DESCUENTOS (C)</strong></td>
+              <td colspan="3"><strong>D. SUBTOTALES DESCUENTOS (D)</strong></td>
               <td class="text-end"></td>
               <td></td>
             </tr>
@@ -175,8 +197,12 @@
             <!-- TOTAL GENERAL -->
             <tr>
               <td colspan="3"><strong>E. TOTAL GENERAL (C - D)</strong></td>
-              <td class="text-end"><t t-esc="'{:,.0f}'.format(doc.total_general).replace(',', '.')"/></td>
-              <td></td>
+              <td class="text-end">
+                <strong><t t-esc="'{:,.0f}'.format(total_general_ab).replace(',', '.') if total_general_ab else ''"/></strong>
+              </td>
+              <td class="text-end">
+                <strong><t t-esc="'{:,.2f}'.format(total_general_ab_usd).replace(',', 'TEMP').replace('.', ',').replace('TEMP', '.') if total_general_ab_usd else ''"/></strong>
+              </td>
             </tr>
 
           </tbody>
@@ -190,24 +216,18 @@
               <span style="font-size:12px;"><t t-esc="doc.monto_en_letras or ''"/></span>
             </td>
           </tr>
+          <tr>
+            <td style="font-size:10px; padding:4px; border: 1px solid #ccc;">
+              <strong>SON DÓLARES:</strong>
+              <span style="font-size:12px;">
+                <t t-if="total_general_ab_usd">
+                  <t t-set="currency_obj" t-value="request.env['res.currency'].search([('name', '=', 'USD')], limit=1)"/>
+                  <t t-esc="currency_obj.amount_to_text(total_general_ab_usd) if currency_obj else ''"/>
+                </t>
+              </span>
+            </td>
+          </tr>
         </table>
-
-        <!-- DOCUMENTOS ANEXOS -->
-        <!-- <div style="width:100%; font-size:11px; margin-top:15px;">
-          <p><strong>Documentos anexos:</strong></p>
-          <ol>
-            <li>Despacho de Importación Original</li>
-            <li>Factura Servicios Portuarios Original</li>
-            <li>Factura Fotocopias AEDA Original</li>
-            <li>Factura CDAP Original</li>
-            <li>Liquidación LPI Dinavisa</li>
-            <li>Factura y Recibo Cargo Center Original</li>
-            <li>Factura Servicios Profesionales Original</li>
-            <li>Factura Comercial y PL Originales</li>
-            <li>Guía Aérea Fotocopia</li>
-            <li>Certificado Autorización Dinavisa</li>
-          </ol>
-        </div> -->
 
         <!-- FIRMAS -->
         <table style="width:100%; margin-top:20px; font-size:11px;">

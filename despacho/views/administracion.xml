@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
         <!-- Menú Principal de Administración -->
-        <menuitem id="despacho.administracion_menu" name="Administración" parent="despacho_menu_root" sequence="10"/>
+        <menuitem id="despacho.administracion_menu"
+                  name="Administración"
+                  parent="despacho_menu_root"
+                  sequence="10"
+                  groups="despacho.group_despacho_admin"/>
 
         <!-- Vistas para Ordenes de Pago -->
         <record id="despacho.ordenpago_view_tree" model="ir.ui.view">
