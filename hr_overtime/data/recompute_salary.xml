@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <!-- Acción para Index contract(s) -->
+        <record id="action_index_contracts" model="ir.actions.server">
+            <field name="name">Index contract(s)</field>
+            <field name="model_id" ref="hr_contract.model_hr_contract"/>
+            <field name="state">code</field>
+            <field name="code">
+if records:
+    for record in records:
+        record._index_contracts()
+            </field>
+        </record>
+
+        <!-- Acción para Recalcular Salarios -->
+        <record id="action_recompute_salary" model="ir.actions.server">
+            <field name="name">Recalcular Salarios</field>
+            <field name="model_id" ref="hr_contract.model_hr_contract"/>
+            <field name="state">code</field>
+            <field name="code">
+if records:
+    for record in records:
+        record._compute_salary_components()
+            </field>
+        </record>
+    </data>
+</odoo>

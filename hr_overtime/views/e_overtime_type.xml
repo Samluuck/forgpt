@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_overtime_type_form_view" model="ir.ui.view">
+            <field name="name">Tipo de Horas Extras</field>
+            <field name="model">overtime.type</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de Horas Extras">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" required="0" placeholder="Reference ...."/>
+                            </h1>
+                            <group>
+                                <group>
+                                    <field name="type"/>
+                                </group>
+                                <group>
+                                    <field name="duration_type"/>
+                                    <field name="leave_compute" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="leave_type" attrs="{'invisible': [('type','!=','leave')]}"/>
+                                </group>
+                            </group>
+                        </div>
+                        <notebook attrs="{'invisible': [('type','!=','cash')]}">
+                            <page string="Reglas" name="cash_rules">
+                                <field name="rule_line_ids">
+                                    <tree string="Rules" editable="bottom">
+                                        <field name="name"/>
+                                        <field name="from_hrs" widget="float_time" string="Desde (Hora)"/>
+                                        <field name="to_hrs" widget="float_time" string="Hasta (Hora)"/>
+                                        <field name="hrs_amount"/>
+                                        <field name="rule_type"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_overtime_type_tree_view" model="ir.ui.view">
+            <field name="name">Tipo de Horas Extras</field>
+            <field name="model">overtime.type</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo de Horas Extras">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_overtime_type_action" model="ir.actions.act_window">
+            <field name="name">Tipo de Horas Extras</field>
+            <field name="res_model">overtime.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create new Approval Type.
+                </p>
+            </field>
+        </record>
+
+        <!-- Formulario para editar reglas de overtime individualmente -->
+        <record id="hr_overtime_type_rule_form_view" model="ir.ui.view">
+            <field name="name">Regla de Horas Extras</field>
+            <field name="model">overtime.type.rule</field>
+            <field name="arch" type="xml">
+                <form string="Regla de Horas Extras">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="from_hrs" widget="float_time" string="Desde (Hora)"/>
+                            <field name="to_hrs" widget="float_time" string="Hasta (Hora)"/>
+                            <field name="hrs_amount"/>
+                            <field name="rule_type"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- MenuItems -->
+        <menuitem id="overtime_type_submenu" name="Tipo de Horas Extras"
+                  parent="overtime_submenu"
+                  groups="hr_documenta.rrhh_responsable2,hr.group_hr_manager"
+                  action="hr_overtime_type_action"/>
+    </data>
+</odoo>
