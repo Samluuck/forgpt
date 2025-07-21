@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_factura_sanfernando">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+<!--                        ######################################FACTURA DE SAN FERNANDO##################################33-->
+<!--                                ############################### SE IMPRIME CON EL BOTON DE FACTURA AUTOIMPRESA SF##################################-->
+                        <link rel="stylesheet" href="/factura_sanfernando/static/src/css/estilos_factura.css"/>
+                    <body>
+                        <!-- <div id="cuadro_izquierdo">
+                            <span id="gestion">
+                                <img t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" 
+                                    t-if="o.company_id.logo" 
+                                    id="imagen_iso"/>
+                                <img t-att-src="'/factura_sanfernando/static/src/img/image.png'" 
+                                    t-if="not o.company_id.logo" 
+                                    id="imagen_iso"/>
+                            </span>
+                            
+                            <span id="comer1">Distribuidora de Helados</span>
+                            <span id="comer2">Productos Congelados Envases</span>
+                            <span id="elab">Artículos para Heladerías y Confiterías.</span>
+                            <span id="elab1">ventas@sanfernandopy.com</span>
+                            <span id="elab2"></span>
+                            
+                            <span id="casa">
+                                <strong>Tel. (071) 200457 Cel. (0985) 741 755 - Calle Lomas Valentinas c/ Avda. Caballero - Encarnación - Itapúa - Py.</strong>
+                            </span>
+                            
+                            <span id="tel"></span>
+                            <span id="campo"></span>
+                        </div>
+                        <div id="cuadro_derecho">
+                            <p id="timbra"> TIMBRADO N°<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> <span t-field="o.timbrado"/></p>
+                            <p id="ruc"> RUC<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> 80013204 - 1</p>
+                            <p id="fecha_inicio">Fecha Inicio Vigencia :<span t-field="o.talonario_factura.fecha_inicio"/> </p>
+                            <p id="fecha_de_fin"> Fecha Fin Vigencia : <span t-field="o.talonario_factura.fecha_final"/></p>
+                            <p id="fac">FACTURA</p>
+                            <p id="nro">N°<![CDATA[&nbsp;]]> <span t-field="o.nro_factura"/>  </p>
+                        </div> -->
+                        <div id="cuadro">
+                            <p id="fecha_emision"><strong>Fecha de Emisión:<![CDATA[&nbsp;]]> </strong> <span t-field="o.date_invoice"/>
+                                        <span id="condicion_venta">
+                                            <strong>Condición De Venta:<![CDATA[&nbsp;]]>CONTADO<![CDATA[&nbsp;]]> | _ |<![CDATA[&nbsp;]]> CREDITO <![CDATA[&nbsp;]]> | _ | </strong>
+                                         <t t-if="o.tipo_factura == 1"><span id="condicion_conta"> X</span></t>
+                                         <t t-else=""><span id="condicion_credi">X</span></t>
+                                        </span>
+                            </p>
+                            <p id="nombre_razon"><strong>Nombre o Razón Social:<![CDATA[&nbsp;]]></strong>
+                                <span id="sr"><span t-field="o.partner_id.parent_id.name"/> <span t-field="o.partner_id.name"/> </span>
+                                <span id="ruc_1">
+                                <strong>R.U.C<![CDATA[&nbsp;]]>/<![CDATA[&nbsp;]]>C.I:<![CDATA[&nbsp;]]> </strong><span t-field="o.ruc_factura"/>
+                            </span>
+                            </p>
+                            <p id="dir">
+                                <strong>Dirección:<![CDATA[&nbsp;]]> </strong>
+                                <span t-field="o.partner_id.street"/>
+                                <span id="tel1"><strong>Teléfono:<![CDATA[&nbsp;]]></strong><span t-field="o.partner_id.phone"/>
+                                </span>
+                            </p>
+                        </div>
+                        <!-- <div id="cuadro1">
+                               <p id="primera_linea">
+                                   <span id="punto_partida"> Punto de partida :<![CDATA[&nbsp;]]> SAN FERNANDO</span>
+                                   <span id="punto_llegada"> Punto de llegada :<![CDATA[&nbsp;]]> <span t-field="o.partner_id.street"/> </span>
+                               </p>
+                                <p id="segunda_linea">
+                                <span id="marca">Marca de Vehículo :</span>
+                                <span id="nro_chapa">N° de chapa :</span>
+                                <span id="chofer">Chófer :</span>
+                                </p>
+                                <p id="tercera_linea">
+                                <span id="motivo_traslado">Motivo de traslado :</span>
+                                <span id="venta">Venta : X</span>
+                                <span id="expo">Exportación : </span>
+                                <span id="importación">Importación : </span>
+                                <span id="otros">Otros : </span>
+                                <span id="remi">Remisión : </span>
+                                </p>
+                        </div> -->
+                        <t t-set="suma_exenta" t-value="0"/>
+                        <t t-set="suma_5_porciento" t-value="0"/>
+                        <t t-set="suma_10_porciento" t-value="0"/>
+                        <t t-set="total_5_porciento" t-value="0"/>
+                        <t t-set="total_10_porciento" t-value="0"/>
+                        <t t-set="total_exenta" t-value="0"/>
+                        <div id="tabla_producto"><table class="cabecera_producto">
+                            <tr>
+                                <td rowspan="2" id="articulo">ART/COD. </td>
+                                <td rowspan="2" id="cantidad">CANTIDAD</td>
+                                <td rowspan="2" id="descripcion">DESCRIPCIÓN</td>
+                                <td rowspan="2" id="precio_unitario">PRECIO UNITARIO</td>
+                                <td id="valor_venta" colspan="3">VALOR DE
+                                    VENTA
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  id="exentas">EXENTAS</td>
+                                <td id="cincoporciento">5%</td>
+                                <td id="diezporciento">10%</td>
+                            </tr>
+                        </table></div>
+
+                        <div class="cuerpo">
+                            <div id="d_de_art" ></div>
+                            <div id="d_de_can" ></div>
+                            <div id="d_de_desc"></div>
+                            <div id="d_de_pu"></div>
+                            <div id="d_de_ex"></div>
+                            <div id="d_de_cinco"></div>
+                            <div id="d_de_tpl" ></div>
+                            <table class="tabla_cuerpo">
+                                <tr t-foreach="o.invoice_line_ids" t-as="line">
+                                   <td id="art1">
+                                        <span t-field="line.product_id.barcode"/>
+                                    </td>
+                                    <td id="can1">
+<!--                                        <span t-esc="o.agregar_punto_de_miles(line.quantity,o.currency_id.name)"/>-->
+                                        <span t-field="line.quantity"/>
+                                   </td>
+                                    <td id="desc1">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td id="pu1">
+                                        <span t-esc="o.agregar_punto_de_miles(line.price_unit,o.currency_id.name)"/>
+                                    </td>
+                                    <!-- valor de 10%-->
+                                      <t t-if="line.invoice_line_tax_ids.tax_group_id.name == '10%' ">
+                                        <td id="exe1"></td>
+                                        <td id="cincoporciento1"></td>
+                                        <td id="diezporciento1">
+                                            <span t-esc="o.agregar_punto_de_miles(line.price_total,o.currency_id.name)"
+                                                  id="diezporciento_resultado"/>
+                                        </td>
+                                        <t t-set="total_10_porciento" t-value="total_10_porciento+line.price_total"/>
+                                    </t>
+                                    <!-- VALORES CINCO POR CIENTO    -->
+                                      <t t-if="line.invoice_line_tax_ids.tax_group_id.name == '5%' ">
+                                        <td id="exe1"></td>
+                                        <td id="cincoporciento1">
+                                            <span t-esc="o.agregar_punto_de_miles(line.price_total,o.currency_id)" id="cincoporciento_resultado"/>
+                                        </td>
+                                        <td id="diezporciento1"></td>
+                                        <t t-set="total_5_porciento" t-value="total_5_porciento+line.price_total"/>
+                                    </t>
+                                    <!--VALORES DE EXENTAS Y NO GRAVADO-->
+                                      <t t-if="line.invoice_line_tax_ids.tax_group_id.name == 'exentos' ">
+                                        <td id="exe1">
+                                            <span t-esc="o.agregar_punto_de_miles(line.price_total,o.currency_id.name)" id="exenta_resultado"/>
+                                        </td>
+                                        <td id="cincoporciento1"></td>
+                                        <td id="diezporciento1"></td>
+                                        <t t-set="total_exenta" t-value="total_exenta+line.price_total"/>
+                                    </t>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="pie">
+                        <p id="primera_p">
+                            <span id="valor_parcialpie"><strong><![CDATA[&nbsp;]]> SUB TOTAL:</strong> </span>
+                            <span t-esc="o.agregar_punto_de_miles(total_exenta,o.currency_id.name)" id="cantiexenta"/>
+                            <span t-esc="o.agregar_punto_de_miles(total_5_porciento,o.currency_id.name)" id="canticincoxciento"/>
+                            <span t-esc="o.agregar_punto_de_miles(total_10_porciento,o.currency_id.name)" id="cantidiezxciento"/>
+
+                        </p>
+                          <p id="segunda_p">
+                              <span id="total_pagar_letra" ><strong> <![CDATA[&nbsp;]]> TOTAL A PAGAR:</strong>
+                              <t t-if="'PYG' in o.currency_id.name">
+                                  <span t-esc="o.calcular_letras(o.amount_total)"/>
+                              </t>
+                              <t t-if="'USD' in o.currency_id.name">
+                                  <span t-esc="o.calcular_letras_dolar(o.amount_total)"/>
+                              </t>
+
+                              </span>
+                              <span id="total_pagar_numero">
+                                  <span t-esc="o.agregar_punto_de_miles(o.amount_total,o.currency_id.name)"/>
+                              </span>
+                          </p>
+                          <p id="tercera_p">
+                              <span id="liqui"><strong><![CDATA[&nbsp;]]> LIQUIDACION DEL IVA</strong></span>
+                              <span id="diezxciento_tp"><strong>(10%)</strong>
+                                  <span t-esc="o.agregar_punto_de_miles(((total_10_porciento)/11),o.currency_id.name)"/>
+                              </span>
+                              <span id="cincoxciento_tp"><strong>(5%)</strong>
+                               <span t-esc="o.agregar_punto_de_miles(((total_5_porciento)/21),o.currency_id.name)"/>
+                              </span>
+                              <span id="total_ivatp"><strong> TOTAL IVA</strong>
+                                  <span t-esc="o.agregar_punto_de_miles(((total_5_porciento)/21)+((total_10_porciento)/11),o.currency_id.name)" />
+                              </span>
+                          </p>
+                        </div>
+                    </body>
+                                        <!--INICIO DEL DUPLICADO -->
+                    <div id="body2">
+                        <!-- <div id="cuadro_izquierdo">
+                            <span id="gestion">
+                                <img t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" 
+                                    t-if="o.company_id.logo" 
+                                    id="imagen_iso"/>
+                                <img t-att-src="'/factura_sanfernando/static/src/img/image.png'" 
+                                    t-if="not o.company_id.logo" 
+                                    id="imagen_iso"/>
+                            </span>
+                            
+                            <span id="comer1">Distribuidora de Helados</span>
+                            <span id="comer2">Productos Congelados Envases</span>
+                            <span id="elab">Artículos para Heladerías y Confiterías.</span>
+                            <span id="elab1">ventas@sanfernandopy.com</span>
+                            <span id="elab2"></span>
+                            
+                            <span id="casa">
+                                <strong>Tel. (071) 200457 Cel. (0985) 741 755 - Calle Lomas Valentinas c/ Avda. Caballero - Encarnación - Itapúa - Py.</strong>
+                            </span>
+                            
+                            <span id="tel"></span>
+                            <span id="campo"></span>
+                        </div>
+                        <div id="cuadro_derecho">
+                            <p id="timbra"> TIMBRADO N°<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> <span t-field="o.timbrado"/></p>
+                            <p id="ruc"> RUC<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> 80013204 - 1</p>
+                            <p id="fecha_inicio">Fecha Inicio Vigencia :<span t-field="o.talonario_factura.fecha_inicio"/> </p>
+                            <p id="fecha_de_fin"> Fecha Fin Vigencia : <span t-field="o.talonario_factura.fecha_final"/></p>
+                            <p id="fac">FACTURA</p>
+                            <p id="nro">N°<![CDATA[&nbsp;]]> <span t-field="o.nro_factura"/>  </p>
+                        </div> -->
+                    <div id="cuadro">
+                        <p id="fecha_emision"><strong>Fecha de Emisión:<![CDATA[&nbsp;]]> </strong> <span t-field="o.date_invoice"/>
+                                        <span id="condicion_venta">
+                                            <strong>Condición De Venta:<![CDATA[&nbsp;]]>CONTADO<![CDATA[&nbsp;]]> | _ |<![CDATA[&nbsp;]]> CREDITO <![CDATA[&nbsp;]]> | _ | </strong>
+                                         <t t-if="o.tipo_factura == 1"><span id="condicion_conta2">X</span></t>
+                                         <t t-else=""><span id="condicion_credi">X</span></t>
+                                        </span>
+                        </p>
+                        <p id="nombre_razon"><strong>Nombre o Razón Social:<![CDATA[&nbsp;]]>
+                            </strong>
+                            <span id="sr"><span t-field="o.partner_id.parent_id.name"/> <span t-field="o.partner_id.name"/> </span>
+                                <span id="ruc_1">
+                                    <strong>R.U.C<![CDATA[&nbsp;]]>/<![CDATA[&nbsp;]]>C.I:<![CDATA[&nbsp;]]> </strong><span t-field="o.ruc_factura"/>
+                                </span>
+                        </p>
+                        <p id="dir">
+                            <strong>Dirección:<![CDATA[&nbsp;]]> </strong>
+                            <span t-field="o.partner_id.street"/>
+                            <span id="tel1"><strong>Teléfono:<![CDATA[&nbsp;]]></strong><span t-field="o.partner_id.phone"/>
+                            </span>
+                        </p>
+
+
+                    </div>
+                    <!-- <div id="cuadro1">
+                       <p id="primera_linea">
+                           <span id="punto_partida"> Punto de partida :<![CDATA[&nbsp;]]> SAN FERNANDO</span>
+                           <span id="punto_llegada"> Punto de llegada :<![CDATA[&nbsp;]]> <span t-field="o.partner_id.street"/> </span>
+                       </p>
+                        <p id="segunda_linea">
+                            <span id="marca">Marca de Vehículo :</span>
+                            <span id="nro_chapa">N° de chapa :</span>
+                            <span id="chofer">Chófer :</span>
+                        </p>
+                        <p id="tercera_linea">
+                            <span id="motivo_traslado">Motivo de traslado :</span>
+                            <span id="venta">Venta : X</span>
+                            <span id="expo">Exportación : </span>
+                            <span id="importación">Importación : </span>
+                            <span id="otros">Otros : </span>
+                            <span id="remi">Remisión : </span>
+                        </p>
+
+                    </div> -->
+                        <t t-set="suma_exenta" t-value="0"/>
+                        <t t-set="suma_5_porciento" t-value="0"/>
+                        <t t-set="suma_10_porciento" t-value="0"/>
+                        <t t-set="total_5_porciento" t-value="0"/>
+                        <t t-set="total_10_porciento" t-value="0"/>
+                        <t t-set="total_exenta" t-value="0"/>
+                        <div id="tabla_producto"><table class="cabecera_producto">
+                            <tr>
+                                  <td rowspan="2" id="articulo">ART/COD. </td>
+                                <td rowspan="2" id="cantidad">CANTIDAD</td>
+                                <td rowspan="2" id="descripcion">DESCRIPCIÓN</td>
+                                <td rowspan="2" id="precio_unitario">PRECIO UNITARIO</td>
+                                <td id="valor_venta" colspan="3">VALOR DE
+                                    VENTA
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  id="exentas">EXENTAS</td>
+                                <td id="cincoporciento">5%</td>
+                                <td id="diezporciento">10%</td>
+                            </tr>
+                        </table></div>
+
+                        <div class="cuerpo">
+                            <div id="d_de_art" ></div>
+                            <div id="d_de_can" ></div>
+                            <div id="d_de_desc"></div>
+                            <div id="d_de_pu"></div>
+                            <div id="d_de_ex"></div>
+                            <div id="d_de_cinco"></div>
+                           <div id="d_de_tpl" ></div>
+
+                            <table class="cu2">
+                                <tr t-foreach="o.invoice_line_ids" t-as="line">
+                                    <td id="art2">
+                                        <span t-field="line.product_id.barcode"/>
+                                    </td>
+                                    <td id="can2">
+<!--                                        <span t-esc="o.agregar_punto_de_miles(line.quantity,o.currency_id.name)"/>-->
+                                                                            <span t-field="line.quantity"/>
+
+                                    </td>
+                                    <td id="desc2">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td id="pu2">
+                                        <span t-esc="o.agregar_punto_de_miles(line.price_unit,o.currency_id.name)"/>
+                                    </td>
+                                    <!-- valor de 10%-->
+                                      <t t-if="line.invoice_line_tax_ids.tax_group_id.name == '10%' ">
+                                        <td id="exenta2"></td>
+                                        <td id="cpc2"></td>
+                                        <td id="diezporciento2">
+                                            <span t-esc="o.agregar_punto_de_miles(line.price_total,o.currency_id.name)"
+                                                  id="diezporciento_resultado"/>
+                                        </td>
+                                        <t t-set="total_10_porciento" t-value="total_10_porciento+line.price_total"/>
+                                    </t>
+                                    <!-- VALORES CINCO POR CIENTO    -->
+                                      <t t-if="line.invoice_line_tax_ids.tax_group_id.name == '5%' ">
+                                        <td id="exenta2"></td>
+                                        <td id="cpc2">
+                                            <span t-esc="o.agregar_punto_de_miles(line.price_total,o.currency_id)" id="cincoporciento_resultado"/>
+                                        </td>
+                                        <td id="diezporciento2"></td>
+                                        <t t-set="total_5_porciento" t-value="total_5_porciento+line.price_total"/>
+                                    </t>
+                                    <!--VALORES DE EXENTAS Y NO GRAVADO-->
+                                      <t t-if="line.invoice_line_tax_ids.tax_group_id.name == 'exentos' ">
+                                        <td id="exenta2">
+                                            <span t-esc="o.agregar_punto_de_miles(line.price_total,o.currency_id.name)" id="exenta_resultado"/>
+                                        </td>
+                                        <td id="cpc2"></td>
+                                        <td id="diezporciento2"></td>
+                                        <t t-set="total_exenta" t-value="total_exenta+line.price_total"/>
+                                    </t>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="pie">
+                        <p id="primera_p">
+                            <span id="valor_parcialpie"><strong><![CDATA[&nbsp;]]> SUB TOTAL:</strong> </span>
+                            <span t-esc="o.agregar_punto_de_miles(total_exenta,o.currency_id.name)" id="cantiexenta"/>
+                            <span t-esc="o.agregar_punto_de_miles(total_5_porciento,o.currency_id.name)" id="canticincoxciento"/>
+                            <span t-esc="o.agregar_punto_de_miles(total_10_porciento,o.currency_id.name)" id="cantidiezxciento"/>
+
+                        </p>
+                          <p id="segunda_p">
+                              <span id="total_pagar_letra" ><strong> <![CDATA[&nbsp;]]> TOTAL A PAGAR:</strong>
+                              <t t-if="'PYG' in o.currency_id.name">
+                                  <span t-esc="o.calcular_letras(o.amount_total)"/>
+                              </t>
+                              <t t-if="'USD' in o.currency_id.name">
+                                  <span t-esc="o.calcular_letras_dolar(o.amount_total)"/>
+                              </t>
+
+                              </span>
+                              <span id="total_pagar_numero">
+                                  <span t-esc="o.agregar_punto_de_miles(o.amount_total,o.currency_id.name)"/>
+                              </span>
+                          </p>
+                          <p id="tercera_p">
+                              <span id="liqui"><strong><![CDATA[&nbsp;]]> LIQUIDACION DEL IVA</strong></span>
+                              <span id="diezxciento_tp"><strong>(10%)</strong>
+                                  <span t-esc="o.agregar_punto_de_miles(((total_10_porciento)/11),o.currency_id.name)"/>
+                              </span>
+                              <span id="cincoxciento_tp"><strong>(5%)</strong>
+                               <span t-esc="o.agregar_punto_de_miles(((total_5_porciento)/21),o.currency_id.name)"/>
+                              </span>
+                              <span id="total_ivatp"><strong> TOTAL IVA</strong>
+                                  <span t-esc="o.agregar_punto_de_miles(((total_5_porciento)/21)+((total_10_porciento)/11),o.currency_id.name)" />
+                              </span>
+                          </p>
+                        </div>
+                    </div>
+                                        <!--INICIO DE LA TERCER FACTURA-->
+                    <div id="body3">
+                        <!-- <div id="cuadro_izquierdo">
+                            <span id="gestion">
+                                <img t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" 
+                                    t-if="o.company_id.logo" 
+                                    id="imagen_iso"/>
+                                <img t-att-src="'/factura_sanfernando/static/src/img/image.png'" 
+                                    t-if="not o.company_id.logo" 
+                                    id="imagen_iso"/>
+                            </span>
+                            
+                            <span id="comer1">Distribuidora de Helados</span>
+                            <span id="comer2">Productos Congelados Envases</span>
+                            <span id="elab">Artículos para Heladerías y Confiterías.</span>
+                            <span id="elab1">ventas@sanfernandopy.com</span>
+                            <span id="elab2"></span>
+                            
+                            <span id="casa">
+                                <strong>Tel. (071) 200457 Cel. (0985) 741 755 - Calle Lomas Valentinas c/ Avda. Caballero - Encarnación - Itapúa - Py.</strong>
+                            </span>
+                            
+                            <span id="tel"></span>
+                            <span id="campo"></span>
+                        </div>
+                        <div id="cuadro_derecho">
+                            <p id="timbra"> TIMBRADO N°<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> <span t-field="o.timbrado"/></p>
+                            <p id="ruc"> RUC<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> 80013204 - 1</p>
+                            <p id="fecha_inicio">Fecha Inicio Vigencia :<span t-field="o.talonario_factura.fecha_inicio"/> </p>
+                            <p id="fecha_de_fin"> Fecha Fin Vigencia : <span t-field="o.talonario_factura.fecha_final"/></p>
+                            <p id="fac">FACTURA</p>
+                            <p id="nro">N°<![CDATA[&nbsp;]]> <span t-field="o.nro_factura"/>  </p>
+                        </div> -->
+                    <div id="cuadro">
+                        <p id="fecha_emision"><strong>Fecha de Emisión:<![CDATA[&nbsp;]]> </strong> <span t-field="o.date_invoice"/>
+                                        <span id="condicion_venta">
+                                            <strong>Condición De Venta:<![CDATA[&nbsp;]]>CONTADO<![CDATA[&nbsp;]]> | _ |<![CDATA[&nbsp;]]> CREDITO <![CDATA[&nbsp;]]> | _ | </strong>
+                                         <t t-if="o.tipo_factura == 1"><span id="condicion_conta3">X</span></t>
+                                         <t t-else=""><span id="condicion_credi">X</span></t>
+                                        </span>
+                        </p>
+                        <p id="nombre_razon"><strong>Nombre o Razón Social:<![CDATA[&nbsp;]]></strong>
+                            <span id="sr"><span t-field="o.partner_id.parent_id.name"/> <span t-field="o.partner_id.name"/> </span>
+                                <span id="ruc_1">
+                                    <strong>R.U.C<![CDATA[&nbsp;]]>/<![CDATA[&nbsp;]]>C.I:<![CDATA[&nbsp;]]> </strong><span t-field="o.ruc_factura"/>
+                                </span>
+                        </p>
+                        <p id="dir">
+                            <strong>Dirección:<![CDATA[&nbsp;]]> </strong>
+                            <span t-field="o.partner_id.street"/>
+                            <span id="tel1"><strong>Teléfono:<![CDATA[&nbsp;]]></strong><span t-field="o.partner_id.phone"/>
+                            </span>
+                        </p>
+
+
+                    </div>
+                    <!-- <div id="cuadro1">
+                       <p id="primera_linea">
+                           <span id="punto_partida"> Punto de partida :<![CDATA[&nbsp;]]> SAN FERNANDO</span>
+                           <span id="punto_llegada"> Punto de llegada :<![CDATA[&nbsp;]]> <span t-field="o.partner_id.street"/> </span>
+                       </p>
+                        <p id="segunda_linea">
+                            <span id="marca">Marca de Vehículo :</span>
+                            <span id="nro_chapa">N° de chapa :</span>
+                            <span id="chofer">Chófer :</span>
+                        </p>
+                        <p id="tercera_linea">
+                            <span id="motivo_traslado">Motivo de traslado :</span>
+                            <span id="venta">Venta : X</span>
+                            <span id="expo">Exportación : </span>
+                            <span id="importación">Importación : </span>
+                            <span id="otros">Otros : </span>
+                            <span id="remi">Remisión : </span>
+                        </p>
+
+                    </div> -->
+                        <t t-set="suma_exenta" t-value="0"/>
+                        <t t-set="suma_5_porciento" t-value="0"/>
+                        <t t-set="suma_10_porciento" t-value="0"/>
+                        <t t-set="total_5_porciento" t-value="0"/>
+                        <t t-set="total_10_porciento" t-value="0"/>
+                        <t t-set="total_exenta" t-value="0"/>
+                        <div id="tabla_producto"><table class="cabecera_producto">
+                            <tr>
+                                  <td rowspan="2" id="articulo">ART/COD. </td>
+                                <td rowspan="2" id="cantidad">CANTIDAD</td>
+                                <td rowspan="2" id="descripcion">DESCRIPCIÓN</td>
+                                <td rowspan="2" id="precio_unitario">PRECIO UNITARIO</td>
+                                <td id="valor_venta" colspan="3">VALOR DE
+                                    VENTA
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  id="exentas">EXENTAS</td>
+                                <td id="cincoporciento">5%</td>
+                                <td id="diezporciento">10%</td>
+                            </tr>
+                        </table></div>
+
+                        <div class="cuerpo">
+                            <div id="d_de_art" ></div>
+                            <div id="d_de_can" ></div>
+                            <div id="d_de_desc"></div>
+                            <div id="d_de_pu"></div>
+                            <div id="d_de_ex"></div>
+                            <div id="d_de_cinco"></div>
+                             <div id="d_de_tpl" ></div>
+
+                            <table class="cu3">
+                                <tr t-foreach="o.invoice_line_ids" t-as="line">
+
+                                   <td id="art3">
+                                        <span t-field="line.product_id.barcode"/>
+                                    </td>
+
+                                    <td id="can3">
+<!--                                        <span t-esc="o.agregar_punto_de_miles(line.quantity,o.currency_id.name)"/>-->
+                                                                            <span t-field="line.quantity"/>
+
+                                    </td>
+                                    <td id="desc3">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td id="pu3">
+                                        <span t-esc="o.agregar_punto_de_miles(line.price_unit,o.currency_id.name)"/>
+                                    </td>
+                                    <!-- valor de 10%-->
+                                      <t t-if="line.invoice_line_tax_ids.tax_group_id.name == '10%' ">
+                                        <td id="exe3"></td>
+                                        <td id="cincoporciento3"></td>
+                                        <td id="diezporciento3">
+                                            <span t-esc="o.agregar_punto_de_miles(line.price_total,o.currency_id.name)"
+                                                  id="diezporciento_resultado"/>
+                                        </td>
+                                        <t t-set="total_10_porciento" t-value="total_10_porciento+line.price_total"/>
+                                    </t>
+                                    <!-- VALORES CINCO POR CIENTO    -->
+                                      <t t-if="line.invoice_line_tax_ids.tax_group_id.name == '5%' ">
+                                        <td id="exe3"></td>
+                                        <td id="cincoporciento3">
+                                            <span t-esc="o.agregar_punto_de_miles(line.price_total,o.currency_id)" id="cincoporciento_resultado"/>
+                                        </td>
+                                        <td id="diezporciento3"></td>
+                                        <t t-set="total_5_porciento" t-value="total_5_porciento+line.price_total"/>
+                                    </t>
+                                    <!--VALORES DE EXENTAS Y NO GRAVADO-->
+                                      <t t-if="line.invoice_line_tax_ids.tax_group_id.name == 'exentos' ">
+                                        <td id="exe3">
+                                            <span t-esc="o.agregar_punto_de_miles(line.price_total,o.currency_id.name)" id="exenta_resultado"/>
+                                        </td>
+                                        <td id="cincoporciento3"></td>
+                                        <td id="diezporciento3"></td>
+                                        <t t-set="total_exenta" t-value="total_exenta+line.price_total"/>
+                                    </t>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="pie">
+                        <p id="primera_p">
+                            <span id="valor_parcialpie"><strong><![CDATA[&nbsp;]]> SUB TOTAL:</strong> </span>
+                            <span t-esc="o.agregar_punto_de_miles(total_exenta,o.currency_id.name)" id="cantiexenta"/>
+                            <span t-esc="o.agregar_punto_de_miles(total_5_porciento,o.currency_id.name)" id="canticincoxciento"/>
+                            <span t-esc="o.agregar_punto_de_miles(total_10_porciento,o.currency_id.name)" id="cantidiezxciento"/>
+
+                        </p>
+
+                          <p id="segunda_p">
+                              <span id="total_pagar_letra" ><strong> <![CDATA[&nbsp;]]> TOTAL A PAGAR:</strong>
+                              <t t-if="'PYG' in o.currency_id.name">
+                                  <span t-esc="o.calcular_letras(o.amount_total)"/>
+                              </t>
+                              <t t-if="'USD' in o.currency_id.name">
+                                  <span t-esc="o.calcular_letras_dolar(o.amount_total)"/>
+                              </t>
+
+                              </span>
+                              <span id="total_pagar_numero">
+                                  <span t-esc="o.agregar_punto_de_miles(o.amount_total,o.currency_id.name)"/>
+                              </span>
+                          </p>
+                          <p id="tercera_p">
+                              <span id="liqui"><strong><![CDATA[&nbsp;]]> LIQUIDACION DEL IVA</strong></span>
+                              <span id="diezxciento_tp"><strong>(10%)</strong>
+                                  <span t-esc="o.agregar_punto_de_miles(((total_10_porciento)/11),o.currency_id.name)"/>
+                              </span>
+                              <span id="cincoxciento_tp"><strong>(5%)</strong>
+                               <span t-esc="o.agregar_punto_de_miles(((total_5_porciento)/21),o.currency_id.name)"/>
+                              </span>
+                              <span id="total_ivatp"><strong> TOTAL IVA</strong>
+                                  <span t-esc="o.agregar_punto_de_miles(((total_5_porciento)/21)+((total_10_porciento)/11),o.currency_id.name)" />
+                              </span>
+                          </p>
+                        </div>
+                    </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo> 

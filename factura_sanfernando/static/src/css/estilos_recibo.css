@@ -1,0 +1,867 @@
+#cuadro_izquierdo{
+    position: absolute;
+    top: 0.6cm;
+    border: 1px solid black;
+    height: 2.40cm;
+    width: 15.80cm;
+    margin-left: 1cm;
+    border-radius: 10px;
+    border-radius: 10px;
+
+
+}
+#cuadro_derecho
+{
+    position: absolute;
+    top: 0.6cm;
+    border: 1px solid black;
+    height: 2.40cm;
+    width: 8.50cm;
+    margin-left: 17cm;
+    border-radius: 10px;
+
+
+}
+#gestion{
+    position: absolute;
+    top: 0.4cm;
+    margin-left: 0.4cm;
+    font-weight: bolder;
+    font-family: "Abyssinica SIL";
+    font-size: 25px;
+    font-weight: 900;
+    border-top-style: none;
+
+
+}
+#mercantil{
+    position: absolute;
+    top:0.5cm;
+    font-family: Ubuntu;
+    font-family: "Abyssinica SIL";
+    margin-left: 2.40cm;
+    font-size: 25px;
+    font-weight: 900;
+
+
+}
+.cu
+{
+    font-size: 8px;
+    width: 24.40cm;
+}
+#sa
+{
+    position: absolute;
+    top:1.30cm;
+    font-size: 10px;
+    margin-left: 1cm;
+    width: 4cm;
+    font-family: Rachana;
+
+}
+#comer1{
+
+    position: absolute;
+    top: 0.4cm;
+    width: 6cm;
+    font-size: 10px;
+    margin-left: 7.80cm;
+    font-family: "Abyssinica SIL";
+}
+#comer2
+{
+    position: absolute;
+    top: 0.8cm;
+    font-size: 10px;
+    margin-left: 7.40cm;
+    width:11cm;
+    font-family: "Abyssinica SIL";
+}
+#elab
+   {
+    position: absolute;
+    top: 1.2cm;
+    font-size: 10px;
+    margin-left: 6.8cm;
+    width:11.45cm;
+    font-family: "Abyssinica SIL";
+    /*border: 1px solid red;*/
+   }
+
+#elab1{
+
+    position: absolute;
+    top: 1.6cm;
+    font-size: 10px;
+    margin-left: 7.60cm;
+    width:11.45cm;
+    font-family: "Abyssinica SIL";
+}
+#elab2{
+
+    position: absolute;
+    top: 2cm;
+    font-size: 7px;
+    margin-left: 10cm;
+    width:11.45cm;
+    font-family: "Abyssinica SIL";
+}
+#casa{
+    font-size: 8px;
+    position: absolute;
+    top: 2cm;
+    margin-left: 4cm;
+    font-family: "Abyssinica SIL";
+    font-weight: 1200;
+}
+#tel{
+    position: absolute;
+    top: 1.9cm;
+    font-size: 8px;
+    margin-left: 6cm;
+    font-family: "Abyssinica SIL";
+
+
+}
+#campo{
+    position: absolute;
+    top: 1.9cm;
+    font-size: 8px;
+    margin-left: 10cm;
+    font-family: "Abyssinica SIL";
+
+}
+#timbra
+{
+    margin-left: 1cm;
+    font-family: "Abyssinica SIL";
+    font-size: 15px;
+    font-weight: 900;
+
+}
+#ruc
+{
+    position: absolute;
+    top: 0.5cm;
+    font-family: "Abyssinica SIL";
+    width: 5cm;
+    margin-left: 1cm;
+    font-size: 15px;
+    font-weight: 900;
+
+}
+#fecha_inicio{
+    position: absolute;
+    top: 1cm;
+    font-family: "Abyssinica SIL";
+    width: 5cm;
+    margin-left: 1cm;
+    font-size: 10px;
+}
+#fecha_de_fin
+{
+    position: absolute;
+    top: 1.25cm;
+    font-family: "Abyssinica SIL";
+    width: 5cm;
+    margin-left: 1cm;
+    font-size: 10px;
+}
+#fac{
+    position: absolute;
+    top: 1.55cm;
+    font-family: "Abyssinica SIL";
+    width: 5cm;
+    margin-left: 1cm;
+    font-size: 13px;
+    font-weight: 900;
+}
+#nro{
+    position: absolute;
+    top: 1.9cm;
+    font-family: "Abyssinica SIL";
+    width: 5cm;
+    margin-left: 1cm;
+    font-size: 12px;
+    font-weight: 900;}
+#cuadro{
+    position: absolute;
+    top: 3cm;
+    border: 1px solid black;
+    height: 1.7cm;
+    width: 24.50cm;
+    margin-left: 1cm;
+    border-radius: 10px;
+}
+#cuadro1{
+    position: absolute;
+    top: 4.75cm;
+    border: 1px solid black;
+    height: 1.7cm;
+    width: 24.50cm;
+    margin-left: 1cm;
+    border-radius: 10px;
+}
+
+#pp{
+    /*color: red;*/
+}
+#fecha_emision
+{
+    position: absolute;
+    top:0.1cm;
+    border-bottom: 1px solid black;
+    font-size: 12px;
+    width: 24.45cm;
+    padding-left: 0.1cm;
+    font-family: "Abyssinica SIL";
+
+
+}
+#condicion_venta
+{
+    font-family: "Abyssinica SIL";
+    margin-left: 10cm;
+    font-size: 12px;
+}
+#condicion_conta
+{
+    font-family: "Abyssinica SIL";
+    font-weight: 900;
+    font-size: 12px;
+    margin-left: -3.5cm;
+
+}
+#condicion_conta2{
+font-family: "Abyssinica SIL";
+    font-weight: 900;
+    font-size: 12px;
+    margin-left: -3.5cm;
+}
+#condicion_conta3{
+    font-family: "Abyssinica SIL";
+    font-weight: 900;
+    font-size: 12px;
+    margin-left: -3.5cm;
+
+}
+#condicion_credi{
+    position: absolute;
+    font-size: 15px;
+    margin-left: -0.4cm;
+}
+#nombre_razon
+{
+    font-family: "Abyssinica SIL";
+    position: absolute;
+    top: 0.6cm;
+    font-size: 12px;
+    width: 24.45cm;
+    padding-left: 0.1cm;
+    border-bottom: 1px solid black;
+}
+#ruc_1
+{
+    position: absolute;
+    margin-left: 6.65cm;
+    font-family: "Abyssinica SIL";
+
+}
+#dir {
+    position: absolute;
+    top: 1.10cm;
+    font-size: 12px;
+    width: 24.45cm;
+    padding-left: 0.1cm;
+    font-family: "Abyssinica SIL";
+
+}
+#tel1
+{
+    font-family: "Abyssinica SIL";
+    position: absolute;
+    font-size: 12px;
+    margin-left: 9.5cm
+}
+#punto_partida{
+    font-family: "Abyssinica SIL";
+    position: absolute;
+    font-size: 12px;
+    padding-left: 0.1cm;
+    width: 7cm;
+
+}
+#punto_llegada{
+    font-family: "Abyssinica SIL";
+    position: absolute;
+    font-size: 12px;
+    margin-left: 14.50cm;
+    width: 7cm;
+}
+#primera_linea
+{
+    width: 24.30cm;
+    height: 0.5cm;
+}
+#segunda_linea{
+    position: absolute;
+    top: 0.5cm;
+    /*border:1px solid red;*/
+    width: 24.30cm;
+    height: 0.5cm;
+}
+#tercera_linea
+{
+    position: absolute;
+    top: 1cm;
+    width: 24.30cm;
+    height: 0.5cm;
+}
+#marca
+{
+    font-family: "Abyssinica SIL";
+    padding-left: 0.1cm;
+    position: absolute;
+    font-size: 12px;
+    width: 8cm;
+}
+#nro_chapa
+{
+    font-family: "Abyssinica SIL";
+    margin-left: 9cm;
+    position: absolute;
+    font-size: 12px;
+    width: 8cm;
+
+}
+#chofer{
+    font-family: "Abyssinica SIL";
+    margin-left: 17.20cm;
+    position: absolute;
+    font-size: 12px;
+    width: 7cm;
+}
+#motivo_traslado
+{
+    font-family: "Abyssinica SIL";
+    position: absolute;
+    font-size: 12px;
+    padding-left: 0.1cm;
+    width: 7cm;
+
+}
+#venta{
+    font-family: "Abyssinica SIL";
+    position: absolute;
+    font-size: 12px;
+    padding-left: 0.1cm;
+    width: 3cm;
+    margin-left: 3.50cm;
+
+}
+#expo{
+     font-family: "Abyssinica SIL";
+    position: absolute;
+    font-size: 12px;
+    padding-left: 0.1cm;
+    width: 3cm;
+    margin-left: 6.80cm;
+}
+#importación{
+    font-family: "Abyssinica SIL";
+    position: absolute;
+    font-size: 12px;
+    padding-left: 0.1cm;
+    width: 3cm;
+    margin-left: 10.80cm;
+}
+#otros{
+    font-family: "Abyssinica SIL";
+    position: absolute;
+    font-size: 12px;
+    padding-left: 0.1cm;
+    width: 3cm;
+    margin-left: 15cm;
+}
+#remi{
+    font-family: "Abyssinica SIL";
+    position: absolute;
+    font-size: 12px;
+    padding-left: 0.1cm;
+    width: 3cm;
+    margin-left: 19cm;
+
+
+}
+#tabla_producto
+{
+    position: absolute;
+    top: 6.50cm;
+    width: 24.55cm;
+    height: 1cm;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-left: 1cm;
+}
+.cabecera_producto
+{
+        font-family: "Abyssinica SIL";
+        height: 0.5cm;
+        width: 24.5cm;
+
+/*    position: absolute;*/
+/*    top: 6.50cm;*/
+/*    width: 24.5cm;*/
+/*    margin-left: 1cm;*/
+/*color: #ff3d1b;*/
+/*    font-size: 12px;*/
+
+
+}
+.cuerpo{
+    border: 1px solid black;
+    position: absolute;
+    top: 7.45cm;
+    width: 24.5cm;
+    height: 3.50cm;
+    margin-left: 1cm;
+    border-radius: 10px;
+
+}
+.cuerpo1{
+    /*border: 1px solid red;*/
+    position: absolute;
+    top: 7.45cm;
+    width: 24.5cm;
+    height: 3.50cm;
+    margin-left: 1cm;
+    border-radius: 10px;
+}
+#d_de_tpl
+{
+    top:4cm;
+    margin-left: 20.02cm;
+    position: absolute;
+    border-right: 1px solid black;
+    width: 2.47cm;
+    height: 1.17cm;
+}
+
+#d_de_art
+{
+    margin-left: 2.65cm;
+    position: absolute;
+    border-right: 1px solid black;
+    width: 2.65cm;
+    height: 3.45cm;
+}
+
+#d_de_can{
+
+    position: absolute;
+    border-right: 1px solid black;
+    width: 2.65cm;
+    height: 3.45cm;
+}
+.tabla_cuerpo{
+    font-size: 16px;
+    width: 24.40cm;
+}
+.cu
+{
+    /*border: 1px solid red;*/
+    font-size: 8px;
+    width: 24.40cm;
+}
+.cu3{
+    font-size: 8px;
+    width: 24.40cm;
+}
+.cu2{
+    font-size: 8px;
+    width: 24.40cm;
+}
+#can
+{
+    width: 2.50cm;
+    font-size: 12px;
+    text-align: center;
+}
+#art1{
+    width: 2.50cm;
+    font-size: 10px;
+    text-align: center;
+}
+#art2{
+    width: 2.40cm;
+    font-size: 10px;
+    text-align: center;
+}
+#art3{
+    width: 2.0cm;
+    font-size: 10px;
+    text-align: center;
+}
+#can1{
+    width: 2.40cm;
+    font-size: 12px;
+    text-align: center;
+}
+#can2
+{   width: 2.40cm;
+    font-size: 12px;
+    text-align: center;
+}
+#can3{
+    width: 2.40cm;
+    font-size: 12px;
+    text-align: center;
+
+}
+#articulo{
+    width: 2cm;
+    height: 0.2cm;
+    text-align: center;
+    font-family: "Abyssinica SIL";
+    border-radius: 10px;
+    font-size: 10px;
+    border-right: 1px solid black;
+}
+#cantidad{
+    width: 2cm;
+    height: 0.2cm;
+    text-align: center;
+    font-family: "Abyssinica SIL";
+    border-radius: 10px;
+    font-size: 10px;
+    border-right: 1px solid black;
+}
+#descripcion{
+    text-align: center;
+    border-right: 1px solid black;
+    font-size: 10px;
+    width: 7cm;
+}
+#desc1{
+    font-size: 12px;
+    width: 9cm;
+    padding-left: 0.2cm;
+    font-family: "Abyssinica SIL";
+    /*border: 1px solid red;*/
+}
+
+
+#desc2{
+    font-size: 12px;
+    width: 8cm;
+    padding-left: 0.2cm;
+    font-family: "Abyssinica SIL";
+
+}
+#desc3{
+    font-size: 12px;
+    width: 8cm;
+    padding-left: 0.2cm;
+    font-family: "Abyssinica SIL";
+
+}
+
+#d_de_desc{
+    position: absolute;
+    border-right: 1px solid black;
+    /*width: 10cm;*/
+    height: 3.45cm;
+    margin-left: 14.60cm;
+}
+#d_de_pu{
+    position: absolute;
+    border-right: 1px solid black;
+    top: -0.5cm;
+    height: 3.90cm;
+    margin-left: 20.50cm;
+}
+#d_de_ex{
+    position: absolute;
+    border-right: 1px solid black;
+    top: -1cm;
+    height: 4.50cm;
+    margin-left: 18.58cm;
+}#d_de_cinco{
+    position: absolute;
+    border-right: 1px solid black;
+    top: -0.5cm;
+    height: 3.90cm;
+     margin-left:22.50cm;
+}
+#precio_unitario{
+        font-size: 10px;
+
+}
+#exentas{
+    /*border: 1px solid red ;*/
+    width: 1.50cm;
+    text-align: center;
+    font-size: 12px;
+}
+#cincoporciento{
+    width: 1.50cm;
+    text-align: center;
+    font-size: 12px;
+
+
+}#cincoporciento1
+ {
+    /*border: 1px solid red;*/
+    height: 0.1cm;
+    width: 1.90cm;
+    text-align: center;
+    font-size: 12px;
+
+}
+#cpc2
+ {
+    width: 1.7cm;
+    text-align: center;
+    font-size: 12px;
+
+}
+#cincoporciento3{
+
+    width: 1.60cm;
+    text-align: center;
+    font-size: 12px;
+
+
+}
+#diezporciento
+{
+    width: 1.48cm;
+    text-align: center;
+    font-size: 10px;
+    font-family: "Abyssinica SIL";
+}
+#diezporciento1
+{
+    width: 1.90cm;
+    text-align: center;
+    font-size: 12px;
+    font-family: "Abyssinica SIL";
+}
+#diezporciento2
+{
+    width: 1.6cm;
+    text-align: center;
+    font-size: 12px;
+    font-family: "Abyssinica SIL";
+}
+#diezporciento3{
+    width: 1.60cm;
+    text-align: center;
+    font-size: 12px;
+    font-family: "Abyssinica SIL";
+
+}
+
+#pu1{
+    width: 3.50cm;
+    text-align: center;
+    font-size: 12px;
+    font-family: "Abyssinica SIL";
+    /*border: 1px solid violet;*/
+
+}
+#pu2{
+    width: 3.50cm;
+    text-align: center;
+    font-size: 12px;
+    font-family: "Abyssinica SIL";
+
+}
+#pu3{
+   width: 3.40cm;
+    text-align: center;
+    font-size: 12px;
+    font-family: "Abyssinica SIL";
+
+
+}
+
+#precio_unitario{
+    width: 3cm;
+    /*border-right: 1px solid black ;*/
+    text-align: center;
+    font-size: 10px;
+}
+#valor_venta
+{
+    font-size: 10px;
+    text-align: center;
+    border-bottom:1px solid black;
+}
+#exe
+{
+    width: 1.48cm;
+    text-align: center;
+    font-size: 10.80px;
+    font-family: "Abyssinica SIL";
+
+
+}
+#exe1
+{
+    width: 1.48cm;
+    text-align: center;
+    font-size: 10.80px;
+    font-family: "Abyssinica SIL"
+
+}
+#exenta2
+{
+    width: 1.70cm;
+    text-align: center;
+    font-size: 12Px;
+    font-family: "Abyssinica SIL";
+}
+
+#exe3
+{
+    width: 1.60cm;
+    text-align: center;
+    font-size: 12px;
+    font-family: "Abyssinica SIL";
+}
+.pie{
+    margin-left: 1cm;
+    border:1px solid black;
+    border-radius: 12px;
+    position: absolute;
+    top: 11cm;
+    width: 24.50cm;
+    height: 1.7cm;
+    font-family: "Abyssinica SIL";
+}
+#primera_p{
+    height: 0.55cm;
+    font-family: "Abyssinica SIL";
+    border-bottom:1px solid black;
+}
+#canticincoxciento{
+    width: 3cm;
+}
+#segunda_p{
+    position: absolute;
+    top:0.7cm;
+    font-size: 10px;
+    /*border-bottom: 1px solid black;*/
+    width: 24.50cm;
+
+}
+#tercera_p{
+    position: absolute;
+    top:1.2cm;
+    font-size: 10px;
+    height: 0.8cm;
+    width: 24cm;
+}
+#valor_parcialpie{
+    padding-top: -1px;
+    font-size: 10px;
+    width: 24.50cm;
+
+}
+#cantiexenta{
+    font-size:10px ;
+    position: absolute;
+    margin-left: 16.82cm;
+    width: 1.96cm;
+    height: 0.5cm;
+    text-align: center;
+    font-family: "Abyssinica SIL";
+    border-left: 1px solid black;
+}
+#canticincoxciento
+{
+    border-left: 1px solid black;
+    font-size:10px ;
+    position: absolute;
+    margin-left: 18.75cm;
+    width: 2.10cm;
+    height: 0.5cm;
+    text-align: center;
+    font-family: "Abyssinica SIL";
+}
+#cantidiezxciento{
+
+    border-left: 1px solid black;
+    font-size:10px ;
+    position: absolute;
+    margin-left: 20.70cm;
+    width: 1.90cm;
+    height: 0.5cm;
+    text-align: center;
+    font-family: "Abyssinica SIL";
+}
+#diezxciento_tp{
+    position: absolute;
+    margin-left: 7cm;
+}
+#total_ivatp{
+    position: absolute;
+    margin-left: 12cm;
+}
+#total_10_porciento{
+    visibility: hidden;
+}
+/* #piefinal1{
+    position: absolute;
+    top:12.70cm;
+    width: 10cm;
+    margin-left: 1cm;
+    font-family: "Abyssinica SIL";
+    font-size: 8px;
+    border: 1px solid black;
+    border-radius: 12px;
+    padding-left: 5px;
+} */
+#piefinal2{
+    position: absolute;
+    top:13cm;
+    width: 24.50cm;
+    margin-left: 1cm;
+    font-family: "Abyssinica SIL";
+    font-size: 8px;
+}
+#original{
+    margin-left: 18cm;
+    font-size: 12px;
+}
+#body2{
+    position: absolute;
+    top: 13.50cm;
+}
+#body3{
+    position: absolute;
+    top: 27cm;
+}
+#total_pagar_numero {
+    position: absolute;
+    margin-left: 22.90cm;
+    text-align: center;
+
+}
+#total_pagar_letra{
+    position: absolute;
+    border-bottom: 1px solid black;
+    width: 22.40cm;
+    /*visibility: hidden;*/
+}
+#imagen_iso
+{
+    width: 3.2cm;
+    border-top-style: none;
+    height: 1.7cm;
+
+
+
+} 

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Template único que genera los 3 recibos en la misma hoja -->
+        <template id="report_recibo_triplicado">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <link rel="stylesheet" href="/factura_sanfernando/static/src/css/estilos_recibo.css"/>
+                        <body>
+                            <!-- RECIBO ORIGINAL -->
+                            <div class="recibo-section" id="recibo-original">
+                                <div class="watermark watermark-original">ORIGINAL</div>
+                                <div id="cuadro_izquierdo_recibo_1">
+                                    <span id="gestion_recibo_1"><img t-att-src="'/factura_sanfernando/static/src/img/image.png'" id="imagen_iso_recibo_1"/></span>
+                                    <span id="comer1_recibo_1">COMERCIO AL POR MAYOR DE OTROS PRODUCTOS N.C.P</span>
+                                    <span id="comer2_recibo_1">ELABORACIÓN DE FIAMBRES Y EMBUTIDOS</span>
+                                    <span id="elab_recibo_1">ACTIVIDADES INMOBILIARIAS REALIZADAS CON BIENES PROPIOS O ARRENDADOS</span>
+                                    <span id="elab1_recibo_1"> ALQUILER Y ARRENDAMIENTO DE OTROS TIPOS DE MAQUINARIA, EQUIPO Y BIENES MATERIALES N.C.P SIN OPERARIO</span>
+                                    <span id="elab2_recibo_1"> COMERCIO AL POR MENOR DE CARNES Y PESCADOS</span>
+                                    <span id="casa_recibo_1"><strong>Tte. Marcelo Onieva N° 9001 c/ Madame Lynch - Asunción Paraguay</strong></span>
+                                    <span id="tel_recibo_1"><strong>TELÉFONO<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]>(021) 295 997</strong></span>
+                                    <span id="campo_recibo_1">ASUNCIÓN-PARAGUAY</span>
+                                </div>
+                                <div id="cuadro_derecho_recibo_1">
+                                    <p id="timbra_recibo_1"> TIMBRADO N°<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> <span t-field="o.timbrado"/></p>
+                                    <p id="ruc_recibo_1"> RUC<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> 80013204 - 1</p>
+                                    <p id="fecha_inicio_recibo_1">Fecha Inicio Vigencia :<span t-field="o.talonario_factura.fecha_inicio"/> </p>
+                                    <p id="fecha_de_fin_recibo_1"> Fecha Fin Vigencia : <span t-field="o.talonario_factura.fecha_final"/></p>
+                                    <p id="fac_recibo_1">RECIBO</p>
+                                    <p id="nro_recibo_1">N°<![CDATA[&nbsp;]]> <span t-field="o.nro_factura"/>  </p>
+                                </div>
+                            </div>
+
+                            <!-- RECIBO DUPLICADO -->
+                            <div class="recibo-section" id="recibo-duplicado">
+                                <div class="watermark watermark-duplicado">DUPLICADO</div>
+                                <div id="cuadro_izquierdo_recibo_2">
+                                    <span id="gestion_recibo_2"><img t-att-src="'/factura_sanfernando/static/src/img/image.png'" id="imagen_iso_recibo_2"/></span>
+                                    <span id="comer1_recibo_2">COMERCIO AL POR MAYOR DE OTROS PRODUCTOS N.C.P</span>
+                                    <span id="comer2_recibo_2">ELABORACIÓN DE FIAMBRES Y EMBUTIDOS</span>
+                                    <span id="elab_recibo_2">ACTIVIDADES INMOBILIARIAS REALIZADAS CON BIENES PROPIOS O ARRENDADOS</span>
+                                    <span id="elab1_recibo_2"> ALQUILER Y ARRENDAMIENTO DE OTROS TIPOS DE MAQUINARIA, EQUIPO Y BIENES MATERIALES N.C.P SIN OPERARIO</span>
+                                    <span id="elab2_recibo_2"> COMERCIO AL POR MENOR DE CARNES Y PESCADOS</span>
+                                    <span id="casa_recibo_2"><strong>Tte. Marcelo Onieva N° 9001 c/ Madame Lynch - Asunción Paraguay</strong></span>
+                                    <span id="tel_recibo_2"><strong>TELÉFONO<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]>(021) 295 997</strong></span>
+                                    <span id="campo_recibo_2">ASUNCIÓN-PARAGUAY</span>
+                                </div>
+                                <div id="cuadro_derecho_recibo_2">
+                                    <p id="timbra_recibo_2"> TIMBRADO N°<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> <span t-field="o.timbrado"/></p>
+                                    <p id="ruc_recibo_2"> RUC<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> 80013204 - 1</p>
+                                    <p id="fecha_inicio_recibo_2">Fecha Inicio Vigencia :<span t-field="o.talonario_factura.fecha_inicio"/> </p>
+                                    <p id="fecha_de_fin_recibo_2"> Fecha Fin Vigencia : <span t-field="o.talonario_factura.fecha_final"/></p>
+                                    <p id="fac_recibo_2">RECIBO</p>
+                                    <p id="nro_recibo_2">N°<![CDATA[&nbsp;]]> <span t-field="o.nro_factura"/>  </p>
+                                </div>
+                            </div>
+
+                            <!-- RECIBO TRIPLICADO -->
+                            <div class="recibo-section" id="recibo-triplicado">
+                                <div class="watermark watermark-triplicado">TRIPLICADO</div>
+                                <div id="cuadro_izquierdo_recibo_3">
+                                    <span id="gestion_recibo_3"><img t-att-src="'/factura_sanfernando/static/src/img/image.png'" id="imagen_iso_recibo_3"/></span>
+                                    <span id="comer1_recibo_3">COMERCIO AL POR MAYOR DE OTROS PRODUCTOS N.C.P</span>
+                                    <span id="comer2_recibo_3">ELABORACIÓN DE FIAMBRES Y EMBUTIDOS</span>
+                                    <span id="elab_recibo_3">ACTIVIDADES INMOBILIARIAS REALIZADAS CON BIENES PROPIOS O ARRENDADOS</span>
+                                    <span id="elab1_recibo_3"> ALQUILER Y ARRENDAMIENTO DE OTROS TIPOS DE MAQUINARIA, EQUIPO Y BIENES MATERIALES N.C.P SIN OPERARIO</span>
+                                    <span id="elab2_recibo_3"> COMERCIO AL POR MENOR DE CARNES Y PESCADOS</span>
+                                    <span id="casa_recibo_3"><strong>Tte. Marcelo Onieva N° 9001 c/ Madame Lynch - Asunción Paraguay</strong></span>
+                                    <span id="tel_recibo_3"><strong>TELÉFONO<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]>(021) 295 997</strong></span>
+                                    <span id="campo_recibo_3">ASUNCIÓN-PARAGUAY</span>
+                                </div>
+                                <div id="cuadro_derecho_recibo_3">
+                                    <p id="timbra_recibo_3"> TIMBRADO N°<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> <span t-field="o.timbrado"/></p>
+                                    <p id="ruc_recibo_3"> RUC<![CDATA[&nbsp;]]>:<![CDATA[&nbsp;]]> 80013204 - 1</p>
+                                    <p id="fecha_inicio_recibo_3">Fecha Inicio Vigencia :<span t-field="o.talonario_factura.fecha_inicio"/> </p>
+                                    <p id="fecha_de_fin_recibo_3"> Fecha Fin Vigencia : <span t-field="o.talonario_factura.fecha_final"/></p>
+                                    <p id="fac_recibo_3">RECIBO</p>
+                                    <p id="nro_recibo_3">N°<![CDATA[&nbsp;]]> <span t-field="o.nro_factura"/>  </p>
+                                </div>
+                            </div>
+                        </body>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

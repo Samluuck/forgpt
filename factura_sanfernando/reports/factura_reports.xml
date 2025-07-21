@@ -1,0 +1,28 @@
+<odoo>
+  <data>
+    <record id="paperformat_factura" model="report.paperformat">
+      <field name="name">Legal</field>
+      <field name="default" eval="True"/>
+      <field name="format">custom</field>
+      <field name="page_height">356</field>
+      <field name="page_width">216</field>
+      <field name="orientation">Portrait</field>
+      <field name="margin_top">1</field>
+      <field name="margin_bottom">0</field>
+      <field name="margin_left">0</field>
+      <field name="margin_right">0</field>
+      <field name="header_line" eval="False"/>
+      <field name="header_spacing">0</field>
+      <field name="dpi">96</field>
+    </record>
+    <report
+      id="factura_sanfernando_boton"
+      model="account.invoice"
+      string="Factura Triplicada"
+      name="factura_sanfernando.report_factura_sanfernando"
+      file="factura_sanfernando.report_factura_sanfernando"
+      paperformat="paperformat_factura"
+      report_type="qweb-pdf"
+      print_report_name="'Factura San Fernando - %s' % (object.number or '')"/>
+  </data>
+</odoo>
