@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <menuitem
+            id="despacho_menu_root"
+            name="Despachos"
+            web_icon="despacho,static/description/icon.png"
+            groups="base.group_user"
+        />
+
+        <menuitem
+                id="despacho.configuracion_menu"
+                name="Configuraciones"
+                sequence="4"
+                parent="despacho_menu_root"
+                groups="despacho.group_despacho_admin"
+        />
+
+        <record model="ir.ui.view" id="despacho.aduana_list">
+            <field name="name">Aduanas</field>
+            <field name="model">despacho.aduana</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="codigo"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.aduana_view_form" model="ir.ui.view">
+            <field name="name">despacho.aduana.view.form</field>
+            <field name="model">despacho.aduana</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="codigo"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="despacho.aduana_action" model="ir.actions.act_window">
+            <field name="name">Aduanas</field>
+            <field name="res_model">despacho.aduana</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="despacho.mercaderia_action" model="ir.actions.act_window">
+            <field name="name">Mercaderías</field>
+            <field name="res_model">despacho.mercaderia</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="despacho.barcaza_action" model="ir.actions.act_window">
+            <field name="name">Barcazas</field>
+            <field name="res_model">despacho.barcaza</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="despacho.barcaza_list">
+            <field name="name">Barcaza</field>
+            <field name="model">despacho.barcaza</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="despacho.mercaderia_list">
+            <field name="name">Mercaderías</field>
+            <field name="model">despacho.mercaderia</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista para Embalajes -->
+        <record model="ir.ui.view" id="despacho.embalaje_list">
+            <field name="name">Embalajes</field>
+            <field name="model">despacho.embalaje</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.embalaje_view_form" model="ir.ui.view">
+            <field name="name">despacho.embalaje.view.form</field>
+            <field name="model">despacho.embalaje</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para Embalajes -->
+        <record id="despacho.embalaje_action" model="ir.actions.act_window">
+            <field name="name">Embalajes</field>
+            <field name="res_model">despacho.embalaje</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú para Embalajes dentro de Configuraciones -->
+        <menuitem id="despacho.embalaje_menu_list" 
+                name="Embalajes" 
+                action="despacho.embalaje_action" 
+                parent="despacho.configuracion_menu"
+                sequence="15"/>
+
+        <record model="ir.ui.view" id="despacho.unidad_medida_list">
+            <field name="name">Unidades de Medida</field>
+            <field name="model">despacho.unidad_medida</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.unidad_medida_view_form" model="ir.ui.view">
+            <field name="name">despacho.unidad_medida.view.form</field>
+            <field name="model">despacho.unidad_medida</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para Unidades de Medida -->
+        <record id="despacho.unidad_medida_action" model="ir.actions.act_window">
+            <field name="name">Unidades de Medida</field>
+            <field name="res_model">despacho.unidad_medida</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú para Unidades de Medida dentro de Configuraciones -->
+        <menuitem id="despacho.unidad_medida_menu_list" 
+                name="Unidades de Medida" 
+                action="despacho.unidad_medida_action" 
+                parent="despacho.configuracion_menu"
+                sequence="20"/>
+
+        <record model="ir.ui.view" id="despacho.incoterms_list">
+            <field name="name">Incoterms</field>
+            <field name="model">despacho.incoterms</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Código"/>
+                    <field name="description" string="Descripción"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.incoterms_view_form" model="ir.ui.view">
+            <field name="name">despacho.incoterms.view.form</field>
+            <field name="model">despacho.incoterms</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" string="Código" placeholder="Ej: FOB, CIF"/>
+                            <field name="description" string="Descripción"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para Incoterms -->
+        <record id="despacho.incoterms_action" model="ir.actions.act_window">
+            <field name="name">Incoterms</field>
+            <field name="res_model">despacho.incoterms</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_name': 'FOB'}</field>  <!-- Valor por defecto común -->
+        </record>
+
+        <!-- Menú para Incoterms dentro de Configuraciones -->
+        <menuitem id="despacho.incoterms_menu_list" 
+                name="Incoterms" 
+                action="despacho.incoterms_action" 
+                parent="despacho.configuracion_menu"
+                sequence="25"/>
+
+        <record model="ir.ui.view" id="despacho.tipo_contenedor_list">
+            <field name="name">Tipos de contenedores</field>
+            <field name="model">despacho.tipo_contenedor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_contenedor_view_form" model="ir.ui.view">
+            <field name="name">despacho.tipo_contenedor.view.form</field>
+            <field name="model">despacho.tipo_contenedor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="tipo"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_contenedor_action" model="ir.actions.act_window">
+            <field name="name">Tipos de contenedores</field>
+            <field name="res_model">despacho.tipo_contenedor</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="despacho.aduana_menu_list"
+                name="Aduanas"
+                action="despacho.aduana_action"
+                parent="despacho_menu_root"
+                groups="despacho.group_despacho_admin"
+        />
+        <menuitem
+                id="despacho.mercaderia_menu_list"
+                name="Mercaderías"
+                action="despacho.mercaderia_action"
+                parent="despacho_menu_root"
+                groups="despacho.group_despacho_admin"
+        />
+
+        <menuitem
+                id="despacho.barcaza_menu_list"
+                name="Barcazas"
+                action="despacho.barcaza_action"
+                sequence="5"
+                parent="despacho_menu_root"
+                groups="despacho.group_despacho_admin"
+        />
+
+
+        <menuitem id="despacho.tipo_contenedor_menu_list" name="Tipos de contenedores"
+                  action="despacho.tipo_contenedor_action" parent="despacho.configuracion_menu"/>
+
+        <record model="ir.ui.view" id="despacho.tipo_documento_list">
+            <field name="name">Tipos de documentos</field>
+            <field name="model">despacho.tipo_documento</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="regimen"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_documento_view_form" model="ir.ui.view">
+            <field name="name">despacho.tipo_documento.view.form</field>
+            <field name="model">despacho.tipo_documento</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="regimen" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_documento_action" model="ir.actions.act_window">
+            <field name="name">Tipos de documentos</field>
+            <field name="res_model">despacho.tipo_documento</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="despacho.tipo_documento_menu_list" name="Tipos de documentos"
+                  action="despacho.tipo_documento_action" parent="despacho.configuracion_menu"/>
+
+        <record model="ir.ui.view" id="despacho.tipo_documento_previo">
+            <field name="name">Tipos de documento gabinete</field>
+            <field name="model">despacho.tipo_documento_previo</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="orden_gabinete"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="regimen"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_documento_previo_view_form" model="ir.ui.view">
+            <field name="name">despacho.tipo_documento_previo.view.form</field>
+            <field name="model">despacho.tipo_documento_previo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="regimen" widget="many2many_tags"/>
+                            <field name="orden_gabinete"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_documento_previo_action" model="ir.actions.act_window">
+            <field name="name">Tipos de documento gabinete</field>
+            <field name="res_model">despacho.tipo_documento_previo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="despacho.tipo_documento_previo_menu_list" name="Tipos de documento gabinete"
+                  action="despacho.tipo_documento_previo_action" parent="despacho.configuracion_menu"/>
+
+        <record model="ir.ui.view" id="despacho.tipo_documento_oficializacion">
+            <field name="name">Tipos de documento oficializacion</field>
+            <field name="model">despacho.tipo_documento_oficializacion</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="regimen"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_documento_oficializacion_view_form" model="ir.ui.view">
+            <field name="name">despacho.tipo_documento_oficializacion.view.form</field>
+            <field name="model">despacho.tipo_documento_oficializacion</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="regimen" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_documento_oficializacion_action" model="ir.actions.act_window">
+            <field name="name">Tipos de documento oficializacion</field>
+            <field name="res_model">despacho.tipo_documento_oficializacion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="despacho.tipo_documento_oficializacion_menu_list" name="Tipos de documento oficializacion"
+                  action="despacho.tipo_documento_oficializacion_action" parent="despacho.configuracion_menu"/>
+
+        <record model="ir.ui.view" id="despacho.tipo_documento_cliente">
+            <field name="name">Tipos de documento cliente</field>
+            <field name="model">despacho.tipo_documento_cliente</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="tiempo_gestion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_documento_cliente_view_form" model="ir.ui.view">
+            <field name="name">despacho.tipo_documento_cliente.view.form</field>
+            <field name="model">despacho.tipo_documento_cliente</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="tiempo_gestion"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="despacho.tipo_documento_cliente_action" model="ir.actions.act_window">
+            <field name="name">Tipos de documento cliente</field>
+            <field name="res_model">despacho.tipo_documento_cliente</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="despacho.tipo_documento_cliente_menu_list" name="Tipos de documento cliente"
+                  action="despacho.tipo_documento_cliente_action" parent="despacho.configuracion_menu"/>
+
+        <record model="ir.ui.view" id="despacho.moneda_list">
+            <field name="name">Monedas</field>
+            <field name="model">despacho.moneda</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="codigo"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.moneda_view_form" model="ir.ui.view">
+            <field name="name">despacho.moneda.view.form</field>
+            <field name="model">despacho.moneda</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="codigo"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="despacho.moneda_action" model="ir.actions.act_window">
+            <field name="name">Monedas</field>
+            <field name="res_model">despacho.moneda</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="despacho.moneda_menu_list" name="Monedas" action="despacho.moneda_action"
+                  parent="despacho.configuracion_menu"/>
+
+        <record model="ir.ui.view" id="despacho.regimen">
+            <field name="name">Regímenes</field>
+            <field name="model">despacho.regimen</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="categoria"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="despacho.regimen_view_search" model="ir.ui.view">
+            <field name="name">despacho.regimen.view.search</field>
+            <field name="model">despacho.regimen</field>
+            <field name="arch" type="xml">
+                <search string="Regímenes">
+                    <filter name="group_by_category" string="Categoría"
+                            context="{'group_by':'categoria'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="despacho.regimen_view_form" model="ir.ui.view">
+            <field name="name">despacho.regimen.view.form</field>
+            <field name="model">despacho.regimen</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="categoria"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="despacho.regimen_action" model="ir.actions.act_window">
+            <field name="name">Regímenes</field>
+            <field name="res_model">despacho.regimen</field>
+            <field name="context">{'search_default_group_by_category': 1}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="despacho.regimen_view_search"/>
+        </record>
+
+        <menuitem id="despacho.regimen_menu_list" name="Regímenes" action="despacho.regimen_action"
+                  parent="despacho.configuracion_menu"/>
+
+    </data>
+</odoo>

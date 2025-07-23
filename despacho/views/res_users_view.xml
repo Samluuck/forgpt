@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista heredada para agregar el campo de administrador -->
+        <record id="view_users_form_despacho" model="ir.ui.view">
+            <field name="name">res.users.form.despacho</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <!-- Agregar al final de la página access_rights -->
+                <xpath expr="//page[@name='access_rights']" position="inside">
+                    <separator string="Permisos de Despacho"/>
+                    <group name="despacho_permissions">
+                        <field name="is_despacho_admin" string="Administrador General de Despachos"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
