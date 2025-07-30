@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_account_payment_inherit" model="ir.ui.view">
+            <field name="name">Account Payment</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account_payment_py.pagos_form_views_pagos_id" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ref']" position="before">
+					<field name="tipo_comprobante" domain="[('tipo', '=','6' )]" options="{'no_create': True, 'no_open':True}"/>
+					<field name="fecha_comprobante" string="Fecha Comprobante"/>
+					<field name="nro_comprobante" string="Número de Comprobante"/>
+					<field name="cod_tipo_identificacion" string="Código tipo Identificación"/>
+					<field name="razon_social_proveedor" string="Razón Social del proveedor"/>
+					<field name="monto_comprobante" string="Monto Comprobante"/>
+					<field name="numero_comprobante_asociado" string="Número del comprobante asociado"/>
+				 </xpath>
+            </field>
+        </record>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+asesor_tipo_identificacion,Ver Tipo Identificacion,model_ruc_tipo_identificacion,account.group_account_manager,1,1,1,1
+asesor_tipo_rg90,Ver RG90,model_account_book_rg90,account.group_account_manager,1,1,1,1
