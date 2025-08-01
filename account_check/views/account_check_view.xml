@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       
+    <!--  CHEQUES PROPIOS -->
+        <record model="ir.ui.view" id="view_account_check_tree">
+            <field name="name">account.check.tree</field>
+            <field name="model">account.check</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree string="Checks">
+                    <field name="checkbook_id" invisible="context.get('default_type',False) != 'issue_check'"/>
+                    <field name="journal_id"/>
+                    <field name="name" string="Number"/>
+                    <field name="issue_date"/>
+                    <field name="payment_date"/>
+                    <field name="source_partner_id" invisible="context.get('default_type',False) != 'third_check'" string="Emisor"/>
+                    <field name="destiny_partner_id" string="Receptor"/>
+                    <field name="bank_id" invisible="context.get('default_type',False) != 'third_check'"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                    <field name="owner_name" invisible="context.get('default_type',False) != 'third_check'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_check_create_tree">
+            <field name="name">account.check.tree</field>
+            <field name="model">account.check</field>
+            <field name="arch" type="xml">
+                <tree string="Checks">
+                    <field name="checkbook_id" invisible="context.get('default_type',False) != 'issue_check'"/>
+                    <field name="journal_id"/>
+                    <field name="name" invisible="1" string="Numero"/>
+                    <field name="number" string="Numero"/>
+                    <field name="issue_date"/>
+                    <field name="payment_date"/>
+                    <field name="source_partner_id" invisible="context.get('default_type',False) != 'third_check'" string="Emisor"/>
+                    <field name="bank_id" invisible="context.get('default_type',False) != 'third_check'"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+         <record model="ir.ui.view" id="view_account_check_form">
+            <field name="name">account.check.form</field>
+            <field name="model">account.check</field>
+            <field name="arch" type="xml">
+                <form string="Checks" create="false">
+
+                    <field name="issue_check_subtype" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                <header>
+                    <!-- change state for issue handed and third holding -->
+                    <button name="%(action_check_debit)d" type="action" string="Registrar Cobro cheque" context="{'default_check_type':type}" states="signed" class="oe_highlight"/>
+                  <button name="action_sign" type="object" string="Registrar firma de cheque"  states="validado" class="oe_highlight"/>
+                    <button name="action_validado" type="object" string="Validar" states="draft" class="oe_highlight"/>
+                  <!--  <button name="signed_handed" type="workflow" string="Cheque entregado" states="signed" class="oe_highlight"/> -->
+                    <button name="action_cancel_debit" type="object" string="Cancel Debit" states="debited" context="{'default_state':state,'default_type':type}"/>
+                     <button name="action_borrador" type="object" string="Marcar como borrador" states="validado,signed,handed,cancel"/>
+                     <button name="%(action_check_conciliar)d" type="action" string="Conciliar cheque" attrs="{'invisible':['|',('type','!=','issue_check'),('state','!=','handed')]}" class="oe_highlight"/>
+                    <button name="action_cancel" type="object" string="Anular" states="draft"/>
+                    <button name="imprimir" type="object" string="Imprimir" class="oe_highlight" invisible="1"/>
+                    <!-- cancel change not implemente correctly -->
+                    <!-- <button name="action_cancel_change" type="object" string="Cancel Change" states="changed" context="{'default_state':state,'default_type':type}"/> -->
+                    <field name="state" widget="statusbar" statusbar_colors='{"cancel":"red","cancelado":"red"}'/>
+                </header>
+                <sheet string="Checks">
+                    <h1 attrs="{'invisible': [('name','=',False)]}">
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="type" string="Tipo" invisible="0"/>
+                            <field name="checkbook_id" string="Chequera" domain="[('state','=','active')]" />
+                            <field name="bank_id" attrs="{'invisible':[('type','!=','third_check')],'required':[('type','=','third_check')]}"/>
+                            <field name="current_number" string="Ultimo Numero Utilizado" states="draft,validado"  />
+                            <field name="number" string="Numero"/>
+                            <field name="currency_id" invisible="0" domain="[('ambito','in',('compra',False))]"/>
+                            <field name="amount" string="Monto" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="comentario" string="Comentarios"/>
+                            <field name="orden_de"/>
+                            <field name="company_currency_amount" attrs="{'invisible':[('company_currency_amount','=', 0)]}" /> <!-- groups="base.group_no_one" -->
+                        </group>
+                        <group>
+                            <field name="owner_name" attrs="{'invisible':[('type','!=','third_check')],'required':[('type','=','third_check')]}"/>
+                            <field name="vat" attrs="{'invisible':[('type','!=','third_check')],'required':[('type','=','third_check')]}"/>
+                            <field name="issue_date" string="Fecha del Cheque"/>
+
+                            <field name="payment_amount" states="draft,validado"/>
+                            <field name="tiene_fact_cred" invisible="1"/>
+                            <field name="recibo" states="signed,debited,handed" attrs="{'readonly':[('state','=','handed'),('state','=','conciliado')],'required': [('tiene_fact_cred','=',True),('state','=','signed')]}"/>
+                            <field name="payment_date" string="Fecha de Pago" attrs="{'invisible':[('type','=','issue_check'),('issue_check_subtype','=','currents')],'required':[('type','=','issue_check'),('issue_check_subtype','=','deferred')]}"/>
+                            <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                        </group>
+                    </group>
+                 <group string="Related Documents">
+                        <group>
+                            <field name="voucher_id" invisible="'from_voucher' in context" attrs="{'invisible':[('state','=','cancel')]}"  readonly="1" context="{'form_view_ref':'account_voucher.view_vendor_receipt_form'}"/>
+                            <field name="pago_voucher" readonly="1" force_save="1"/>
+                            <field name="third_handed_voucher_id" invisible="'from_voucher' in context"  context="{'form_view_ref':'account_voucher.view_vendor_payment_form'}" attrs="{'invisible':[('third_handed_voucher_id','=',False)]}"/>
+                            <field name="source_partner_id" string="Cliente" invisible="'from_voucher' in context" attrs="{'invisible':[('source_partner_id','=',False)]}"/>
+                            <field name="destiny_partner_id" string="Proveedor" invisible="'from_voucher' in context" attrs="{'invisible':[('destiny_partner_id','=',False)]}"/>
+                        </group>
+                        <group>
+                            <field name="replacing_check_id" attrs="{'invisible':[('replacing_check_id','=',False)]}"/>
+                            <field name="debit_account_move_id" string="Asiento Contable" attrs="{'invisible':[('debit_account_move_id','=',False)]}"/>
+                            <field name="deposit_account_move_id" attrs="{'invisible':[('deposit_account_move_id','=',False)]}"/>
+                            <field name="customer_reject_debit_note_id" attrs="{'invisible':[('customer_reject_debit_note_id','=',False)]}"/>
+                            <field name="expense_account_move_id" attrs="{'invisible':[('expense_account_move_id','=',False)]}"/>
+                            <field name="supplier_reject_debit_note_id" attrs="{'invisible':[('supplier_reject_debit_note_id','=',False)]}"/>
+                            <field name="return_account_move_id" attrs="{'invisible':[('return_account_move_id','=',False)]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_checks_search">
+            <field name="name">check.search</field>
+            <field name="model">account.check</field>
+            <field name="arch" type="xml">
+                <search string="Checks">
+                    <field name="number"/>
+                    <field name="source_partner_id"/>
+                    <field name="destiny_partner_id"/>
+                    <field name="journal_id"/>
+                    <field name="voucher_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                    <field name="owner_name"/>
+                    <field name="vat"/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_issue_date"  string="Fecha de emisión" context="{'group_by':'issue_date'}"/>
+                        <filter name="group_payment_date" string="Fecha de pago" context="{'group_by':'payment_date'}"/>
+<!--                        <filter name="group_journal_id" string="Journal" context="{'group_by':'journal_id'}"/>-->
+                        <filter name="group_state" string="Estado" context="{'group_by':'state'}"/>
+                        <filter name="group_destiny_partner_id" string="Empresa" context="{'group_by':'destiny_partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- mode="month" -->
+        <record model="ir.ui.view" id="view_account_check_calendar">
+            <field name="name">account.check.calendar</field>
+            <field name="model">account.check</field>
+            <field name="arch" type="xml">
+                <calendar string="Checks"
+                          date_start="payment_date"
+                          color="destiny_partner_id">
+                    <field name="amount"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!--  CHEQUES TERCEROS -->
+        <record model="ir.ui.view" id="view_account_third_check_tree">
+            <field name="name">account.check.tree</field>
+            <field name="model">account.check.third</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree string="Checks">
+                    <field name="name" string="Number"/>
+                    <field name="issue_date"/>
+                    <field name="payment_date"/>
+                    <field name="source_partner_id" invisible="context.get('default_type',False) != 'third_check'" string="Source Partner"/>
+                    <field name="destiny_partner_id" string="Destiny Partner"/>
+                    <field name="bank_id" invisible="context.get('default_type',False) != 'third_check'"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                    <field name="owner_name" invisible="context.get('default_type',False) != 'third_check'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_check_third_create_tree">
+            <field name="name">account.check.tree</field>
+            <field name="model">account.check.third</field>
+            <field name="arch" type="xml">
+                <tree string="Checks">
+                    <field name="journal_id"/>
+                    <field name="name" string="Number"/>
+                    <field name="issue_date"/>
+                    <field name="payment_date"/>
+                    <field name="source_partner_id" invisible="context.get('default_type',False) != 'third_check'" string="Source Partner"/>
+                    <field name="bank_id" invisible="context.get('default_type',False) != 'third_check'"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_check_third_form">
+            <field name="name">account.check.form</field>
+            <field name="model">account.check.third</field>
+            <field name="arch" type="xml">
+                <form string="Checks Third">
+                    <field name="type" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                <header>
+                    <!-- change state for issue handed and third holding -->
+                    <button name="%(action_check_credit)d" type="action" string="Depositar cheque" states="handed" class="oe_highlight"/>
+                    <button name="action_cancel" type="object" string="Anular" states="handed"/>
+                    <button name="action_conciliar" type="object" string="Conciliar" states="deposited"/>
+                    <button name="action_rechazar" type="object" string="Rechazar" states="handed,deposited" class="btn btn-danger"/>
+                    <button name="action_handed" type="object" string="Pasar en mano" states="deposited,rechazado" class="btn btn-warning"/>
+                      <field name="state" widget="statusbar" statusbar_colors='{"cancel":"red","cancelado":"red"}'/>
+                </header>
+                <sheet string="Checks">
+                    <h1 attrs="{'invisible': [('name','=',False)]}">
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="number"/>
+                            <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="company_currency_amount" attrs="{'invisible':[('company_currency_amount','=', 0)]}" /> <!-- groups="base.group_no_one" -->
+                        </group>
+                        <group>
+                            <field name="owner_name" attrs="{'invisible':[('type','!=','third_check')],'required':[('type','=','third_check')]}"/>
+                            <field name="issue_date"/>
+                            <field name="bank_id"/>
+                            <field name="payment_amount" states="draft,validado"/>
+                            <field name="currency_id" domain="[('ambito','in',('venta',False))]"/>
+                            <field name="payment_date"/>
+                            <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+
+                        </group>
+                    </group>
+                 <group string="Documentos Relacionados" name="rel">
+                        <group>
+                            <field name="voucher_id" invisible="'from_voucher' in context" readonly="1" context="{'form_view_ref':'account_voucher.view_vendor_receipt_form'}"/>
+                            <field name="pago_voucher" readonly="1" force_save="1"/>
+                            <field name="third_handed_voucher_id" invisible="'from_voucher' in context"  context="{'form_view_ref':'account_voucher.view_vendor_payment_form'}" attrs="{'invisible':[('third_handed_voucher_id','=',False)]}"/>
+                            <field name="source_partner_id" invisible="'from_voucher' in context" attrs="{'invisible':[('source_partner_id','=',False)]}"/>
+                            <field name="destiny_partner_id" invisible="'from_voucher' in context" attrs="{'invisible':[('destiny_partner_id','=',False)]}"/>
+                        </group>
+                        <group>
+                            <field name="replacing_check_id" attrs="{'invisible':[('replacing_check_id','=',False)]}"/>
+                            <field name="deposit_account_move_id" attrs="{'invisible':[('deposit_account_move_id','=',False)]}"/>
+                            <field name="customer_reject_debit_note_id" attrs="{'invisible':[('customer_reject_debit_note_id','=',False)]}"/>
+                            <field name="expense_account_move_id" attrs="{'invisible':[('expense_account_move_id','=',False)]}"/>
+                            <field name="supplier_reject_debit_note_id" attrs="{'invisible':[('supplier_reject_debit_note_id','=',False)]}"/>
+                            <field name="return_account_move_id" attrs="{'invisible':[('return_account_move_id','=',False)]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_checks_third_search">
+            <field name="name">check.search</field>
+            <field name="model">account.check.third</field>
+            <field name="arch" type="xml">
+                <search string="Checks">
+                    <field name="number"/>
+                    <field name="source_partner_id"/>
+                    <field name="destiny_partner_id"/>
+                    <field name="journal_id"/>
+                    <field name="voucher_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                    <field name="owner_name"/>
+                    <field name="vat"/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_issue_date"  string="Fecha de Emision" context="{'group_by':'issue_date'}"/>
+                        <filter name="group_payment_date" string="Fecha de Pago" context="{'group_by':'payment_date'}"/>
+                        <filter name="group_journal_id" string="Diario" context="{'group_by':'journal_id'}"/>
+                        <filter name="group_state" string="Estado" context="{'group_by':'state'}"/>
+                        <filter name="group_source_partner_id" string="Emisor" context="{'group_by':'source_partner_id'}"/>
+                        <filter name="group_destiny_partner_id" string="Receptor" context="{'group_by':'destiny_partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- mode="month" -->
+        <record model="ir.ui.view" id="view_account_check_third_calendar">
+            <field name="name">account.check.calendar</field>
+            <field name="model">account.check.third</field>
+            <field name="arch" type="xml">
+                <calendar string="Cheques de terceros"
+                          date_start="payment_date"
+                          color="source_partner_id">
+                    <field name="amount"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- Third Check Menu -->
+        <record model="ir.actions.act_window" id="action_third_check">
+            <field name="name">Third Checks</field>
+            <field name="res_model">account.check.third</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_account_third_check_tree"/>
+            <field name="context">{'search_default_state':'handed','default_type':'third_check'}</field>
+        </record>
+
+        <menuitem
+            action="action_third_check"
+            id="menu_third_check"
+            sequence="30"
+            parent="account.menu_finance_entries"/>
+
+        <!-- Issued Check Menu -->
+        <record model="ir.actions.act_window" id="action_issue_check">
+            <field name="name">Issue Checks</field>
+            <field name="res_model">account.check</field>
+
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="search_view_id" ref=""/>
+            <field name="view_id" ref="view_account_check_tree"/>
+            <field name="domain">[('type','=','issue_check')]</field>
+            <field name="context">{'search_default_state':'handed','default_type':'issue_check'}</field>
+        </record>
+        
+        <menuitem
+            action="action_issue_check"
+            id="menu_issue_check"
+            sequence="40"
+            parent="account.menu_finance_entries"/>
+
+    </data>
+</odoo>
