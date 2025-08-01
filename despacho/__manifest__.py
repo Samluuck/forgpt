@@ -10,8 +10,7 @@
         Long description of module's purpose
     """,
     'images': ['static/description/icon.png'],
-    'author': "SATI",
-    'website': "https://sati.com.py",
+    'author': "",
     'category': 'Inventory/Inventory',
     'version': '17.0.0.1',
     'depends': ['base', 'hr', 'hr_expense', 'contacts'],
