@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+        <record model="ir.ui.view" id="tax_form_inh_de">
+            <field name="name">account.tax.form.inh.de</field>
+            <field name="model">account.tax</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="forma_afectacion" string="Forma de afectación tributaria del IVA"  required="1"/>
+                </xpath>
+            </field>
+        </record>
+  </data>
+</odoo>

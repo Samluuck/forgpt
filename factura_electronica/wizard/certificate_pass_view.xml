@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="certificate_pass_wizard_view" model="ir.ui.view">
+            <field name="name">certificate.pass.wizard</field>
+            <field name="model">certificate.pass</field>
+            <field name="arch" type="xml">
+                <form string="Inserte Password">
+                    <group>
+                        <field name="password" password="True"/>
+                        <field name="firma_digital_id" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="procesar" type="object" string="Activar" class="oe_highlight"/>
+                        o
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                 </form>
+            </field>
+        </record>
+        <record id="open_add_pass" model="ir.actions.act_window">
+            <field name="name">Agregar Pass</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">certificate.pass</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="certificate_pass_wizard_view"/>
+            <field name="target">new</field>
+            <field name="context">{'default_firma_digital_id':active_id}</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem name="Operaciones SIFEN" id="menu_principal_ekuatia" parent="account_accountant.menu_accounting">
+            <menuitem name="Envio DE por Lotes" id="envio_lotes_menu"  action="envio_lotes_act_window" sequence="10"/>
+            <menuitem name="Eventos DTE" id="eventos_dte_menu" action="eventos_dte_act_window" sequence="20"/>
+            <menuitem name="Consulta DTE" id="consulta_dte_menu" action="consulta_dte_act_window" sequence="30"/>
+            <menuitem name="Consulta de mensajes de resultado" id="menu_msjes_resultado"  action="msjs_resultado_act_window"  sequence="40"/>
+            <menuitem name="Consultar RUC" id="menu_consulta_ruc"  action="action_consulta_ruc"  sequence="50"/>
+        </menuitem>
+    </data>
+</odoo>

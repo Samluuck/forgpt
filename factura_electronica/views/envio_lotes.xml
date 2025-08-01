@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="envio_lotes_act_window" model="ir.actions.act_window">
+            <field name="name">Envio Lotes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">envio.lotes</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Envio por lotes
+                </p>
+            </field>
+        </record>
+
+<!----> <record id="envio_lotes_form_view" model="ir.ui.view">
+            <field name="name">envio.lotes.form</field>
+            <field name="model">envio.lotes</field>
+            <field name="arch" type="xml">
+                <form string="Envio DE por Lotes">
+                    <header>
+                        <button name="crear_zip" string="Crear ZIP" type="object"  attrs="{'invisible':[('state', 'not in', ('borrador'))]}" />
+                        <button name="enviar" string="Enviar" type="object" class="oe_highlight" attrs="{'invisible':[('state', 'in', ('enviado','cerrado'))]}" />
+                        <button name="consultar_estado" string="Consultar Estado" type="object" class="oe_highlight"  attrs="{'invisible':[('state', 'not in', ('enviado'))]}"/>
+                        <field name="state" widget="statusbar"  nolabel="1"/>
+                    </header>
+                    <sheet>
+
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="tipo" required="1"/>
+                                <field name="numero_lote" readonly="1"/>
+                                <field name="domain_tipo" invisible="1"/>
+                                <field name="archivo" filename="name" readonly="1"/>
+                                <field name="fecha_envio"  readonly="1"/>
+
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="dMsgRes"/>
+                                    <field name="dCodRes" groups="factura_electronica.responsable_factu_elect_groupe"/>
+                                    <field name="dFecProc" groups="factura_electronica.responsable_factu_elect_group"/>
+                                    <field name="dProtConsLote" groups="factura_electronica.responsable_factu_elect_group"/>
+                                    <field name="dTpoProces" groups="factura_electronica.responsable_factu_elect_group"/>
+
+                                    <field name="con_dMsgRes"/>
+                                    <field name="con_dCodRes"/>
+                                    <field name="con_dFecProc" groups="factura_electronica.responsable_factu_elect_group"/>
+                                    <field name="respuesta" groups="factura_electronica.responsable_factu_elect_group"/>
+                                </group>
+                            </group>
+
+
+                        </group>
+                        <notebook>
+                            <page string="Facturas" attrs="{'invisible':[('tipo', '=', '7')]}">
+                                <field name="invoice_ids" domain="domain_tipo" context="{'form_view_ref': 'account.view_move_form'}">
+<!--                                <field name="invoice_ids" context="{'form_view_ref': 'account.view_move_form'}">-->
+                                    <tree editable="bottom">
+                                       <field name="partner_id" string="Empresa"/>
+                                       <field name="company_id" invisible="1"/>
+                                        <field name="invoice_date" string="Fecha Factura"/>
+                                        <field name="nro_factura"/>
+                                        <field name="estado_de" string="Estado DE"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="envio_lotes_tree_view" model="ir.ui.view">
+            <field name="name">envio.lotes.tree</field>
+            <field name="model">envio.lotes</field>
+            <field name="arch" type="xml">
+                <tree string="Envios DE por Lotes">
+                    <field name="name"/>
+                    <field name="tipo"/>
+                    <field name="numero_lote"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+        <record model="ir.ui.view" id="country_form_inherited_factuelect">
+            <field name="name">country.form.inh.factelect</field>
+            <field name="model">res.country</field>
+            <field name="inherit_id" ref="base.view_country_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="codigo_set" />
+
+                </xpath>
+            </field>
+        </record>
+  </data>
+</odoo>

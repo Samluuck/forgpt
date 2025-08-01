@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+    <record id="factu_elect_group" model="ir.module.category">
+        <field name="name">Facturacion Electronica</field>
+<!--        <field name="description">Fabricacion</field>-->
+        <field name="sequence">40</field>
+
+
+
+    </record>
+
+    <record id="responsable_factu_elect_group" model="res.groups">
+        <field name="name">Responsable</field>
+        <field name="category_id" ref="factura_electronica.factu_elect_group"/>
+    </record>
+
+
+    <record id="usuario_factu_elect_group" model="res.groups">
+        <field name="name">Usuario</field>
+        <field name="category_id" ref="factura_electronica.factu_elect_group"/>
+    </record>
+
+    <record id="usuario_factu_elect_modif_group" model="res.groups">
+        <field name="name">Permitir modificación de DE Aprobado</field>
+        <field name="category_id" ref="factura_electronica.factu_elect_group"/>
+    </record>
+
+
+</odoo>

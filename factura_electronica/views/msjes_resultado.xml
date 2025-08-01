@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="msjes_resultado_form_view" model="ir.ui.view">
+            <field name="name">mje.resultado.form</field>
+            <field name="model">mje.resultado</field>
+            <field name="arch" type="xml">
+                <form string="mje.resultado">
+                    <sheet>
+                        <group>
+                           <field name="name"/>
+                           <field name="dMsgRes"/>
+                           <field name="tipo"/>
+                           <field name="invoice_id" string="Factura"/>
+                           <field name="create_date" string="Fecha de Creación"/>
+                           <field name="write_date" string="Fecha de última actualización"/>
+                           <field name="create_uid" string="Creado por"/>
+                           <field name="write_uid" string="Actualizado por"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="msjes_resultado_tree_view" model="ir.ui.view">
+            <field name="name">mje.resultado.tree</field>
+            <field name="model">mje.resultado</field>
+            <field name="arch" type="xml">
+                <tree string="Eventos DTE">
+                    <field name="name"/>
+                    <field name="dMsgRes"/>
+                    <field name="tipo"/>
+                    <field name="invoice_id" string="Factura"/>
+                    <field name="create_date" string="Fecha de Creación" optional="hide"/>
+                    <field name="write_date" string="Fecha de última actualización" optional="hide"/>
+                    <field name="create_uid" string="Creado por" optional="hide"/>
+                    <field name="write_uid" string="Actualizado por" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="view_msjes_resultado_search" model="ir.ui.view">
+            <field name="name">msjes_resultado.search</field>
+            <field name="model">mje.resultado</field>
+            <field name="arch" type="xml">
+                <search string="Msjes resultado">
+                    <field name="invoice_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Factura" name="factura" domain="" context="{'group_by':'invoice_id'}"/>
+                        <filter string="Fecha de creación" name="createdate" domain="" context="{'group_by':'create_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+         <record id="msjs_resultado_act_window" model="ir.actions.act_window">
+            <field name="name">Mensajes de resultado</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mje.resultado</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Mensajes de resultado
+                </p>
+            </field>
+        </record>
+
+
+
+
+
+
+    </data>
+</odoo>
