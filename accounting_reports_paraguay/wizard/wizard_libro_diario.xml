@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+       <record id="reporte_libro_diario" model="ir.ui.view">
+            <field name="name">libro_diario.wizard.libro_diario</field>
+            <field name="model">libro_diario.wizard.libro_diario</field>
+            <field name="arch" type="xml">
+               <form>
+                   <div class="alert alert-danger" role="alert" style="margin:10px;">
+                       <strong>Atención:</strong> Para la generación del libro diario, se debe correr previamente el proceso de renumeración de asientos contables.
+                   </div>
+                   <group>
+                       <field name="desde" required="1"/>
+                       <field name="hasta" required="1"/>
+                   </group>
+                   <group>
+                  </group>
+                  <group>
+                      <field name="journal_ids" widget="many2many_tags"/>
+                  </group>
+                   <group>
+                       <field name="tipo"/>
+                       <field name="mostrar_encabezado"/>
+                       <field name="mostrar_numeracion"/>
+                       <field name="mostrar_filtro" string="Mostrar Fecha de Impresion"/>
+                       <field name="mostrar_titulo" attrs="{'invisible':[('tipo','!=','pdf')]}"/>
+                       <field name="mostrar_fecha"  string="Mostrar Filtro de Fecha" attrs="{'invisible':[('tipo','!=','pdf')]}"/>
+                   </group>
+                   <footer>
+                       <button name="check_report" type="object" string="Generar" class="oe_highlight"/>
+                       <button string="Cancelar" special="cancel"/>
+                   </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_reporte_libro_diario" model="ir.actions.act_window">
+            <field name="name">Reporte Libro Diario </field>
+            <field name="res_model">libro_diario.wizard.libro_diario</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="view_type">form</field>-->
+<!--            <field name="view_mode">form</field>-->
+            <field name="view_id" ref="reporte_libro_diario"/>
+            <field name="target">new</field>
+<!--            <field name="no_destroy">True</field>-->
+        </record>
+
+    </data>
+</odoo>

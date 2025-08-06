@@ -1,0 +1,103 @@
+table {
+    display: table;
+    page-break-inside:auto;
+}
+
+tr {
+    page-break-inside:avoid;
+    page-break-after:auto;
+}
+thead {
+        display:table-header-group
+}
+
+.negrita{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.contenedor{
+/*background: #ff684f;*/
+/*    width: 36.0cm;*/
+    /*margin-right: 0.50cm;*/
+}
+.cabecera{
+    width: 40cm;
+    /*margin-right: 0.50cm;*/
+
+}
+.cabecera tbody td{
+    border: 1px solid;
+    text-align: center;
+    padding: 2px;
+    font-size: 8px;
+}
+
+.tabla{
+    margin-top: 20px;
+    margin-left: 0;
+    width: 40cm;
+    /*border: 1px solid black;*/
+    font-size: 7.25px;
+    /*margin-right: 0.50cm;*/
+}
+.tabla thead th{
+    border: 1px solid;
+    vertical-align: middle;
+    text-align: center;
+}
+.tabla tbody td{
+    border: 1px solid;
+    padding: 1px;
+}
+
+.cabeza {
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold;
+    border-collapse:separate;
+    border-spacing:5em;
+}
+
+.centrado {
+    text-align: center;
+}
+.derecha {
+    text-align: right;
+}
+
+/*filas*/
+#td_descripcion_de_los_bienes{width: 10cm;}
+#td_valor_de_costo_o_adquisicion{width: 1cm;}
+#td_fecha_de_adquisicion{width: 1cm;}
+#td_coeficiente_de_revaluo{width: 1cm;}
+#td_valores_fiscales{text-align: center;width: 1cm; }
+#td_valores_contables{text-align: center;width: 1cm;}
+#td_porcentaje_valor_fiscal{width: 1cm;}
+#td_valor_residual_fiscal{width: 1cm;}
+#td_anho_de_vida_util_fiscal{width: 1cm;}
+#td_anho_de_vida_util_restante{width: 1cm;}
+#td_valor_fiscal_neto_anterior{width: 2cm;}
+#td_valor_fiscal_revaluado{width: 3.5cm;}
+#td_cuota_depreciacion_anual{width: 1cm;}
+#td_deprec_fiscal_acumulada{width: 1cm;}
+#td_valor_fiscal_neto_al_cierre{width: 1cm;}
+#td_deprec_anual_no_deducible{width: 1cm;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

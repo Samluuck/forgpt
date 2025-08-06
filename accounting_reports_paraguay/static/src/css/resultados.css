@@ -1,0 +1,77 @@
+.contenedor{
+    font-size:9px;
+    font-family:  "DejaVu Serif", "STIX", serif;
+}
+
+.con-bordes{
+    border: 0.5px solid black;
+}
+
+/*--------------TABLA DE LAS CABECERA-------------*/
+table.cabecera{
+  width: 100%;
+  border-collapse: collapse;
+  border: 0.5px solid black;
+  height: 20px;
+  text-align: center;
+}
+
+table.cabecera tr td {
+    border: 0.5px solid black;
+}
+td{
+    height: 15px;
+    text-align: center;
+    align-items: center;
+}
+/*-----------------FIN TABLA DE LAS CABECERAS-----------*/
+table.tablaini{
+    width: 100%;
+    border: 0.5px solid black;
+}
+table.tablaini tr td {
+    border: 0.5px solid black;
+    padding:2px ;
+    text-align: center;
+
+}
+table.tabla{
+    width: 100%;
+    border: 0.0px solid black;
+}
+table.tabla tr{
+
+    border: 0.0px solid black;
+}
+td{
+    border: 0.0px solid black;
+    padding:2px ;
+    text-align: center;
+}
+
+th{
+    text-align: center;
+    border: 0px solid black;
+    vertical-align: middle;
+}
+
+table, th, td {
+    border: 1px solid black;
+  }
+
+/*thead { display: table-header-group }*/
+/*tr { page-break-inside: avoid }*/
+
+.negrita{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.derecha{
+    text-align: right !important;
+}
+.mayusculas{
+    text-transform: uppercase;
+}
+
+

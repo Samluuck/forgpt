@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+        <record id="hechauka_balance" model="ir.ui.view">
+            <field name="name">hechauka.wizard.balance</field>
+            <field name="model">hechauka.wizard.balance</field>
+            <field name="arch" type="xml">
+               <form>
+                  <group>
+
+                      <field name="fecha_inicio" required="True"/>
+                      <field name="fecha_fin" required="True"/>
+                      <field name="company_id" invisible="1"/>
+<!--                        <field name="ver_borrador"/>-->
+                  </group>
+                    <group string="Hechauka" attrs="{'invisible':[('txt_filename','=',False)]}">
+                        <field name="txt_filename" invisible="1"/>
+                        <br />
+                        <h3>Archivo de importacion en Hechauka:  <field  name="txt_binary" filename="txt_filename" readonly="1"/>  </h3>
+                   </group>
+
+
+                   <footer>
+                       <button name="obtener_datos" type="object" string="Generar Archivo" class="oe_highlight"/>
+                       <!--<button name="print_report_xlsx" type="object" string="Generar Xlsx" class="oe_highlight"/>-->
+                       <button string="Cancelar" special="cancel"/>
+                   </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_reporte_hechauka_balance" model="ir.actions.act_window">
+            <field name="name"> Hechauka Balance, EERR </field>
+            <field name="res_model">hechauka.wizard.balance</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="view_type">form</field>-->
+<!--            <field name="view_mode">form</field>-->
+            <field name="view_id" ref="hechauka_balance"/>
+            <field name="target">new</field>
+        </record>
+
+
+
+    </data>
+</odoo>
