@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <record id="account.action_account_invoice_report_all" model="ir.actions.act_window">
-        <field name="view_mode">tree,graph,pivot</field>
-    </record>
-</odoo>
