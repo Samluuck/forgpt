@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    		<record model="ir.ui.view" id="tipo_iva_tree_view">
+            <field name="name">tipo.iva.tree</field>
+            <field name="model">account.tipo.iva</field>
+            <field name="arch" type="xml">
+                <tree string="Comprobantes">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="tipo_iva_form_view">
+            <field name="name">tipo.iva.form</field>
+            <field name="model">account.tipo.iva</field>
+            <field name="arch" type="xml">
+                <form string="Comprobantes">
+                    <sheet>
+                            <group>
+                                <field name="name" />
+                                <field name="active"/>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record model="ir.actions.act_window" id="action_tipo_iva">
+            <field name="name">Tipos de IVA</field>
+            <field name="res_model">account.tipo.iva</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{ }</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Tipos de IVA
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="action_tipo_iva" name="Tipos de IVA" id="menu_action_tipo_iva" parent="account.menu_finance_entries"  />
+    </data>
+</odoo>

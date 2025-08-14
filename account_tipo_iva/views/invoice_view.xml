@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="account_invoice_form_inherited_tipo_iva">
+            <field name="name">account.invoice.form.tipo.iva.inh</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+               <field name="invoice_date" position="after">
+                   <field name="tipo_iva_id"/>
+               </field>
+            </field>
+        </record>
+
+
+
+
+        <!-- INherit en campos de factura -->
+        <record id="view_account_form_inh" model="ir.ui.view">
+            <field name="name">view.account_invoice.inh</field>
+            <field name="model">account.move</field>
+<!--            <field name="type">form</field>-->
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_date']" position="after">
+                        <field name="nro_factura"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+        <!-- INherit en campos de factura venta -->
+<!--        <record id="view_account_tree_form_inh" model="ir.ui.view">-->
+<!--            <field name="name">view.account_invoice_tree.inh</field>-->
+<!--            <field name="model">account.invoice</field>-->
+<!--            <field name="type">form</field>-->
+<!--            <field name="inherit_id" ref="account.invoice_tree"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='date_due']" position="after">-->
+<!--                        <field name="nro_factura"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+         <record id="view_my_module_account_invoice_search" model="ir.ui.view">
+            <field name="name">rapidsoft.base.account.invoice.search</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <filter string="Tipo de factura" domain="[]" context="{'group_by':'tipo_factura'}" name="groupbytipofactura"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="nro_factura"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Herencia factura cliente-->
+<!--        <record model="ir.ui.view" id="paraguay_account_invoice_customer_form_inherited">-->
+<!--            <field name="name">account.paraguay_invoice.customer.form.inh</field>-->
+<!--            <field name="model">account.invoice</field>-->
+<!--            <field name="inherit_id" ref="account.invoice_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='residual']" position="after">-->
+<!--                    <field name="termino_pago" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                </xpath>-->
+
+<!--            </field>-->
+<!--        </record>-->
+
+        <!--Herencia factura proveedor modulo Rapidsoft-->
+<!--        <record model="ir.ui.view" id="paraguay_account_invoice_suplier_form_inherited">-->
+<!--            <field name="name">account.paraguay_invoice.supplier.form.inh</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--            <field name="inherit_id" ref="account.view_move_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='timbrado']" position="after">-->
+<!--                     <div attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))]}">-->
+<!--                        <field name="vencimiento_timbrado"/>-->
+<!--                     </div>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//notebook/page[1]/field/tree/field[@name='account_id']" position="replace">-->
+<!--                <field name="account_id" groups="account.group_account_user" domain="[('company_id', '=', parent.company_id), ('deprecated', '=', False)]"/>-->
+<!--            </xpath>-->
+
+
+<!--                <xpath expr="//field[@name='timbrado']" position="before">-->
+<!--                    <field name="libro_iva" invisible="1"/>-->
+<!--			            <field name="talonario_factura" attrs="{'invisible':[('tipo_talonario', '!=', 5)],'required':[('tipo_talonario','=',5)]}" domain="[('tipo_documento','=',tipo_talonario),('activo','=',True)]" />-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <!-- <record model="ir.ui.view" id="account_te_invoice_form_inherited">
+            <field name="name">account.e_invoice.form.inh</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='timbrado']" position="before">
+                    <field name="talonario_factura" attrs="{'invisible':[('move_type', 'not in', ('out_invoice','out_refund'))],'readonly':[('state','!=','draft')]}" domain="[('tipo_documento','=',tipo_talonario),('activo','=',True)]" options="{'no_create': True, 'no_open':True}" />
+
+                </xpath>
+            </field>
+        </record> -->
+
+
+         <record id="py_account_invoice_search" model="ir.ui.view">
+            <field name="name">py.account.invoice.search</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <filter string="Vencimiento de timbrado" domain="[]" context="{'group_by':'vencimiento_timbrado'}" name="groupbytimbradoven"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- <menuitem id="facturas_caja_chica" name="Facturas de caja chica" parent="account.menu_finance_payables"
+                  action="caja_chica_action"/> -->
+
+    </data>
+</odoo>
