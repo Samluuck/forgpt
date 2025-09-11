@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Vista del wizard -->
+  <record id="view_invoice_ocr_wizard" model="ir.ui.view">
+    <field name="name">invoice.ocr.wizard.form</field>
+    <field name="model">invoice.ocr.wizard</field>
+    <field name="arch" type="xml">
+      <form string="OCR de Factura (Proveedor)" create="false" edit="true">
+        <group>
+          <field name="input_file" filename="filename" required="1"/>
+          <field name="filename"/>
+          <button name="action_process" type="object" string="Procesar OCR" class="oe_highlight"/>
+          <button name="action_process_azure" type="object" string="Procesar con Azure" class="btn-primary" style="background-color:#007bff; color:white;"/>
+        </group>
+        <group>
+          <field name="avg_confidence" readonly="1"/>
+        </group>
+        <notebook>
+          <page string="Resultado">
+            <field name="preview_html" widget="html" nolabel="1"/>
+            <field name="result_json" nolabel="1"/>
+            <field name="ocr_text" nolabel="1"/>
+          </page>
+          <page string="Factura generada">
+            <group>
+              <field name="move_id" context="{'form_view_ref':'account.view_move_form'}"/>
+              <button name="action_open_move" type="object" string="Abrir Factura" class="btn-primary" attrs="{'invisible': [('move_id','=',False)]}"/>
+            </group>
+          </page>
+        </notebook>
+      </form>
+    </field>
+  </record>
+
+  <!-- Acción y menú -->
+  <record id="action_invoice_ocr_wizard" model="ir.actions.act_window">
+    <field name="name">OCR Factura Proveedor</field>
+    <field name="res_model">invoice.ocr.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+  <menuitem id="menu_invoice_ocr_root"
+            name="OCR Facturas"
+            parent="account.menu_finance_payables"
+            action="action_invoice_ocr_wizard"
+            sequence="99"/>
+</odoo>
