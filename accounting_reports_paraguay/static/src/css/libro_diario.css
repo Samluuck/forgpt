@@ -1,0 +1,58 @@
+.contenedor{
+    font-size:5px;
+    font-family:  "DejaVu Serif", "STIX", serif;
+}
+
+.con-bordes{
+    border-top: 1px solid black;
+}
+
+
+
+.tabla{
+    width: 100% !important;
+    margin-right: 100px;
+
+}
+td{
+    text-align: center;
+    font-size:16px; !important;
+    padding: 0px;
+    margin-top:0px !important;
+    margin-bottom:0px !important;
+
+}
+
+th{
+    text-align: center;
+    vertical-align: middle;
+    font-size:11px; !important;
+}
+
+
+
+.negrita{
+    font-weight: bold;
+}
+.izquierda{
+    text-align: left;
+}
+
+.derecha{
+    text-align: right !important;
+}
+.mayusculas{
+    text-transform: uppercase;
+}
+
+.transporte{
+    font-weight:bold;
+    padding-top:70px;
+    padding-bottom:80px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+
+
+

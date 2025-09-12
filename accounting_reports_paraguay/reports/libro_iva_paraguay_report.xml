@@ -1,0 +1,479 @@
+<odoo>
+    <template id="libro_iva_paraguay_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+
+                    <link rel="stylesheet" href="/accounting_reports_paraguay/static/src/css/libro_iva.css"/>
+                    <div class="header">
+                        <t t-if="not o.mostrar_numeracion">
+                            <div class="col-xs-4 pull-right">
+                                <p>Fecha:
+                                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                                </p>
+                                <span>Pag:</span>
+                                <span class="page"/>
+                                de
+                                <span class="topage"/>
+                            </div>
+                            <h4>LIBRO
+                                <span class="mayusculas" t-field="o.tipo"/>
+                                LEY 125/91 DEL
+                                <span t-field="o.fecha_inicio"/>
+                                AL
+                                <span t-field="o.fecha_fin"/>
+                            </h4>
+                            <h4>
+                                <span t-field="o.company_id.name"/>
+                            </h4>
+                        </t>
+                    </div>
+
+                    <div class="page">
+
+                        <div class="contenedor">
+                            <table class="tabla">
+                                <thead class="con-bordes">
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tipo Factura</th>
+                                        <th>Timbrado</th>
+                                        <th>Nro. de Factura</th>
+                                        <th>Razon Social</th>
+                                        <th>RUC</th>
+                                        <th>Gravada 10%</th>
+                                        <th>IVA 10%</th>
+                                        <th>Gravada 5%</th>
+                                        <th>IVA 5%</th>
+                                        <th>Exentas</th>
+                                        <th>Total</th>
+                                        <t t-if="o.tipo == 'compra'">
+                                            <th>Tipo IVA</th>
+                                        </t>
+                                        <th>Virtual/Elec.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="sumatoria_despacho" t-value="0"/>
+                                    <t t-set="totales_exterior" t-value="0"/>
+                                    <t t-set="sumatoria_exterior" t-value="0"/>
+                                    <t t-set="sumatoria_iva_exterior" t-value="0"/>
+                                    <t t-set="sumatoria_gravada_10" t-value="0"/>
+                                    <t t-set="sumatoria_10" t-value="0"/>
+                                    <t t-set="sumatoria_gravada_5" t-value="0"/>
+                                    <t t-set="sumatoria_5" t-value="0"/>
+                                    <t t-set="sumatoria_exento" t-value="0"/>
+                                    <t t-set="cantidad_despacho" t-value="0"/>
+                                    <t t-foreach="fac" t-as="f">
+                                        <tr>
+                                            <td>
+                                                <span t-field="f[0].invoice_date"
+                                                      t-field-options="{'format': 'dd/MM/yyyy'}"/>
+                                            </td>
+
+                                            <t t-if="f[0].move_type in ('out_refund','in_refund')">
+                                                <td>
+                                                    <span>NCR</span>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-if="f[0].tipo_factura == '1'">
+                                                    <td>
+                                                        <span>CONT</span>
+                                                    </td>
+                                                </t>
+                                                <t t-elif="f[0].codigo_hechauka == 2">
+                                                    <td>
+                                                        <span>NDEB</span>
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                     <t t-if="f[0].tipo_comprobante.codigo_hechauka == '5'">
+                                                           <td>
+                                                                <span>CONT</span>
+                                                           </td>
+                                                     </t>
+                                                    <t t-else="">
+                                                        <td>
+                                                            <span>CRE</span>
+                                                        </td>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <td>
+                                                <span t-field="f[0].timbrado"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="f[0].nro_factura"/>
+                                            </td>
+                                            <t t-if="f[0].partner_no_despachante">
+                                                <t t-if="f[0].partner_no_despachante.parent_id.name">
+                                                    <td>
+                                                        <span t-field="f[0].partner_no_despachante.parent_id.name"/>
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td>
+                                                        <span t-field="f[0].partner_no_despachante.name"/>
+                                                    </td>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-if="f[0].tipo_comprobante.codigo_hechauka == 5">
+                                                    <td><span t-field="f[0].autofactura"/></td>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-if="f[0].partner_id.parent_id.name">
+                                                        <td>
+                                                            <span t-field="f[0].partner_id.parent_id.name"/>
+                                                        </td>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <td>
+                                                            <span t-field="f[0].partner_id.name"/>
+                                                        </td>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <td>
+                                                <span t-field="f[0].ruc_factura"/>
+                                            </td>
+                                            <!--SI LA FACTURA ES TIPO DESPACHO SE CALCULA LA GRAVADA QUE ES 10% DEL IVA-->
+                                            <t t-if="f[0].tipo_comprobante.codigo_hechauka == 4">
+                                                <t t-set="gravada" t-value="f[1][1]*10"/>
+                                                <t t-set="total_despacho" t-value="gravada+f[1][1]+f[1][2]+f[1][3]+f[1][4]"/>
+                                                <t t-set="sumatoria_despacho" t-value="sumatoria_despacho+total_despacho"/>
+                                                <t t-set="cantidad_despacho" t-value="cantidad_despacho+1"/>
+                                                <t t-set="sumatoria_gravada_10" t-value="sumatoria_gravada_10+gravada"/>
+                                                <t t-set="sumatoria_10" t-value="sumatoria_10+f[1][1]"/>
+                                                <t t-set="sumatoria_gravada_5" t-value="sumatoria_gravada_5+f[1][2]"/>
+                                                <t t-set="sumatoria_5" t-value="sumatoria_5+f[1][3]"/>
+                                                <t t-set="sumatoria_exento" t-value="sumatoria_exento+f[1][4]"/>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(gravada,f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(f[1][1],f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(f[1][2],f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(f[1][3],f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(f[1][4],f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(total_despacho,1)"/>
+                                                </td>
+                                            </t>
+                                            <t t-elif="f[0].tipo_comprobante.codigo_hechauka == 8">
+                                                <t t-set="valor_iva" t-value="(abs(f[0].amount_total_signed) * 10)/100"/>
+                                                <!--SI LA FACTURA ES DE TIPO FACTURA DEL EXTERIOR, SE DEBE DECLARAR APARTE EL IVA Y GRAVADA-->
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(abs(f[0].amount_total_signed),f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(abs(valor_iva),f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    0
+                                                </td>
+                                                <td>
+                                                    0
+                                                </td>
+                                                <td>
+                                                    0
+                                                </td>
+                                                <t t-if="f[0].state == 'cancel'">
+                                                    <td>0</td>
+                                                </t>
+                                                <t t-else="">
+                                                        <t t-set="total_linea" t-value="abs(f[0].amount_total_signed) + valor_iva"/>
+                                                        <td>
+                                                             <span t-esc="o.agregar_punto_de_miles((total_linea),1)"/>
+                                                        </td>
+                                                    <t t-set="totales_exterior" t-value="totales_exterior+abs(f[0].amount_total_signed)"/>
+                                                    <t t-set="sumatoria_exterior" t-value="sumatoria_exterior+total_linea"/>
+                                                    <t t-set="sumatoria_iva_exterior" t-value="sumatoria_iva_exterior+valor_iva"/>
+
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <!--SI LA FACTURA NO ES TIPO DESPACHO SIGUE IGUAL-->
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(f[1][0],f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(f[1][1],f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(f[1][2],f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(f[1][3],f[0].currency_id.id)"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="o.agregar_punto_de_miles(f[1][4],f[0].currency_id.id)"/>
+                                                </td>
+                                                <t t-if="f[0].state == 'cancel'">
+                                                    <td>0</td>
+                                                </t>
+                                                <t t-else="">
+                                                        <t t-set="total_linea" t-value="f[1][0]+f[1][1]+f[1][2]+f[1][3]+f[1][4]"/>
+                                                        <td>
+                                                             <span t-esc="o.agregar_punto_de_miles((total_linea),1)"/>
+                                                        </td>
+                                                </t>
+                                            </t>
+                                            <t t-if="o.tipo == 'compra'">
+                                                 <td>
+                                                        <t t-if="f[0].tipo_iva_id">
+                                                                <span t-field="f[0].tipo_iva_id.name"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span> </span>
+                                                        </t>
+                                                 </td>
+                                            </t>
+                                            <td>
+                                                <t t-if="f[0].virtual">
+                                                    1
+                                                </t>
+                                                <t t-else="">
+                                                    0
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <!--TOTALES FACTURAS-->
+                                    <tr class="negrita">
+                                        <td colspan="4">
+                                            <p>Cantidad de Facturas:
+                                                <span t-esc="len(fac)"/>
+                                            </p>
+                                        </td>
+                                        <td colspan="2">
+                                            <p>Totales Facturas + Nota de Debito</p>
+                                        </td>
+                                        <t t-if="len(lista_totales) >= 4">
+                                            <td class="derecha">
+                                                <span t-esc="o.agregar_punto_de_miles(lista_totales[0] + totales_exterior,1)"/>
+                                            </td>
+                                            <td class="derecha">
+                                                <span t-esc="o.agregar_punto_de_miles(lista_totales[1]-sumatoria_10+sumatoria_iva_exterior,1)"/>
+                                            </td>
+                                            <td class="derecha">
+                                                <span t-esc="o.agregar_punto_de_miles(lista_totales[2]-sumatoria_gravada_5,1)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(lista_totales[3]-sumatoria_5,1)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(lista_totales[4]-sumatoria_exento,1)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(sum(lista_totales)+sumatoria_exterior+sumatoria_gravada_10-sumatoria_despacho,1)"/>
+                                            </td>
+                                            <t t-if="o.tipo == 'compra'">
+                                                 <td>
+                                                        <span> </span>
+
+                                                 </td>
+                                            </t>
+                                        </t>
+                                    </tr>
+                                    <!--TOTALES DESPACHOS-->
+                                    <t t-if="sumatoria_despacho &gt; 0">
+                                    <tr class="negrita">
+                                        <td colspan="4">
+                                            <p>Cantidad de Despachos:
+                                                <span t-esc="cantidad_despacho"/>
+                                            </p>
+                                        </td>
+                                        <td colspan="2">
+                                            <p>Totales Despachos</p>
+                                        </td>
+
+                                            <td class="derecha">
+                                                <span t-esc="o.agregar_punto_de_miles(sumatoria_gravada_10,1)"/>
+                                            </td>
+                                            <td class="derecha">
+                                                <span t-esc="o.agregar_punto_de_miles(sumatoria_10,1)"/>
+                                            </td>
+                                            <td class="derecha">
+                                                <span t-esc="o.agregar_punto_de_miles(sumatoria_gravada_5,1)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(sumatoria_5,1)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(sumatoria_exento,1)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(sumatoria_despacho,1)"/>
+                                            </td>
+                                    </tr>
+                                    </t>
+
+                                </tbody>
+                            </table>
+                            <br/>
+                            <br/>
+                            <table class="tabla">
+                                <thead class="con-bordes">
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tipo Factura</th>
+                                        <th>Timbrado</th>
+                                        <th>Nro. de Nota Credito</th>
+                                        <th>Razon Social</th>
+                                        <th>RUC</th>
+                                        <th>Gravada 10%</th>
+                                        <th>IVA 10%</th>
+                                        <th>Gravada 5%</th>
+                                        <th>IVA 5%</th>
+                                        <th>Exentas</th>
+                                        <th>Total</th>
+                                        <th>Virtual/Elec.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="nota_credito" t-as="f">
+                                        <tr>
+                                            <td>
+                                                <span t-field="f[0].invoice_date"
+                                                      t-field-options="{'format': 'dd/MM/yyyy'}"/>
+                                            </td>
+                                            <td>
+                                                <span>NCR</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="f[0].timbrado"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="f[0].nro_factura"/>
+                                            </td>
+                                            <t t-if="f[0].partner_id.parent_id.name">
+                                                <td>
+                                                    <span t-field="f[0].partner_id.parent_id.name"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td>
+                                                    <span t-field="f[0].partner_id.name"/>
+                                                </td>
+                                            </t>
+                                            <td>
+                                                <span t-field="f[0].ruc_factura"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(f[1][0],f[0].currency_id.id)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(f[1][1],f[0].currency_id.id)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(f[1][2],f[0].currency_id.id)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(f[1][3],f[0].currency_id.id)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(f[1][4],f[0].currency_id.id)"/>
+                                            </td>
+                                            <t t-if="f[0].state == 'cancel'">
+                                                <td>0</td>
+                                            </t>
+                                            <t t-else="">
+
+                                                <t t-if="f[0].currency_id.id != f[0].company_id.currency_id.id">
+                                                    <td>
+                                                        <span t-esc="o.convertir_guaranies(f[0])"/>
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td>
+                                                        <span t-esc="o.agregar_punto_de_miles(round(f[0].amount_total),1)"/>
+                                                    </td>
+                                                </t>
+                                            </t>
+                                              <td>
+                                                <t t-if="f[0].virtual">
+                                                    1
+                                                </t>
+                                                <t t-else="">
+                                                    0
+                                                </t>
+                                            </td>
+                                        </tr><!--FIN DE LA LINEA DE LA NOTA DE CREDITO-->
+
+                                    </t>
+
+                                    <!--TOTALES NOTA DE CREDITOS-->
+                                    <tr class="negrita">
+                                        <td colspan="4"></td>
+                                        <td colspan="2">
+                                            <p>Totales Notas de Creditos</p>
+                                        </td>
+                                        <t t-if="len(nc_totales) >= 4">
+                                            <td class="derecha">
+                                                <span t-esc="o.agregar_punto_de_miles(nc_totales[0],1)"/>
+                                            </td>
+                                            <td class="derecha">
+                                                <span t-esc="o.agregar_punto_de_miles(nc_totales[1],1)"/>
+                                            </td>
+                                            <td class="derecha">
+                                                <span t-esc="o.agregar_punto_de_miles(nc_totales[2],1)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(nc_totales[3],1)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(nc_totales[4],1)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.agregar_punto_de_miles(sum(nc_totales),1)"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                    <tr class="negrita">
+                                        <td colspan="4"></td>
+                                        <t t-if="o.tipo == 'compra'">
+                                            <td colspan="2">Total Compras + Nota de Debito - Total Nota de Credito</td>
+                                        </t>
+                                        <t t-else="">
+                                            <td colspan="2">Total Factura + Nota de Debito - Total Nota de Credito</td>
+                                        </t>
+                                        <td class="derecha">
+                                            <span t-esc="o.agregar_punto_de_miles((lista_totales[0]-nc_totales[0]),1)"/>
+                                        </td>
+                                        <td class="derecha">
+                                            <span t-esc="o.agregar_punto_de_miles((lista_totales[1]-nc_totales[1]),1)"/>
+                                        </td>
+                                        <td class="derecha">
+                                            <span t-esc="o.agregar_punto_de_miles((lista_totales[2]-nc_totales[2]),1)"/>
+                                        </td>
+                                        <td class="derecha">
+                                            <span t-esc="o.agregar_punto_de_miles((lista_totales[3]-nc_totales[3]),1)"/>
+                                        </td>
+                                        <td class="derecha">
+                                            <span t-esc="o.agregar_punto_de_miles((lista_totales[4]-nc_totales[4]),1)"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.agregar_punto_de_miles((sum(lista_totales)-sum(nc_totales)),1)"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

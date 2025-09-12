@@ -1,0 +1,237 @@
+<odoo>
+    <data>
+
+
+        <record id="paperformat_libro_diario" model="report.paperformat">
+            <field name="name">A4-Libro Diario</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">5</field>
+            <field name="header_spacing">20</field>
+            <field name="dpi">200</field>
+        </record>
+
+             <record id="paperformat_libro_iva" model="report.paperformat">
+            <field name="name">A4-Libro IVA</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_balance" model="report.paperformat">
+            <field name="name">Oficio-Balance</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">330</field>
+            <field name="page_width">215</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">55</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">50</field>
+            <field name="dpi">90</field>
+        </record>
+        <record id="paperformat_resultado" model="report.paperformat">
+            <field name="name">Oficio-Resultado</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">330</field>
+            <field name="page_width">215</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_revaluo" model="report.paperformat">
+            <field name="name">Oficio-Revaluo</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">345</field>
+            <field name="page_width">235</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">4</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">4</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_estado_patrimonio" model="report.paperformat">
+            <field name="name">Oficio-estado_patrimonio</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">330</field>
+            <field name="page_width">215</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">35</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_mayor" model="report.paperformat">
+            <field name="name">Oficio-Libro Mayor</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">330</field>
+            <field name="page_width">215</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">310</field>
+            <field name="dpi">90</field>
+        </record>
+
+                    <!--Libro IVA -->
+        <report
+                id="report_libro_iva_id"
+                model="account.invoice"
+                string="Libro IVA "
+                report_type="qweb-pdf"
+                name="accounting_reports_paraguay.libro_iva_paraguay_report"
+                file="accounting_reports_paraguay.libro_iva_paraguay_report"
+                paperformat="paperformat_libro_iva"
+
+
+        />
+
+                    <!--Libro Diario PDF -->
+        <report
+
+                id="report_libro_diario_id"
+                string="Libro Diario"
+                report_type="qweb-html"
+                model="libro_diario.wizard.libro_diario"
+                name="accounting_reports_paraguay.libro_diario_paraguay_report"
+                file="accounting_reports_paraguay.libro_diario_paraguay_report"
+                attachment_use="True"
+                paperformat="paperformat_libro_diario"
+
+        />
+
+        <!--Libro MAYOR -->
+        <report
+
+                id="report_libro_mayor_id"
+                string="Libro Mayor"
+                report_type="qweb-pdf"
+                model="libro_mayor.wizard.libro_mayor"
+                name="accounting_reports_paraguay.libro_mayor_paraguay_report"
+                file="accounting_reports_paraguay.libro_mayor_paraguay_report"
+                paperformat="paperformat_mayor"
+        />
+
+                            <!--Balance PDF -->
+        <report
+
+                id="balance_id"
+                string="Balance"
+                report_type="qweb-pdf"
+                model="libro_diario.wizard.balance"
+                name="accounting_reports_paraguay.balance_report"
+                file="accounting_reports_paraguay.balance_report"
+                attachment_use="True"
+                paperformat="paperformat_balance"
+
+        />
+
+        <report
+
+                id="resultados_id"
+                string="Estado de Resultados"
+                report_type="qweb-pdf"
+                model="libro_diario.wizard.balance"
+                name="accounting_reports_paraguay.resultados_report"
+                file="accounting_reports_paraguay.resultados_report"
+                attachment_use="True"
+                paperformat="paperformat_resultado"
+
+        />
+        <report
+
+                id="estado_patrimonio_id"
+                string="Estado de Patrimonio Neto"
+                report_type="qweb-pdf"
+                model="estado_patrimonio.wizard.estado_patrimonio"
+                name="accounting_reports_paraguay.estado_patrimonio_report"
+                file="accounting_reports_paraguay.estado_patrimonio_report"
+                attachment_use="True"
+                paperformat="paperformat_estado_patrimonio"
+
+        />
+
+        <!--NOTAS DE ESTADOS FINANCIEROS-->
+        <report
+
+                id="notas_eeff_id"
+                string="Notas a los EEFF"
+                report_type="qweb-pdf"
+                model="notas.wizard.notas.eeff"
+                name="accounting_reports_paraguay.notas_eeff_report"
+                file="accounting_reports_paraguay.notas_eeff_report"
+                attachment_use="True"
+                paperformat="paperformat_resultado"
+
+        />
+
+        <!--Flujo de efectivo-->
+        <report
+
+                id="flujo_efectivo_id"
+                string="Estado de Flujo de Efectivo"
+                report_type="qweb-pdf"
+                model="flujo_efectivo.wizard"
+                name="accounting_reports_paraguay.flujo_efectivo_report"
+                file="accounting_reports_paraguay.flujo_efectivo_report"
+                attachment_use="True"
+                paperformat="paperformat_resultado"
+
+        />
+  <!--Cuadro revaluo-->
+        <report
+
+                id="cuadro_revaluo_id"
+                string="Cuadro de Revalúo"
+                report_type="qweb-pdf"
+                model="cuadro.revaluo.wizard"
+                name="accounting_reports_paraguay.cuadro_revaluo_report"
+                file="accounting_reports_paraguay.cuadro_revaluo_report"
+                attachment_use="True"
+                paperformat="paperformat_revaluo"
+
+        />
+
+
+
+    </data>
+</odoo>

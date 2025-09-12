@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+         <record id="view_asiento_inh" model="ir.ui.view">
+            <field name="name">view.asiento.inh</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@id='other_tab_entry']//field[@name='company_id']" position="after">
+                    <field name="cierre" attrs="{'invisible': [('move_type', '!=', 'entry')]}" />
+                    <field name="apertura" attrs="{'invisible': [('move_type', '!=', 'entry')]}" />
+                    <field name="resultado" attrs="{'invisible': [('move_type', '!=', 'entry')]}" />
+                </xpath>
+            </field>
+        </record>
+       
+    </data>
+</odoo>

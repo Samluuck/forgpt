@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <menuitem id="reportes_contables_menu" parent="account.menu_finance_reports" name="Reportes Contables Paraguay" />
+        <menuitem id="menu_libro_diario" parent="reportes_contables_menu" name="Libro Diario" sequence="35"  action="action_reporte_libro_diario"/>
+        <menuitem id="menu_libro_mayor" parent="reportes_contables_menu" name="Libro Mayor" sequence="35"  action="action_reporte_libro_mayor"/>
+         <menuitem id="menu_libros_iva" parent="reportes_contables_menu" name="Libros IVA" sequence="35"  action="action_reporte_libro_iva"/>
+
+        <menuitem id="menu_libros_iva_venta" parent="account.menu_finance_entries" name="Libros IVA" sequence="40"  action="action_reporte_libro_iva"/>
+        <menuitem id="menu_libros_iva_compra" parent="account.menu_finance_receivables" name="Libros IVA" sequence="40"  action="action_reporte_libro_iva"/>
+        <!-- ********************************************************************************
+        ***************************** Config. Anexos Res. 49 **************************************
+        ***********************************************************************************
+        -->
+        <menuitem id="menu_anexos" parent="account.menu_finance_configuration" name="Anexos Res. 49"/>
+        <menuitem id="menu_anexos_3" parent="menu_anexos" name="Anexo 3" action="action_anexo_3" sequence="3"/>
+        <menuitem id="menu_anexos_4" parent="menu_anexos" name="Anexo 4" action="action_anexo_4" sequence="4"/>
+        <menuitem id="menu_anexos_5" parent="menu_anexos" name="Anexo 5" action="action_anexo_5" sequence="5"/>
+         <!-- ********************************************************************************
+        ***************************** Reportes Res. 49 **************************************
+        ***********************************************************************************
+        -->
+         <menuitem id="menu_reporte_resultados" parent="reportes_contables_menu" name="Estado de Resultados" sequence="1100"  action="action_reporte_resultados"/>
+        <menuitem id="menu_reporte_balance" parent="reportes_contables_menu" name="Balance" sequence="1000"  action="action_reporte_balance"/>
+        <menuitem id="menu_reporte_flujo_efectivo" parent="reportes_contables_menu" name="Estado de Flujo de Efectivo" sequence="1200"  action="action_reporte_flujo_efectivo"/>
+        <menuitem id="menu_reporte_notas_eeff" parent="reportes_contables_menu" name="Notas a los EEFF" sequence="1400"  action="action_reporte_notas_eff"/>
+        <menuitem id="menu_reporte_patrimonio" parent="reportes_contables_menu" name="Estado de Patrimonio Neto" sequence="1300"  action="action_reporte_estado_patrimonio"/>
+        <menuitem id="menu_reporte_cuadro_revaluo" parent="reportes_contables_menu" name="Cuadro de revalúo y depreciación de bienes" sequence="1400"  action="action_reporte_cuadro_revaluo"/>
+        <menuitem id="menu_reporte_hechauka_balance" parent="reportes_contables_menu" name="Hechauka Balance, EERR" sequence="1500"  action="action_reporte_hechauka_balance"/>
+
+    </data>
+</odoo>

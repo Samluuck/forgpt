@@ -1,0 +1,132 @@
+<odoo>
+    <template id="notas_eeff_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <link rel="stylesheet" href="/accounting_reports_paraguay/static/src/css/notas_eeff.css"/>
+                    <div class="header">
+                        <div class="col-12 text-center negrita">
+                            <!--<h4>Balance <span class="mayusculas" t-field="o.tipo"/> LEY 125/91 DEL <span t-field="o.fecha_inicio"/> AL <span t-field="o.fecha_fin"/> </h4>-->
+                            <h4 style="font-size:18px;font-weight: bold;">Anexo 5</h4>
+                            <h3 style="font-size:12px;font-weight: bold;">NOTAS A LOS ESTADOS FINANCIEROS</h3>
+                        </div>
+                        <div class="col-12 " style="font-size:10px ;">
+                            <div class="row">
+                                <div class="col-8 text-center " style="border: 1px solid black;">
+                                    <span style="font-weight: bold;">1-IDENTIFICACIÓN DEL CONTRIBUYENTE</span>
+                                </div>
+                                <div class="col-4 text-center " style="border: 1px solid black;">
+                                    <span style="font-weight: bold;">2- EJERCICIO FISCAL</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-center" style="border: 1px solid black; border-top: 0;">
+                                    <span style="font-weight: bold;">RAZÓN SOCIAL O NOMBRES Y APELLIDOS</span>
+                                </div>
+                                <div class="col-4 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span style="font-weight: bold;">IDENTIFICADOR RUC</span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span style="font-weight: bold;">DESDE</span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span style="font-weight: bold;">HASTA</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-center" style="border: 1px solid black; border-top: 0; ">
+                                    <t t-if="o.company_id.razon_social"><span
+                                            t-field="o.company_id.razon_social"/></t><t t-else="">N/A</t>
+                                </div>
+                                <div class="col-4 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <t t-if="o.company_id.ruc"><span t-field="o.company_id.ruc"/>-<span
+                                            t-field="o.company_id.dv"/></t><t t-else="">N/A</t>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span t-esc="o.formatear_fecha(o.fecha_inicio)"/>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span t-esc="o.formatear_fecha(o.fecha_inicio)"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-4 text-center" style="border: 1px solid black; border-top: 0;">
+                                    <span style="font-weight: bold;">3- IDENTIFICACIÓN DEL REPRESENTANTE LEGAL</span>
+                                </div>
+                                <div class="col-4 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span style="font-weight: bold;">4- IDENTIFICACIÓN DEL CONTADOR</span>
+                                </div>
+                                <div class="col-4 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span style="font-weight: bold;">5- IDENTIFICACIÓN DEL AUDITOR</span>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-center" style="border: 1px solid black; border-top: 0; ">
+                                    <span style="font-weight: bold;">APELLIDOS/ NOMBRES</span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span style="font-weight: bold;">APELLIDOS/ NOMBRES</span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span style="font-weight: bold;">IDENTIFICADOR RUC</span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span style="font-weight: bold;">APELLIDOS/ NOMBRES</span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span style="font-weight: bold;">IDENTIFICADOR RUC</span>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-center" style="border: 1px solid black; border-top: 0;">
+                                    <span><t t-if="o.company_id.representante_legal"><span
+                                            t-field="o.company_id.representante_legal"/></t><t t-else="">N/A</t></span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span><t t-if="o.company_id.contador"><span t-field="o.company_id.contador"/></t><t
+                                            t-else="">N/A</t></span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span><t t-if="o.company_id.ruc_contador"><span
+                                            t-field="o.company_id.ruc_contador"/></t><t t-else="">N/A</t></span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span><t t-if="o.company_id.auditor"><span t-field="o.company_id.auditor"/></t><t
+                                            t-else="">N/A</t></span>
+                                </div>
+                                <div class="col-2 text-center"
+                                     style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                    <span><t t-if="o.company_id.ruc_auditor"><span
+                                            t-field="o.company_id.ruc_auditor"/></t><t t-else="">N/A</t></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <div class="contenedor">
+                            <span t-raw="anexo5.relato"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

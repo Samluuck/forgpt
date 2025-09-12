@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+        <record id="reporte_libro_iva" model="ir.ui.view">
+            <field name="name">libro_iva_paraguay.wizard.libro_iva</field>
+            <field name="model">libro_iva_paraguay.wizard.libro_iva</field>
+            <field name="arch" type="xml">
+               <form>
+                  <group>
+                      <field name="tipo" required="True"></field>
+                      <field name="fecha_inicio" required="True"/>
+                      <field name="fecha_fin" required="True"/>
+                      <field name="borrador" />
+                      <field name="cancelado" />
+                      <field name="usuario_id" options="{'no_create_edit': True, 'no_create': True,'no_open':True}"  />
+                      <field name="tipo_iva"/>
+                      <field name="tipo_archivo" string="Exportar Como"/>
+                      <field name="cruzado"/>
+                      <field name="mostrar_numeracion"/>
+<!--                       <field name="agrupar_compra" attrs="{'invisible':[('tipo','!=','compra')]}" string="Agrupar por Tipo de Compra"/> -->
+                   </group>
+
+
+                   <footer>
+                       <button name="check_report" type="object" string="Generar" class="oe_highlight"/>
+                       <!--<button name="print_report_xlsx" type="object" string="Generar Xlsx" class="oe_highlight"/>-->
+                       <button string="Cancelar" special="cancel"/>
+                   </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_reporte_libro_iva" model="ir.actions.act_window">
+            <field name="name">Reporte Libro IVA </field>
+            <field name="res_model">libro_iva_paraguay.wizard.libro_iva</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="view_type">form</field>-->
+<!--            <field name="view_mode">form</field>-->
+            <field name="view_id" ref="reporte_libro_iva"/>
+<!--            <field name="target">new</field>-->
+        </record>
+
+
+        <menuitem id="menu_libros_iva" parent="account.menu_finance_reports" name="Libros IVA" sequence="35"  action="action_reporte_libro_iva"/>
+        <menuitem id="menu_libros_iva_venta" parent="account.menu_finance_entries" name="Libros IVA" sequence="40"  action="action_reporte_libro_iva"/>
+        <menuitem id="menu_libros_iva_compra" parent="account.menu_finance_receivables" name="Libros IVA" sequence="40"  action="action_reporte_libro_iva"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,313 @@
+<odoo>
+  <template id="flujo_efectivo_report">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="o">
+        <t t-call="web.basic_layout">
+          <link rel="stylesheet" href="/accounting_reports_paraguay/static/src/css/flujo_efectivo.css"/>
+            <div class="col-xs-12 text-center negrita">
+              <h3 style="font-size:10px">Anexo 3</h3>
+              <h4 style="font-size:8px">ESTADO DE FLUJOS DE EFECTIVO</h4>
+            </div>
+
+            <div class="contenedor">
+              <table class="cabecera">
+                <tbody>
+                  <tr class="negrita text-center">
+                    <td style="text-align: center" colspan="6">1-IDENTIFICACIÓN DEL CONTRIBUYENTE</td>
+                    <td style="text-align: center" colspan="5">2- EJERCICIO FISCAL</td>
+                  </tr>
+                  <tr class="text-center">
+                    <td style="text-align: center" colspan="4">RAZÓN SOCIAL O NOMBRES Y APELLIDOS</td>
+                    <td style="text-align: center" colspan="2">IDENTIFICADOR RUC</td>
+                    <td style="text-align: center" colspan="2">DESDE</td>
+                    <td style="text-align: center" colspan="3">HASTA</td>
+                  </tr>
+                  <tr class="text-center">
+                    <td style="text-align: center" colspan="4">
+                      <t t-if="o.company_id.razon_social">
+                        <span t-field="o.company_id.razon_social"/>
+                      </t>
+                      <t t-else="">
+                        N/A
+                      </t>
+                    </td>
+                    <td style="text-align: center" colspan="2">
+                      <t t-if="o.company_id.ruc">
+                        <span t-field="o.company_id.ruc"/>-<span t-field="o.company_id.dv"/>
+                      </t>
+                      <t t-else="">
+                        N/A
+                      </t>
+                    </td>
+                    <td style="text-align: center" colspan="2">
+                      <span t-esc="o.formatear_fecha(o.fecha_inicio)"/>
+                    </td>
+                    <td style="text-align: center" colspan="3">
+                      <span t-esc="o.formatear_fecha(o.fecha_fin)"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="11"/>
+                  </tr>
+                </tbody>
+                <tbody class="text-center">
+                  <tr class="negrita">
+                    <td style="text-align: center" colspan="5">3- IDENTIFICACIÓN DEL REPRESENTANTE LEGAL</td>
+                    <td style="text-align: center" colspan="3">4- IDENTIFICACIÓN DEL CONTADOR</td>
+                    <td style="text-align: center" colspan="3">5- IDENTIFICACIÓN DEL AUDITOR</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center" colspan="5">APELLIDOS/NOMBRES</td>
+                    <td style="text-align: center" colspan="2">APELLIDOS/ NOMBRES</td>
+                    <td style="text-align: center" colspan="1">IDENTIFICADOR RUC</td>
+                    <td style="text-align: center" colspan="2">APELLIDOS/ NOMBRES</td>
+                    <td style="text-align: center" colspan="1">IDENTIFICADOR RUC</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center" colspan="5">
+                      <t t-if="o.company_id.representante_legal">
+                        <span t-field="o.company_id.representante_legal"/>
+                      </t>
+                      <t t-else="">
+                        N/A
+                      </t>
+                    </td>
+                    <td style="text-align: center" colspan="2">
+                      <t t-if="o.company_id.contador">
+                        <span t-field="o.company_id.contador"/>
+                      </t>
+                      <t t-else="">
+                        N/A
+                      </t>
+                    </td>
+                    <td style="text-align: center" colspan="1">
+                      <t t-if="o.company_id.ruc_contador">
+                        <span t-field="o.company_id.ruc_contador"/>
+                      </t>
+                      <t t-else="">
+                        N/A
+                      </t>
+                    </td>
+                    <td style="text-align: center" colspan="2">
+                      <t t-if="o.company_id.auditor">
+                        <span t-field="o.company_id.auditor"/>
+                      </t>
+                      <t t-else="">
+                        N/A
+                      </t>
+                    </td>
+                    <td style="text-align: center" colspan="1">
+                      <t t-if="o.company_id.ruc_auditor">
+                        <span t-field="o.company_id.ruc_auditor"/>
+                      </t>
+                      <t t-else="">
+                        N/A
+                      </t>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="11"/>
+                  </tr>
+                </tbody>
+              </table>
+              <br/>
+              <br/>
+            </div>
+            <div class="page">
+              <div class="contenedor">
+                <table class="tabla borde-grueso">
+                  <t t-set="actividades_operativas_actual" t-value="0"/>
+                  <t t-set="actividades_operativas_anterior" t-value="0"/>
+                  <t t-set="actividades_inversion_actual" t-value="0"/>
+                  <t t-set="actividades_inversion_anterior" t-value="0"/>
+                  <t t-set="actividades_financiamiento_actual" t-value="0"/>
+                  <t t-set="actividades_financiamiento_anterior" t-value="0"/>
+                  <t t-set="cambio_actual" t-value="0"/>
+                  <t t-set="cambio_anterior" t-value="0"/>
+                  <t t-set="valor_total_actual" t-value="0"/>
+                  <t t-set="valor_total_anterior" t-value="0"/>
+                  <tbody>
+                    <t t-set="anio_actual" t-value="o.obtener_anio_actual(o.fecha_inicio)"/>
+                    <t t-set="anio_anterior" t-value="o.obtener_anio_anterior(o.fecha_inicio)"/>
+                    <tr class="fondo-gris">
+                      <td class="negrita" colspan="8">FLUJO DE EFECTIVO POR ACTIVIDADES OPERATIVAS</td>
+                      <td class="negrita" colspan="1"><span t-esc="anio_actual"/></td>
+                      <td class="negrita" colspan="1"><span t-esc="anio_anterior"/></td>
+                    </tr>
+                    <tr>
+                      <td colspan="8">VENTAS NETAS (COBRO NETO)</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(1,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(1,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_operativas_actual" t-value="valor_actual + actividades_operativas_actual"/>
+                      <t t-set="actividades_operativas_anterior" t-value="valor_pasado + actividades_operativas_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">PAGO A PROVEEDORES LOCALES (PAGO NETO)</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(2,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(2,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_operativas_actual" t-value="valor_actual + actividades_operativas_actual"/>
+                      <t t-set="actividades_operativas_anterior" t-value="valor_pasado + actividades_operativas_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">PAGO A PROVEEDORES DEL EXTERIOR (PAGO NETO)</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(3,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(3,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_operativas_actual" t-value="valor_actual + actividades_operativas_actual"/>
+                      <t t-set="actividades_operativas_anterior" t-value="valor_pasado + actividades_operativas_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">EFECTIVO PAGADO A EMPLEADOS</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(4,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(4,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_operativas_actual" t-value="valor_actual + actividades_operativas_actual"/>
+                      <t t-set="actividades_operativas_anterior" t-value="valor_pasado + actividades_operativas_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">EFECTIVO GENERADO (USADO) POR OTRAS ACTIVIDADES OPERATIVAS</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(5,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(5,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_operativas_actual" t-value="valor_actual + actividades_operativas_actual"/>
+                      <t t-set="actividades_operativas_anterior" t-value="valor_pasado + actividades_operativas_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">PAGO DE IMPUESTOS</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(6,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(6,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_operativas_actual" t-value="valor_actual + actividades_operativas_actual"/>
+                      <t t-set="actividades_operativas_anterior" t-value="valor_pasado + actividades_operativas_anterior"/>
+                    </tr>
+                    <tr class="fondo-gris-claro">
+                      <td colspan="8">EFECTIVO NETO POR ACTIVIDADES OPERATIVAS</td>
+                        <td><span t-esc="o.agregar_punto_de_miles(actividades_operativas_actual)"/></td>
+                        <td><span t-esc="o.agregar_punto_de_miles(actividades_operativas_anterior)"/></td>
+                    </tr>
+                    <tr class="fondo-gris">
+                      <td class="negrita" colspan="8">FLUJO DE EFECTIVO POR ACTIVIDADES DE INVERSIÓN</td>
+                      <td class="negrita" colspan="1"><span t-esc="anio_actual"/></td>
+                      <td class="negrita" colspan="1"><span t-esc="anio_anterior"/></td>
+                    </tr>
+                    <tr>
+                      <td colspan="8">AUMENTO/DISMINUCIÓN NETO/A DE INVERSIONES TEMPORARIAS</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(7,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(7,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_inversion_actual" t-value="valor_actual + actividades_inversion_actual"/>
+                      <t t-set="actividades_inversion_anterior" t-value="valor_pasado + actividades_inversion_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">AUMENTO/DISMINUCIÓN NETO/A DE INVERSIONES A LARGO PLAZO</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(8,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(8,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_inversion_actual" t-value="valor_actual + actividades_inversion_actual"/>
+                      <t t-set="actividades_inversion_anterior" t-value="valor_pasado + actividades_inversion_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">AUMENTO/DISMINUCIÓN NETO/A DE PROPIEDAD, PLANTA Y EQUIPO</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(9,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(9,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_inversion_actual" t-value="valor_actual + actividades_inversion_actual"/>
+                      <t t-set="actividades_inversion_anterior" t-value="valor_pasado + actividades_inversion_anterior"/>
+                    </tr>
+                    <tr class="fondo-gris-claro">
+                      <td colspan="8">EFECTIVO NETO POR ACTIVIDADES DE INVERSIÓN</td>
+                      <td><span t-esc="o.agregar_punto_de_miles(actividades_inversion_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(actividades_inversion_anterior)"/></td>
+                    </tr>
+                    <tr class="fondo-gris">
+                      <td class="negrita" colspan="8">FLUJO DE EFECTIVO POR ACTIVIDADES DE FINANCIAMIENTO</td>
+                      <td class="negrita" colspan="1"><span t-esc="anio_actual"/></td>
+                      <td class="negrita" colspan="1"><span t-esc="anio_anterior"/></td>
+                    </tr>
+                    <tr>
+                      <td colspan="8">APORTE DE CAPITAL</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(10,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(10,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_financiamiento_actual" t-value="valor_actual + actividades_financiamiento_actual"/>
+                      <t t-set="actividades_financiamiento_anterior" t-value="valor_pasado + actividades_financiamiento_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">AUMENTO/DISMINUCIÓN NETO/A DE PRÉSTAMOS</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(11,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(11,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_financiamiento_actual" t-value="valor_actual + actividades_financiamiento_actual"/>
+                      <t t-set="actividades_financiamiento_anterior" t-value="valor_pasado + actividades_financiamiento_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">DIVIDENDOS PAGADOS</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(12,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(12,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_financiamiento_actual" t-value="valor_actual + actividades_financiamiento_actual"/>
+                      <t t-set="actividades_financiamiento_anterior" t-value="valor_pasado + actividades_financiamiento_anterior"/>
+                    </tr>
+                    <tr>
+                      <td colspan="8">AUMENTO/DISMINUCIÓN NETO/A DE INTERESES</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(13,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(13,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                      <t t-set="actividades_financiamiento_actual" t-value="valor_actual + actividades_financiamiento_actual"/>
+                      <t t-set="actividades_financiamiento_anterior" t-value="valor_pasado + actividades_financiamiento_anterior"/>
+                    </tr>
+                    <tr class="fondo-gris-claro">
+                      <td colspan="8">EFECTIVO NETO POR ACTIVIDADES DE FINANCIAMIENTO</td>
+                      <td><span t-esc="o.agregar_punto_de_miles(actividades_financiamiento_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(actividades_financiamiento_anterior)"/></td>
+                    </tr>
+                    <tr class="fondo-gris">
+                      <td class="negrita" colspan="8">EFECTO DE LAS GANANCIAS O PÉRDIDAS POR DIFERENCIAS DE TIPO DE CAMBIO</td>
+                      <t t-set="tipo_cambio_actual" t-value="o.obtener_valor(14,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="tipo_cambio_anterior" t-value="o.obtener_valor(14,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(tipo_cambio_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(tipo_cambio_anterior)"/></td>
+                    </tr>
+                    <tr>
+                      <td colspan="8">AUMENTO/DISMINUCIÓN NETO/A DE EFECTIVOS Y SUS EQUIVALENTES</td>
+                      <t t-set="valor_total_actual" t-value="valor_total_actual + actividades_operativas_actual + actividades_inversion_actual + actividades_financiamiento_actual + cambio_actual + tipo_cambio_actual"/>
+                      <t t-set="valor_total_anterior" t-value="valor_total_anterior + actividades_operativas_anterior + actividades_inversion_anterior + actividades_financiamiento_anterior + cambio_anterior + tipo_cambio_anterior"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_total_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_total_anterior)"/></td>
+                    </tr>
+                    <tr>
+                      <td colspan="8">EFECTIVO Y SUS EQUIVALENTES AL COMIENZO DEL PERIODO</td>
+                      <t t-set="valor_actual" t-value="o.obtener_valor(15,o.fecha_inicio,o.fecha_fin,True)"/>
+                      <t t-set="valor_pasado" t-value="o.obtener_valor(15,o.fecha_inicio,o.fecha_fin,False)"/>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_pasado)"/></td>
+                    </tr>
+                    <tr class="fondo-gris-claro">
+                      <td colspan="8" class="negrita">EFECTIVO Y SUS EQUIVALENTES AL CIERRE DEL PERIODO</td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_total_actual + valor_actual)"/></td>
+                      <td><span t-esc="o.agregar_punto_de_miles(valor_total_anterior + valor_pasado)"/></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>
