@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+
+        <record model="ir.ui.view" id="form_inh_timbrado">
+            <field name="name">form_inh_timbrado</field>
+            <field name="model">ruc.documentos.timbrados</field>
+            <field name="inherit_id" ref="paraguay_backoffice.ruc_documentos_timbrados_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tipo_documento']" position="after">
+                    <field name="timbrado_electronico" required="1"/>
+                    <field name="actividad_economica"/>
+                    <field name="codigo_actividad"/>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</odoo>

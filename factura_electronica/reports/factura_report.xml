@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_factura_kude">
+        <t t-call="web.html_container">
+              <t t-foreach="docs" t-as="o">
+                  <span t-call="web.basic_layout">
+                      <link rel="stylesheet" href="/factura_electronica/static/src/css/factura.css"/>
+                        <body>
+                          <!--Encabezado de la factura consta de tres divs el mayor div contiene a los dos mas pequeños divs una a la derecha y otra a la izquierda vea el CSS -->
+                          <div id="body">
+                                <div id="derecha">
+                                    <span style="font-size:13px; margin-left:5%">Timbrado Nro:</span><span t-field="o.timbrado" style="margin-left:6%; font-size:13px"/><br/>
+                                    <span style="font-size:13px; margin-left:5%">Fecha Inicio Vigencia:</span><span t-field="o.talonario_factura.fecha_inicio" style="margin-left:3%; font-size:13px"/> <br/>
+<!--                                     <span style="font-size:13px; margin-left:5%">Fecha Fin Vigencia:</span><span t-field="o.talonario_factura.fecha_final" style="margin-left:3%; font-size:13px"/><br/> -->
+                                    <p style="margin-left:25%; font-weight: bold; margin-top:2% font-size:18px">RUC:<span t-field="o.company_id.ruc" style="margin-left:4% font-size:18px"/><span>-</span><span t-field="o.company_id.dv"/> </p>
+                                    <p style="text-align:center; font-weight:bold; font-size:18px; margin-top:-5%">FACTURA</p>
+                                    <p style="margin-left: 16%; font-weight: bold; font-size:18px; margin-top:-5%">Nro.<span t-field="o.nro_factura" style="margin-left: 4%; font-size:18px"/> </p>
+                                </div>
+                                <div id="izquierda">
+                                    <!--<p style="text-align: right; margin-right: 3%; font-size:13px; margin-top:1cm;"><span>Desde 1983</span></p><br/>-->
+                                   <!-- <p style="margin-top: -9.5%; text-align: right;margin-right: 3%; font-size:13px"><span>______________________________________</span></p>-->
+                                    <span style="position:absolute; top:1.0cm; left:10.50cm; font-size:13px"><span t-field="o.company_id.razon_social"/> </span>
+                                    <span style="position:absolute; font-size:13px; top:1.50cm; left:6.95cm"><span t-field="o.company_id.street"/> </span>
+                                    <span style="position:absolute; font-size:13px; top:2cm; left:9.95cm"><span t-field="o.company_id.city"/>, <span t-field="o.company_id.country_id.name"/>  </span>
+                                     <span style="position:absolute; top:2.50cm; left:9.95cm; font-size:13px">Tel: <span t-field="o.company_id.phone"/></span><!--Agregar una linea de telefono celular-->
+                                     <span style="position:absolute; top:3.0cm; left:6.95cm; font-size:13px; width:10cm;"><span t-field="o.company_id.email"/><span> | </span><span t-field="o.company_id.website"/> </span>
+                                     <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 80%; margin-top:0.50cm; margin-left:0.50cm;"/>
+                                </div>
+                          </div>
+
+                          <!-- !!Datos de la factura!! consta de tres divs la mayor contiene a los mas divs mas pequeños vea el CSS-->
+                          <div id="body2">
+                              <!--datos lado derecho-->
+                              <div id="derecha2">
+                                <p style="margin-left:-25%; font-size:14px; margin-top:0.30cm">CONDICION DE VENTA: </p>
+                                 <p style="margin-left:-20%; font-size:14px; margin-top:-0.30cm;"><span>CONTADO:</span><span>|_<t t-if="o.tipofactura(o.tipo_factura) == 'Contado'"><span>X</span></t></span>_| <span>CREDITO: </span><span>|_<t t-if="o.tipofactura(o.tipo_factura) == 'Credito'"><span>X</span></t>_|</span></p>
+                                  <p style="margin-left:-17%; font-size:14px; margin-top:-0.37cm">NOTA DE REMISION N°: </p>
+                                  <p style="margin-left:-14%; font-size:14px; margin-top:-0.30cm;">TELEFONO:<span t-field="o.partner_id.phone" style="margin-left:1%;"/> </p>
+                                  <t t-if=" 2 == o.tipo_factura">
+                                      <t t-foreach="o.termino_pago.line_ids" t-as="l">
+                                      <t t-if="l.days &gt; 0">
+                                        <p style="margin-left:2% font-size:11px; margin-top:-0.60cm;font-weight:bold;">Factura credito <span t-field="l.days"/> <span>dias</span></p>
+                                      </t>
+                                        </t>
+                                  </t>
+                                </div>
+                              <!--datos lado izquierdo-->
+                                <div id="izquierda2">
+                                    <p style="font-size:14px; margin-right:1cm; margin-top:0.30cm">FECHA DE EMISION:<span t-field="o.invoice_date" style="margin-left:1%;"/> </p>
+                                    <p style="font-size:14px; margin-right:1cm; margin-top:-0.30cm">NOMBRE O RAZON SOCIAL:
+                                        <t t-if="o.partner_id.parent_id">
+                                            <span t-field="o.partner_id.parent_id.name" style="margin-left:1%;"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="o.partner_id.name" style="margin-left:1%;"/>
+                                        </t>
+                                    </p>
+                                    <p style="font-size:14px; margin-right:1cm; margin-top:-0.37cm">RUC O CEDULA DE IDENTIDAD: <span t-field="o.ruc_factura" style="margin-left:1%;"/></p>
+                                    <p style="font-size:14px; margin-right:1cm; margin-top:-0.30cm">DIRECCION:<span t-field="o.partner_shipping_id.street" style="margin-left:1%"/> </p>
+                                </div>
+                          </div>
+
+                          <t t-set="suma_exenta" t-value="0"/>
+                          <t t-set="suma_5_porciento" t-value="0"/>
+                          <t t-set="suma_10_porciento" t-value="0"/>
+                        <!--CABECERA DE LA TABLA PRODUCTO-->
+                          <table class="cabecera_producto">
+                              <tr>
+                                  <td>CODIGO</td>
+                                  <td style="width:50%">CANTIDAD</td>
+                              </tr>
+                          </table>
+                          <table class="cabecera_producto2">
+                              <td style="margin-top:0.50cm"><span>DESCRIPCION</span></td>
+                              <td style="width:30%">PRECIO UNITARIO</td>
+                          </table>
+
+                          <table class="cabecera_producto3">
+                              <tr>
+                                  <td>
+                                      VALOR DE VENTAS
+                                  </td>
+                              </tr>
+                          </table>
+
+                          <table class="cabecera_producto4">
+                              <tr>
+                                  <td>EXENTAS</td>
+                                  <td>5%</td>
+                                  <td>10%</td>
+                              </tr>
+                          </table>
+
+
+                             <!--TABLA PRODUCTO DE LA FACTURA ORIGINAL-->
+                            <table class="tabla_productos-1">
+                                <t t-set="suma_exenta" t-value="0"/>
+                                <t t-set="suma_5_porciento" t-value="0"/>
+                                <t t-set="suma_10_porciento" t-value="0"/>
+                                <t t-set="contador" t-value="0"/>
+                                <tbody class="tabla_cuerpo-1">
+                                    <tr t-foreach="o.invoice_line_ids" t-as="p">
+
+                                        <t t-if=" not p.display_type">
+                                        <!--Codigo producto original-->
+                                        <td id="codigo"><span t-field="p.product_id.default_code" style="font-size:13px; text-align:left"/></td>
+                                        <!--Cantidad original-->
+                                        <t t-set="var" t-value="p.quantity"/>
+                                        <t t-set="var2" t-value="int(var)"/>
+                                        <t t-set="var3" t-value="var-var2"/>
+                                        <t t-if="var3&gt;0">
+                                            <td id="cantidad"><span t-field="p.quantity" style="font-size:13px; margin-left:-11%"/></td>
+                                        </t>
+                                        <t t-else="">
+                                            <td id="cantidad"><span t-esc="'%.0f'%(p.quantity)" t-field-options="{'widget':'Integer'}" style="font-size:13px; margin-left:-11%"/></td>
+                                        </t>
+                                        <!--Descripcion original-->
+<!--                                        <t t-if="len(p.product_id.name) &gt; 38">-->
+                                            <t t-set="descripcion" t-value="p.product_id.name"/>
+                                            <td id="descripcion"><span t-esc="p.product_id.name"/></td>
+<!--                                        </t>-->
+<!--                                        <t t-else="">-->
+<!--                                            <td id="descripcion"><span  t-field="p.product_id.name"></span></td>-->
+<!--                                        </t>-->
+                                        <!--Precion Unitario original-->
+                                        <td id="precio_unitario"><span t-esc="o.agregar_punto_de_miles(p.price_unit, o.currency_id.name)" style="font-size:13px;"/></td>
+                                        <!--Exenta original-->
+                                        <t t-if="p.invoice_line_tax_ids.id == 8">
+                                            <t t-set="suma_exenta" t-value="suma_exenta+p.price_total"/>
+                                            <td id="exenta1"><span t-esc="o.agregar_punto_de_miles(p.price_total, o.currency_id.name)" style="font-size:13px;"/></td>
+                                            <td id="exenta2"/>
+                                            <td id="exenta3"/>
+                                        </t>
+                                        <!--5% original-->
+                                        <t t-if="p.invoice_line_tax_ids.id == 6">
+                                            <t t-set="suma_5_porciento" t-value="suma_5_porciento+p.price_total"/>
+                                            <td id="cinco1"/>
+                                            <td id="cinco2"><span t-esc="o.agregar_punto_de_miles(p.price_total, o.currency_id.name)" style="font-size:13px;"/></td>
+                                            <td id="cinco3"/>
+                                         </t>
+                                        <!--10% original-->
+                                        <t t-if="p.invoice_line_tax_ids.id == 3">
+                                            <t t-set="suma_10_porciento" t-value="suma_10_porciento+p.price_total"/>
+                                            <td id="diez1"><span/></td>
+                                            <td id="diez2"><span/></td>
+                                            <td id="diez3"><span t-esc="o.agregar_punto_de_miles(p.price_total, o.currency_id.name)" style="font-size:13px; text-align:right;"/></td>
+                                        </t>
+                                        </t>
+                                        <t t-else="">
+                                            <td colspan="10" style="font-size:11px; text-align:left;"><span t-field="p.name"/></td>
+                                        </t>
+                                    </tr>
+                                 </tbody>
+                             </table>
+
+                          <div class="pie">
+                          <div>
+                              <table border="1" style="width:100%; margin-left:1%;">
+<!--                                  <t t-foreach="o.tax_line_ids" t-as="s">-->
+                                  <tr>
+                                      <td style="width:60%; text-align:left; font-size:15px">SUB TOTALES: <span t-esc="o.agregar_punto_de_miles(o.amount_total, o.currency_id.name)" style="font-size:15px"/></td>
+                                      <t t-if="suma_exenta &gt; 0 or suma_5_porciento &gt; 0">
+                                           <td style="font-size:13px;">
+<!--                                               <t t-if="suma_exenta &gt; 0 or suma_5_porciento &gt; 0">-->
+                                                   <t t-if="suma_5_porciento==0">
+                                               <span t-esc="o.agregar_punto_de_miles(suma_exenta,o.currency_id.name)"/>
+                                                   </t>
+<!--                                               </t>-->
+                                           </td>
+                                              <td style="font-size:13px;">
+<!--                                                 <t t-if="suma_exenta &gt; 0 or suma_5_porciento &gt; 0">-->
+                                                      <t t-if="suma_exenta == 0">
+                                                  <span t-esc="o.agregar_punto_de_miles(suma_5_porciento, o.currency_id.name)"/>
+                                                      </t>
+<!--                                                 </t>-->
+                                              </td>
+                                      </t>
+                                       <t t-else="">
+                                           <td style="font-size:15px;"> <span style="margin-left:4cm" t-esc="o.agregar_punto_de_miles(suma_10_porciento, o.currency_id.name)"/></td>
+                                       </t>
+                                  </tr>
+<!--                                  </t>-->
+                              </table>
+
+                              <table border="1" style="width:100%; margin-left:1%;">
+                                  <tr>
+                                      <td style="width:78%; text-align:left; font-size:15px;">TOTAL A PAGAR:
+                                          <t t-if="'PYG' in o.currency_id.name">
+<!--                                              <t t-if="o.currency_id.ambito == 'VENTA'">-->
+                                          <span style="margin-left:1cm; font-size:12.50px;" t-esc="o.calcular_letras(o.amount_total)"/>
+<!--                                              </t>-->
+                                          </t>
+
+                                          <t t-if="'USD' in o.currency_id.name">
+<!--                                              <t t-if="o.currency_id.ambito == 'VENTA'">-->
+                                          <span style="margin-left:1cm;  font-size:12.50px;" t-esc="o.calcular_letras_dolar(o.amount_total)"/>
+<!--                                              </t>-->
+                                          </t>
+
+
+                                      </td>
+                                      <td style="font-size:14.50px;"><span t-esc="o.calcula_moneda(o.currency_id.name)"/><span> </span><span t-esc="o.agregar_punto_de_miles(o.amount_total, o.currency_id.name)"/></td>
+                                  </tr>
+                              </table>
+
+                              <table border="1" style="width:100%;margin-left:1%;">
+                                  <tr>
+
+                                       <td style="text-align:left; font-size:15px">LIQUIDACION DEL IVA: (5%)
+                                           <t t-if="suma_5_porciento &gt; 0">
+                                                 <t t-set="iva_5" t-value="suma_5_porciento/21"/>
+                                           <span t-esc="o.agregar_punto_de_miles(iva_5, o.currency_id.name)"/>
+                                           </t>
+                                           <t t-else="">
+                                               <span>0</span>
+                                           </t>
+                                       </td>
+                                       <td style="text-align:left; font-size:15px;">(10%)
+                                          <t t-if="suma_5_porciento &gt; 0">
+                                             <t t-set="iva_10" t-value="suma_10_porciento/11"/>
+                                           <span t-esc="o.agregar_punto_de_miles(iva_10,o.currency_id.name)"/>
+                                          </t>
+                                           <t t-else="">
+<!--                                             <span t-esc="o.agregar_punto_de_miles(o.amount_tax, o.currency_id.name)"/>-->
+                                               <span t-field="o.amount_tax"/>
+                                            </t>
+                                       </td>
+
+                                       <td style="text-align:left; font-size:15px;">TOTAL I.V.A:
+                                           <t t-if="suma_5_porciento &gt; 0">
+<!--                                           <span   t-esc="o.agregar_punto_de_miles(o.amount_tax, o.currency_id.name)" style="margin-left:5%"/>-->
+                                           <span t-field="o.amount_tax" style="margin-left:5%"/>
+                                           </t>
+                                           <t t-else="">
+<!--                                               <span  class="total_iva-1" t-esc="o.agregar_punto_de_miles(o.amount_tax, o.currency_id.name)" style="margin-left:5%"/>-->
+                                               <span class="total_iva-1" t-field="o.amount_tax" style="margin-left:5%"/>
+                                           </t>
+                                       </td>
+                                   </tr>
+                              </table>
+
+                          <div style="border: 1px solid black; width:903px; margin-left:1%; height:200px;">
+<!--                              <span style="font-size:12px; margin-left: 1%;">Recibi conforme las mercaderias y/o servicios detalladas en esta factura y pagare el importe del vencimiento del plazo señalado...........................................................</span>-->
+<!--                              <span style="font-size:12px; margin-left: 1%;">Todos los efectos legales emergentes de esta obligacion quedan sometidos a la juridicion de los tribunales ordinarios de Asuncion.........................................................</span>-->
+<!--                              <span style="font-size:12px; margin-left: 1%;">A partir del vencimiento, la firma quedara facultada a aplicar intereses legales y recargado por mora.......................................................................................................</span>-->
+<!--                              <span style="font-size:12px; margin-left: 1%;">El unico comprobante de la cancelacion de la factura de venta constituye nuestro recibo oficial...............................................................................................................</span><br/><br/><br/>-->
+                               <t t-if="o.cdc">
+                                    <span class="qr-imagen"><img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.cdc, 150, 150)"/> </span>
+                                    <p style="font-size:11px; margin-left:4.10cm;margin-top:-3.10cm;">Consulte la validez de esta Factura Electrónica con el número de CDC impreso abajo en:</p>
+                                    <p style="font-size:13px;margin-left:4.10cm;"><a href="url" >https://ekuatia.set.gov.py/consultas/</a></p>
+                                   <p style="margin-left:4.10cm;"> CDC: <span t-field="o.cdc"/></p>
+                                </t>
+                              <!--<p style="margin-left:4%;">_____/_____/_______                _________________________________                                                 ______________________________________________</p>-->
+                              <!--<p style="margin-left:5.50%; margin-top: -1.50%; font-size:13px;">FECHA</p><p style="margin-left:33.50%; margin-top:-3.80%; font-size:13px;">FIRMA</p><p style="margin-left:70.40%; margin-top:-3.50%; font-size:13px;">ACLARACION</p>-->
+                            </div>
+                          </div>
+                          </div>
+
+                      </body>
+                  </span>
+              </t>
+        </t>
+    </template>
+</odoo>

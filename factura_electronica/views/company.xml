@@ -1,0 +1,35 @@
+<odoo>
+  <data>
+        <record model="ir.ui.view" id="company_form_inherited_factuelect">
+            <field name="name">res.company.form.inh.factelect</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="paraguay_backoffice.base_company_form_inherited"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='dv_representante']" position="after">
+                    <field name="regimen"  string="Tipo de Regimen"/>
+                    <field name="actividad_economica"  />
+                    <field name="codigo_actividad" />
+                </xpath>
+                <notebook>
+                   <page string="SIFEN">
+                       <group>
+                        <field name="servidor" string="Utilizar Servidor de"/>
+                        <field name="IdCSC" />
+                        <field name="csc" />
+                       </group>
+                   </page>
+                </notebook>
+            </field>
+        </record>
+      <record model="ir.ui.view" id="company_form_inherited_factuelect_2">
+            <field name="name">res.company.form.inh.factelect_2</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='street']" position="after">
+                    <field name="nro_casa" placeholder="Nro de casa"   string="Numero de Casa/Local"/>
+                </xpath>
+            </field>
+        </record>
+  </data>
+</odoo>

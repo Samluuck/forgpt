@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+        <record model="ir.ui.view" id="checkbook_form_inh_de">
+            <field name="name">account.checkbook.form.inh.de</field>
+            <field name="model">account.checkbook</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_check.view_account_checkbook_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="bank_id" string="Banco" options="{'no_create_edit': True, 'no_create': True,'no_open':True}" required="1"/>
+                </xpath>
+            </field>
+        </record>
+  </data>
+</odoo>

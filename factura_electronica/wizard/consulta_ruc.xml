@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+
+        <record id="consulta_ruc_wizard_view" model="ir.ui.view">
+            <field name="name">consulta.ruc.wizard</field>
+            <field name="model">consulta.ruc</field>
+            <field name="arch" type="xml">
+                <form string="Consulta de RUC - SET">
+                    <group>
+                        <field name="ruc" required="1" />
+                    </group>
+                    <footer>
+                        <button name="procesar" type="object" string="Consultar" class="oe_highlight"/>
+                        o
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                 </form>
+            </field>
+        </record>
+
+        <record id="action_consulta_ruc" model="ir.actions.act_window">
+            <field name="name">Consultar RUC</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">consulta.ruc</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="consulta_ruc_wizard_view"/>
+            <field name="target">new</field>
+
+        </record>
+
+
+    </data>
+</odoo>

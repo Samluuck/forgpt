@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+        <record model="ir.ui.view" id="partner_form_inherit_facturacion_electronica">
+            <field name="name">partner.form.inh.factelect</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="street2" position="after">
+                    <field name="nro_casa" placeholder="Nro. de casa"/>
+                </field>
+                <page name="sales_purchases" position="after">
+                    <page string="Documentos Electronicos">
+                        <group>
+                            <field name="naturaleza_receptor" />
+                            <field name="tipo_documento_receptor" attrs="{'invisible':[('naturaleza_receptor', '=', 1)],'required':[('naturaleza_receptor', '=', 2)]}"/>
+                            <field name="nro_documento" />
+                            <field name="tipo_operacion" string="Tipo de Operacion"/>
+
+                        </group>
+                        <group string="Datos para AutoFactura Electronica">
+                            <field name="naturaleza_vendedor" />
+                            <field name="tipo_documento_vendedor" />
+                            <field name="nro_documento" />
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+  </data>
+</odoo>

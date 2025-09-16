@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+        <record model="ir.ui.view" id="journal_form_inh_DE">
+            <field name="name">journal.form.inh.DE</field>
+            <field name="model">account.journal</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="before">
+                    <field name="tipo_pago" string="Tipo de Pago"/>
+                    <field name="descripcion_tipo_pago" string="Describir Otros" attrs="{'invisible':[('tipo_pago', '!=', 99)],'required':[('tipo_pago', '=', 99)]}" />
+                </xpath>
+            </field>
+        </record>
+  </data>
+</odoo>
