@@ -1,0 +1,93 @@
+.page{
+    font-size: 11px;
+}
+.mayuscula{
+    text-transform: uppercase;
+}
+/*CHEQUES PROPIOS*/
+.sin-borde {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+
+}
+
+.sin-borde th{
+    background-color:rgba(0,0,0,0.15) ;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    border-left: 0.5px solid black ;
+    border-right: 0.5px solid black ;
+}
+/*Producto*/
+table.sin-borde th:nth-child(1){
+    width: 25%;
+
+}
+/*Descripcion*/
+table.sin-borde th:nth-child(2){
+    width: 25%;
+}
+/*cantidad*/
+table.sin-borde th:nth-child(3){
+    width: 10%;
+}
+/*Precio unitiario*/
+table.sin-borde th:nth-child(4){
+    width: 20%;
+}/*total*/
+table.sin-borde th:nth-child(5){
+    width: 20%;
+}
+
+
+table.sin-borde td:nth-child(1){
+
+    text-align: left !important;
+}
+table.sin-borde td:nth-child(2){
+    text-align: left ;
+}
+table.sin-borde td:nth-child(3){
+    text-align: right;
+}
+table.sin-borde td:nth-child(4){
+    text-align: right;
+}
+table.sin-borde td:nth-child(5){
+    text-align: right;
+}
+
+
+
+
+.negrita{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.derecha{
+    text-align: right !important;
+}
+
+.totales{
+    background-color:rgba(0,0,0,0.15) ;
+}
+
+
+thead { display: table-header-group }
+tr { page-break-inside: avoid }
+
+
+hr {
+    border-bottom: 0.5px solid black;
+    /*border-top: none ;*/
+}
+
+
+td{
+    padding: 0px 2px 0px 2px;
+}

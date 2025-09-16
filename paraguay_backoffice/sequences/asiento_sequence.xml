@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0"      >
+
+        <record id="journal_asiento_sequence" model="ir.sequence">
+            <field name="name">Asiento</field>
+            <field name="prefix"></field>
+            <field name="padding">1</field>
+            <field name="code">asiento.sequence</field>
+            <field name="number_increment">1</field>
+            <field eval="True" name="active"/>
+            <field name="implementation">no_gap</field>
+        </record>
+
+    </data>
+</odoo>

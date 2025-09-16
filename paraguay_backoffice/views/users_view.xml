@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <!--Herencia res.users para asignacion de obras-->
+        <record id="view_users_form_inh" model="ir.ui.view">
+            <field name="name">view.users.form.inh</field>
+            <field name="model">res.users</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+		<!-- <xpath expr="//field[@name='sel_groups_54']" position="before">
+			<field name="nivel" string="Nivel" />
+		</xpath> -->
+                <notebook position="inside">
+                    <page string="Otra Informacion">
+                        <group col="3">
+                             <group string="Caja">
+                                <field name="documento_factura"/>
+                                <field name="default_documento_factura"/>
+                        </group>
+
+
+
+                            <group string="Remisiones">
+                                <field name="emite_remisiones"/>
+                                <field name="documento_remision" attrs="{'invisible': [('emite_remisiones', '!=', True)]}"/>
+
+                             </group>
+                            <group string="Retenciones">
+                                <field name="emite_retenciones"/>
+                                <field name="documento_retencion" attrs="{'invisible': [('emite_retenciones', '!=', True)]}"/>
+
+                             </group>
+
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>
