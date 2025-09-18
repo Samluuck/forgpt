@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-hechauka_generacion,Ver archivos Hechauka,model_set_hechauka_archivo,account.group_account_manager,1,1,1,1
-asesor_tipo_documento,Ver Tipo Documento Asesor,model_ruc_tipo_documento,account.group_account_manager,1,1,1,1
-asesor_timbrados,Ver Timbrados Asesor,model_ruc_documentos_timbrados,account.group_account_manager,1,1,1,1
-asesor_motivo_anulacion, permitir anulacion,model_ruc_motivo_anulacion,account.group_account_manager,1,1,1,1
