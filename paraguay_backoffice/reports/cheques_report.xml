@@ -1,0 +1,134 @@
+<odoo>
+    <template id="cheques_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="header" >
+                        <div class="col-6">
+                            <h3><span t-field="res_company.name"  /></h3>
+                        </div>
+                        <!--Fecha y paginacion de hoja-->
+                        <div class="col-4 pull-right fecha">
+                            <p>Fecha: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></p>
+                            <span>Pag: </span><span class="page" /> de <span class="topage" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h3>Listado de Cheques - <span t-field="o.tipo"/></h3>
+                        </div>
+                    </div>
+                    <div class="row negrita">
+                        <t t-if="cheques">
+                            <div class="col-6">
+                                  <p>Chequera: <span t-field="o.chequera" /></p>
+                            </div>
+                        </t>
+                        <div class="col-6">
+                          <p>Fecha Inicio: <span t-field="o.fecha_inicio"/> </p>
+                          <p>Fecha Fin: <span t-field="o.fecha_fin"/> </p>
+                        </div>
+                    </div>
+                    <link rel="stylesheet" href="/paraguay_backoffice/static/src/css/cheques.css"/>
+                    <div class="page">
+
+
+
+                    <!--TABLA PARA EL REPORTE DE CHEQUES PROPIOS-->
+                    <t t-if="cheques">
+                        <table class=" sin-borde"  >
+                            <thead>
+                                <tr class="active">
+                                    <th>Proveedor</th>
+                                    <th>Numero</th>
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <t t-set="suma" t-value="0"/>
+                                <t t-foreach="cheques" t-as="c">
+                                    <tr>
+                                        <td><span t-field="c.destiny_partner_id.name" /></td>
+                                        <td><span t-field="c.number" /></td>
+                                        <td><span t-field="c.issue_date" /></td>
+                                        <td><span t-esc="o.agregar_punto_de_miles(c.amount)" /></td>
+                                        <t t-set="suma" t-value="suma+c.amount"/>
+                                    </tr>
+                                </t>
+                                <tr class="negrita totales">
+                                    <td colspan="3">Total</td>
+                                    <td class="derecha"><span t-esc="o.agregar_punto_de_miles(suma)"/></td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                    </t>
+
+
+                    <!--TABLA PARA EL REPORTE DE CHEQUES DE TERCEROS-->
+                    <t t-if="cheques_terceros">
+                        <table class=" tabla-terceros"  >
+                            <thead>
+                                <tr class="active">
+                                    <th>Cliente</th>
+                                    <th>Banco</th>
+                                    <th>Numero</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <t t-set="suma" t-value="0"/>
+                                <t t-set="sum_en_mano" t-value="0"/>
+                                <t t-set="sum_depositado" t-value="0"/>
+                                <t t-foreach="cheques_terceros" t-as="c">
+                                    <tr>
+                                        <td><span t-field="c.source_partner_id.name" /></td>
+                                        <td><span t-field="c.bank_id.name" /></td>
+                                        <td><span t-field="c.number" /></td>
+                                        <td><span t-field="c.state" /></td>
+                                        <t t-if="c.state == 'handed'">
+                                            <t t-set="sum_en_mano" t-value="sum_en_mano+1"/>
+                                        </t>
+                                        <t t-if="c.state == 'deposited'">
+                                            <t t-set="sum_depositado" t-value="sum_depositado+1"/>
+                                        </t>
+                                        <td><span t-field="c.issue_date" /></td>
+                                        <td><span t-esc="o.agregar_punto_de_miles(c.amount)" /></td>
+                                        <t t-set="suma" t-value="suma+c.amount"/>
+                                    </tr>
+                                </t>
+                                <tr class="negrita totales">
+                                    <td colspan="5">Total</td>
+                                    <td class="derecha"><span t-esc="o.agregar_punto_de_miles(suma)"/></td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="row negrita">
+                            <p>Cantidad en mano: <span t-esc="sum_en_mano"/> </p>
+                            <p>Cantidad depositada: <span t-esc="sum_depositado"/> </p>
+
+                        </div>
+                    </t>
+
+
+
+                 </div>
+
+
+              </t>
+          </t>
+       </t>
+
+    </template>
+</odoo>

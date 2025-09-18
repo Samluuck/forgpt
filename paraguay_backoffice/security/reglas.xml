@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+       <!--REGLAS documentos timbrados-->
+        <record id="regla_documentos_timbrados" model="ir.rule">
+            <field name="name">talonarios por company</field>
+            <field name="model_id" ref="model_ruc_documentos_timbrados"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">
+                
+              ['|',('company_id','=',False),('company_id', 'in', company_ids)]
+            </field>
+        </record>
+    <!--REGLAS documentos timbrados-->
+         <record id="regla_documentos_timbrados_por_usuario" model="ir.rule">
+            <field name="name">Timbrados limitados por usuario</field>
+            <field ref="paraguay_backoffice.model_ruc_documentos_timbrados" name="model_id"/>
+            <field name="domain_force">[('id','in',user.documento_factura.ids)]</field>
+            <field name="groups" eval="[(4, ref('paraguay_backoffice.limitar_talonarios'))]"/>
+        </record>
+
+
+
+
+
+
+
+
+
+</odoo>

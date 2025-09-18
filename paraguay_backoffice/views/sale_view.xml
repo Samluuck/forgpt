@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+            <record id="view_sale_order_inh_paraguay" model="ir.ui.view">
+                <field name="name">view.sale.order.form.inh</field>
+                <field name="model">sale.order</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="sale.view_order_form"/>
+                <field name="arch" type="xml">
+                    <field name="payment_term_id" position="after">
+                         <field name="aplicar_descuento"/>
+                         <field name="porcentaje_descuento" attrs="{'invisible':[('aplicar_descuento','!=',True)]}"/>
+                         <field name="producto_descuento" attrs="{'invisible':[('aplicar_descuento','!=',True)]}"/>
+                         <button name="aplicar_descuento_lineas" string="Aplicar descuento" class="btn btn-info" type="object" attrs="{'invisible':[('aplicar_descuento','!=',True)]}"/>
+                    </field>
+
+                </field>
+            </record>
+
+
+        </data>
+    </odoo>

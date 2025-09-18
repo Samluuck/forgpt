@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+            <!-- INherit en tree de recepciones de pedido -->
+            <record id="view_stock_picking_tree_inh" model="ir.ui.view">
+                <field name="name">view.stock.picking.tree.inh</field>
+                <field name="model">stock.picking</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="stock.vpicktree"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='partner_id']" position="after">
+                            <field name="numero_remision"  string="Nota de Remision"/>
+                    </xpath>
+
+                </field>
+            </record>
+        <!--            Inherit del form de picking-->
+
+
+        <record id="view_stock_picking_form_inh" model="ir.ui.view">
+                <field name="name">view.stock.picking.form.inh</field>
+                <field name="model">stock.picking</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="stock.view_picking_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='partner_id']" position="after">
+                            <field name="numero_remision"  string="Nota de Remision" attrs="{'readonly':['|', ('talonario_remision','!=',False ), ('picking_type_code','in',('outgoing','internal') )]}"/>
+                            <field name="talonario_remision" attrs="{'invisible':[('picking_type_code','!=','outgoing')]}"  readonly="1" options="{'no_open':True}"/>
+                    </xpath>
+                    <xpath expr="//field[@name='origin']" position="before">
+                         <field name="invoice_imp_id"/>
+                         <field name="obs"/>
+                     </xpath>
+
+                    <xpath expr="//button[@name='action_assign']" position="after">
+<!--                    <button name="force_assign" states="confirmed,waiting,partially_available" string="Forzar disponibilidad" type="object" groups="stock.group_stock_manager"/>-->
+                        <button name="poner_remision" type="object" string="Asignar Nro. de Remision" class="oe_highlight" attrs="{'invisible':['|',('picking_type_code','=','incoming'),('state','not in',('done','cancel'))]}" />
+                        <button name="cancel_picking_done" type="object" confirm="Esta seguro que desea Anular?" string="Anular" attrs="{'invisible':[('state','!=','done'),('talonario_remision','=',False)]}" />
+                        <button name="duplicar" type="object" class="oe_highlight" attrs="{'invisible':['|',('picking_type_code','=','incoming'),('state','not in',('cancel'))]}" string="Duplicar"/>
+                    </xpath>
+
+                    <xpath expr="//button[@name='action_cancel']" position="attributes">
+                        <attribute name="confirm">Esta seguro que desea cancelar?</attribute>
+                    </xpath>
+                </field>
+            </record>
+
+
+
+        </data>
+    </odoo>
