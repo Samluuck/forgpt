@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--Herencia res.partner con RUC-->
+        <record id="view_partner_form_inh" model="ir.ui.view">
+            <field name="name">view.partner.form.inh</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+           <xpath expr="//field[@name='name']" position="after">
+            <br/>
+                <field name="nombre_fantasia" placeholder="Nombre Fantasia"/>
+
+
+            </xpath>
+           <xpath expr="//sheet/group" position="after">
+                <group>
+                    <group string="Datos">
+                    <field name="supplier" invisible="0"/>
+                   <field name="customer" invisible="0"/>
+                   <field name="retiene_iva_cliente" invisible="0"/>
+                    <field name="esinternacional" invisible="1"/>
+                    <field name="ruc" attrs="{'required': [('parent_id','=',False) , '&amp;',  ('esinternacional', '=', False),('ci', '=', False)],'invisible': [('esinternacional','=',True)]}"/>
+                     <field name="digitointer" attrs="{'required': ['|',('customer', '=', True),('supplier','=',True) , '&amp;',  ('esinternacional', '=', True),('ci', '=', False)],'invisible': [('esinternacional','=',False)]}"/>
+                    <field name="dv" readonly="1" force_save="1" attrs="{'invisible': [('esinternacional','=',True)]}"/>
+                    <field name="ci" attrs="{'invisible': [('company_type','=','company')]}" />
+                    <field name="fecha_nacimiento" attrs="{'invisible': [('company_type','=','company')]}"/>
+                    <field name="sexo" attrs="{'invisible': [('company_type','=','company')]}"/>
+
+                    </group>
+
+                    <group string="Retenciones"  attrs="{'invisible':[('customer','!=',True)]}">
+                        <field name="iva_retencion_10"/>
+                        <field name="iva_retencion_5"/>
+                    </group>
+
+                     <group string="Timbrado de facturas" attrs="{'invisible':[('supplier','!=',True)]}">
+                        <field name="timbrado"/>
+                        <field name="vencimiento_timbrado"/>
+                     </group>
+
+                </group>
+		   <!-- <field name="contratista"/>
+		    <field name="nivel" invisible="1"/> -->
+		    </xpath>
+            </field>
+        </record>
+       <record id="view_ruc_partner_search" model="ir.ui.view">
+            <field name="name">partner.search.inh</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath  expr="//field[@name='user_id']" position="after">
+                    <field name="nombre_fantasia"/>
+                    <field name="rucdv"/>
+                </xpath>
+                <xpath expr="//filter[@name='salesperson']" position="after">
+                    <filter name="group_nombre_fantasia" string="Nombre de Fantasia" context="{'group_by': 'nombre_fantasia'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
