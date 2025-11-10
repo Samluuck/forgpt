@@ -1,0 +1,13 @@
+<odoo>
+  <record id="action_mass_move_to_draft" model="ir.actions.server">
+    <field name="name">Pasar facturas a borrador (masivo)</field>
+    <field name="model_id" ref="account.model_account_move"/>
+    <field name="binding_model_id" ref="account.model_account_move"/>
+    <field name="state">code</field>
+    <field name="usage">ir_actions_server</field>
+    <field name="filter_domain">[('move_type','in',['in_invoice','out_invoice'])]</field>
+    <!-- opcional: restringir a contadores -->
+    <!-- <field name="groups_id" eval="[(4, ref('account.group_account_manager'))]"/> -->
+    <field name="code">action = records.action_mass_move_to_draft()</field>
+  </record>
+</odoo>
