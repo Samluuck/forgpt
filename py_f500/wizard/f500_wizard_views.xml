@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form del Wizard F500 -->
+    <record id="view_f500_wizard_form" model="ir.ui.view">
+        <field name="name">f500.wizard.form</field>
+        <field name="model">f500.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Formulario 500 IRE - Versión 2">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <span>Formulario 500 - IRE Régimen General</span>
+                        </h1>
+                        <p>Versión 2 - SET Paraguay</p>
+                    </div>
+                    <group>
+                        <group name="company_data" string="Datos de la Empresa">
+                            <field name="company_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="ruc" readonly="1"/>
+                            <field name="razon_social" readonly="1"/>
+                        </group>
+                        <group name="period_data" string="Período Fiscal">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="exercise_year" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group name="declaration_data" string="Tipo de Declaración">
+                            <field name="declaration_type"/>
+                            <field name="rectified_order" 
+                                   attrs="{'invisible': [('declaration_type', '!=', '02')], 
+                                          'required': [('declaration_type', '=', '02')]}"/>
+                        </group>
+                        <group name="complementary_data" string="Información Complementaria (Rubro 10)">
+                            <field name="contador_ruc"/>
+                            <field name="auditor_ruc"/>
+                            <field name="total_empleados"/>
+                            <field name="beneficio_fiscal_numero"/>
+                            <field name="beneficio_fiscal_anio"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Información" name="info">
+                            <group>
+                                <group>
+                                    <field name="state" invisible="1"/>
+                                </group>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                <p><strong>Instrucciones:</strong></p>
+                                <ul>
+                                    <li><strong>Paso 1:</strong> Configure las categorías F500 en sus cuentas contables (Contabilidad → Configuración → Plan contable)</li>
+                                    <li><strong>Paso 2:</strong> Seleccione la compañía y el período fiscal</li>
+                                    <li><strong>Paso 3:</strong> Complete la información complementaria</li>
+                                    <li><strong>Paso 4:</strong> Genere el formulario haciendo clic en "Generar Formulario 500"</li>
+                                    <li><strong>Paso 5:</strong> Descargue el archivo Excel generado</li>
+                                </ul>
+                                <hr/>
+                                <p><strong>Notas importantes:</strong></p>
+                                <ul>
+                                    <li>El sistema extrae automáticamente los datos contables del período seleccionado</li>
+                                    <li>Los montos se calculan según las categorías F500 asignadas a cada cuenta</li>
+                                    <li>El archivo generado sigue el formato oficial del SET (Versión 2)</li>
+                                    <li>La tasa del IRE es del 10% sobre la renta neta imponible</li>
+                                </ul>
+                            </div>
+                        </page>
+                        <page string="Archivo Generado" name="file" 
+                              attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <group>
+                                <field name="file_name" readonly="1"/>
+                                <field name="file_data" filename="file_name" readonly="1" widget="binary"/>
+                            </group>
+                            <div class="alert alert-success" role="alert">
+                                <p><strong>✓ Archivo generado exitosamente</strong></p>
+                                <p>Puede descargar el archivo haciendo clic en el botón "Descargar Archivo" o directamente desde el campo de arriba.</p>
+                                <p>El archivo está en formato Excel (.xlsx) y puede ser importado al sistema Marangatu del SET.</p>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_generate_f500"
+                            string="Generar Formulario 500"
+                            type="object"
+                            class="btn-primary"
+                            attrs="{'invisible': [('state', '=', 'done')]}"/>
+                    <button name="action_download_file"
+                            string="Descargar Archivo"
+                            type="object"
+                            class="btn-success"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción del Wizard -->
+    <record id="action_f500_wizard" model="ir.actions.act_window">
+        <field name="name">Generar Formulario 500 IRE</field>
+        <field name="res_model">f500.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+    </record>
+
+</odoo>
