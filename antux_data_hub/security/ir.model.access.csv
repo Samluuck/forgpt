@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_antux_datahub_period_rrhh,antux.datahub.period rrhh,model_antux_datahub_period,antux_data_hub.group_antux_rrhh_planillas,1,1,1,1
+access_antux_datahub_batch_rrhh,antux.datahub.batch rrhh,model_antux_datahub_batch,antux_data_hub.group_antux_rrhh_planillas,1,1,1,1
+access_antux_datahub_line_rrhh,antux.datahub.line rrhh,model_antux_datahub_line,antux_data_hub.group_antux_rrhh_planillas,1,1,1,1
+access_antux_datahub_import_wizard,antux.datahub.import.wizard,model_antux_datahub_import_wizard,base.group_user,1,1,1,1
+access_antux_datahub_empleados_report_wizard,antux.datahub.empleados.report.wizard,model_antux_datahub_empleados_report_wizard,base.group_user,1,1,1,1
+access_antux_datahub_ips_report_wizard,antux.datahub.ips.report.wizard,model_antux_datahub_ips_report_wizard,base.group_user,1,1,1,1
+access_antux_datahub_sueldos_jornales_report_wizard,antux.datahub.sueldos.jornales.report.wizard,model_antux_datahub_sueldos_jornales_report_wizard,base.group_user,1,1,1,1
+access_antux_datahub_vacaciones_report_wizard,antux.datahub.vacaciones.report.wizard,model_antux_datahub_vacaciones_report_wizard,base.group_user,1,1,1,1
+access_antux_datahub_mapping_rrhh,antux.datahub.mapping rrhh,model_antux_datahub_mapping,antux_data_hub.group_antux_rrhh_planillas,1,1,1,1
+access_antux_datahub_mapping_line_rrhh,antux.datahub.mapping.line rrhh,model_antux_datahub_mapping_line,antux_data_hub.group_antux_rrhh_planillas,1,1,1,1
+access_antux_datahub_manual_rrhh,antux.datahub.manual rrhh,model_antux_datahub_manual,base.group_user,1,1,1,1
+access_antux_datahub_resumen_report_wizard,antux.datahub.resumen.report.wizard,model_antux_datahub_resumen_report_wizard,base.group_user,1,1,1,1
+access_antux_datahub_salary_receipt_wizard,antux.datahub.salary.receipt.wizard,model_antux_datahub_salary_receipt_wizard,base.group_user,1,1,1,1

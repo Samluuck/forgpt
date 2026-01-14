@@ -1,0 +1,147 @@
+<odoo>
+    <!-- ========================= -->
+    <!-- TREE VIEW -->
+    <!-- ========================= -->
+    <record id="view_datahub_batch_tree" model="ir.ui.view">
+        <field name="name">antux.datahub.batch.tree</field>
+        <field name="model">antux.datahub.batch</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Nombre"/>
+                <field name="company_id" string="Compañía"/>
+                <field name="period_id" string="Periodo"/>
+                <field name="state" string="Estado"/>
+                <field name="line_count" string="Registros"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ========================= -->
+    <!-- FORM VIEW -->
+    <!-- ========================= -->
+    <record id="view_datahub_batch_form" model="ir.ui.view">
+        <field name="name">antux.datahub.batch.form</field>
+        <field name="model">antux.datahub.batch</field>
+        <field name="arch" type="xml">
+            <form string="Lote Data Hub">
+                <!-- CAMPO OCULTO NECESARIO PARA ATTRS -->
+                <field name="line_count" invisible="1"/>
+                <!-- HEADER -->
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,processed"/>
+                    <!-- Importar solo si no hay líneas -->
+                    <button name="action_open_import_wizard" string="Importar Planilla" type="object" icon="fa-upload" class="btn btn-warning" attrs="{'invisible': [('line_count', '>', 0)]}"/>
+                    <!-- Descargar IPS -->
+
+                    <button name="action_open_ips_report_wizard" type="object" string="IPS" icon="fa-file-text-o" class="btn btn-info" attrs="{'invisible': [('line_count', '=', 0)]}"/>
+                    <!-- Descargar Empleados Obreros -->
+                    <button name="action_open_empleados_report_wizard" type="object" string="Empleados Obreros" icon="fa-users" class="btn btn-info" attrs="{'invisible': [('line_count', '=', 0)]}"/>
+                    <!-- Descargar Sueldos y Jornales -->
+                    <button name="action_open_sueldos_jornales_report_wizard" type="object" string="Sueldos y Jornales" icon="fa-money" class="btn btn-info" attrs="{'invisible': [('line_count', '=', 0)]}"/>
+                    <!-- Descargar Vacaciones -->
+                    <button name="action_open_vacaciones_report_wizard" type="object" string="Vacaciones" icon="fa-calendar" class="btn btn-info" attrs="{'invisible': [('line_count', '=', 0)]}"/>
+                    <!-- Descargar Resumen General -->
+                    <button name="action_open_resumen_report_wizard" type="object" string="Resumen General" icon="fa-list-alt" class="btn btn-info" attrs="{'invisible': [('line_count', '=', 0)]}"/>
+                    <!-- Descargar Recibo Salarial -->
+                    <button name="action_open_salary_receipt_wizard" type="object" string="Recibo Salarial" icon="fa-file-pdf-o" class="btn btn-info" attrs="{'invisible': [('line_count', '=', 0)]}"/>
+                </header>
+                <!-- BODY -->
+                <sheet>
+                    <group>
+                        <field name="name" string="Nombre"/>
+                        <field name="company_id" string="Compañía"/>
+                        <field name="period_id" string="Periodo"/>
+                    </group>
+
+                    <notebook>
+                        <!-- Pestaña IPS -->
+                        <page string="IPS">
+                            <field name="ips_line_ids">
+                                <tree create="false" delete="false" editable="false">
+                                    <field name="patronal_number" string="Nro Patronal"/>
+                                    <field name="insured_number" string="Nro Asegurado"/>
+                                    <field name="ci_number" string="Cédula"/>
+                                    <field name="last_name" string="Apellidos"/>
+                                    <field name="first_name" string="Nombres"/>
+                                    <field name="job_title" string="Categoría"/>
+                                    <field name="days_worked" string="Días Trabajados"/>
+                                    <field name="salary_base" string="Salario"/>
+                                    <field name="payment_month_year" string="Mes/Año de Pago"/>
+                                    <field name="activity_code" string="Cod. Actividad"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- Pestaña Empleados / Obreros -->
+                        <page string="Empleados / Obreros">
+                            <field name="employees_line_ids">
+                                <tree create="false" delete="false" editable="false">
+                                    <field name="patronal_number" string="Nro Patronal"/>
+                                    <field name="ci_number" string="Cédula"/>
+                                    <field name="first_name" string="Nombres"/>
+                                    <field name="last_name" string="Apellidos"/>
+                                    <field name="sex" string="Sexo"/>
+                                    <field name="civil_status" string="Estado Civil"/>
+                                    <field name="fecha_nacimiento" string="Fecha de Nacimiento"/>
+                                    <field name="nationality" string="Nacionalidad"/>
+                                    <field name="domicilio" string="Domicilio"/>
+                                    <field name="fecha_menor" string="Fecha de Menor"/>
+                                    <field name="job_title" string="Cargo"/>
+                                    <field name="profession" string="Profesión"/>
+                                    <field name="entry_date" string="Fecha de Entrada"/>
+                                    <field name="work_schedule" string="Horario de Trabajo"/>
+                                    <field name="children_under_18" string="Hijos Menores"/>
+                                    <field name="children_with_different_abilities" string="Menores con Capacidad Diferente"/>
+                                    <field name="children_educated" string="Menores Escolarizados"/>
+                                    <field name="exit_date" string="Fecha de Salida"/>
+                                    <field name="exit_reason" string="Motivo de Salida"/>
+                                    <field name="state" string="Estado" />
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- Pestaña Sueldos y Jornales -->
+                        <page string="Sueldos y Jornales">
+                        </page>
+                        <!-- Pestaña Vacaciones -->
+                        <page string="Registro de Vacaciones">
+                            <field name="vacaciones_line_ids">
+                                <tree create="false" delete="false" editable="false">
+                                    <field name="last_name" string="Apellidos"/>
+                                    <field name="first_name" string="Nombres"/>
+                                    <field name="dias_vacaciones" string="Días Vacaciones"/>
+                                    <field name="desde_vacaciones" string="Desde"/>
+                                    <field name="hasta_vacaciones" string="Hasta"/>
+                                    <field name="remuneracion_vacaciones" string="Remuneración"/>
+                                    <field name="observaciones_vacaciones" string="Observaciones"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="message_follower_ids" widget="mail_thread_follower"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ========================= -->
+    <!-- ACTION -->
+    <!-- ========================= -->
+    <record id="action_datahub_batch" model="ir.actions.act_window">
+        <field name="name">Planillas Procesadas</field>
+        <field name="res_model">antux.datahub.batch</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ========================= -->
+    <!-- ACTION IMPORT PLANILLA -->
+    <!-- ========================= -->
+    <record id="action_antux_datahub_import_wizard" model="ir.actions.act_window">
+        <field name="name">Importar Planilla General</field>
+        <field name="res_model">antux.datahub.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

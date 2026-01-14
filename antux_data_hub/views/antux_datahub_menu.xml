@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem id="menu_antux_datahub_root" name="RRHH" sequence="10"/>
+
+    <menuitem id="menu_antux_datahub_batch" name="Planillas Procesadas" parent="menu_antux_datahub_root" action="action_datahub_batch" sequence="20"/>
+
+    <menuitem id="menu_antux_datahub_period" name="Períodos" parent="menu_antux_datahub_root" action="action_datahub_period" sequence="30"/>
+
+    <menuitem id="menu_antux_datahub_config" name="Configuración" parent="menu_antux_datahub_root" sequence="100"/>
+    <menuitem id="menu_antux_datahub_mapping" name="Mapeo de Columnas" parent="menu_antux_datahub_config" action="action_antux_datahub_mapping" sequence="10"/>
+    <menuitem id="menu_antux_datahub_manual" name="Manual de Uso" parent="menu_antux_datahub_config" action="action_antux_datahub_manual" sequence="99"/>
+
+</odoo>

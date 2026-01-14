@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_antux_datahub_resumen_report_wizard_form" model="ir.ui.view">
+        <field name="name">antux.datahub.resumen.report.wizard.form</field>
+        <field name="model">antux.datahub.resumen.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reporte Resumen General">
+                <group>
+                    <field name="report_format" widget="radio"/>
+                </group>
+                <footer>
+                    <button name="action_print_report" type="object" string="Generar" class="btn btn-success"/>
+                    <button string="Cancelar" class="btn btn-danger" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_antux_datahub_resumen_report_wizard" model="ir.actions.act_window">
+        <field name="name">Reporte Resumen General</field>
+        <field name="res_model">antux.datahub.resumen.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

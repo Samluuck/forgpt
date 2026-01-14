@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default Mapping -->
+        <record id="default_mapping" model="antux.datahub.mapping">
+            <field name="name">Formato Estándar</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Mapping Lines -->
+        <!-- Identificación -->
+        <record id="line_ci" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__ci_number"/>
+            <field name="excel_header_aliases">C.I. Nº, CI, Cédula, Cedula, Identificación, Identificacion, C.I., C.I, ci, Ci</field>
+        </record>
+
+        <record id="line_lastname" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__last_name"/>
+            <field name="excel_header_aliases">Apellidos</field>
+        </record>
+
+        <record id="line_firstname" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__first_name"/>
+            <field name="excel_header_aliases">Nombres</field>
+        </record>
+
+        <record id="line_job" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__job_title"/>
+            <field name="excel_header_aliases">CARGO, Cargo</field>
+        </record>
+
+        <!-- IPS -->
+        <record id="line_patronal" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__patronal_number"/>
+            <field name="excel_header_aliases">Nro. Patronal, Nro Patronal</field>
+        </record>
+
+        <record id="line_insured" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__insured_number"/>
+            <field name="excel_header_aliases">Nro. Asegurado, Nro Asegurado</field>
+        </record>
+
+        <!-- Datos Laborales -->
+        <record id="line_days_worked" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__days_worked"/>
+            <field name="excel_header_aliases">Dias Trabajados, Días Trabajados</field>
+        </record>
+
+        <record id="line_salary_base" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__salary_base"/>
+            <field name="excel_header_aliases">Salarios Basicos, Salario Básico</field>
+        </record>
+
+        <record id="line_salary_total" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__salary_total"/>
+            <field name="excel_header_aliases">Salarios, Salario Total</field>
+        </record>
+
+        <!-- Fechas y Otros -->
+        <record id="line_birthdate" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__fecha_nacimiento"/>
+            <field name="excel_header_aliases">Fecha de Nacimiento, FECHA DE NACIMIENTO, FechaNacimiento, Cumpleaños</field>
+        </record>
+
+        <record id="line_entry_date" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__entry_date"/>
+            <field name="excel_header_aliases">Fecha de Entrada, FECHA DE ENTRADA, FechaEntrada, Fecha de Ingreso, Ingreso</field>
+        </record>
+
+        <record id="line_exit_date" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__exit_date"/>
+            <field name="excel_header_aliases">Fecha de Salida, FECHA DE SALIDA, FechaSalida</field>
+        </record>
+
+        <record id="line_civil_status" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__civil_status"/>
+            <field name="excel_header_aliases">Estado Civil, ESTADO CIVIL, Est. Civil</field>
+        </record>
+
+        <record id="line_sex" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__sex"/>
+            <field name="excel_header_aliases">Sexo, SEXO, Sex, SEX</field>
+        </record>
+
+        <record id="line_nationality" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__nationality"/>
+            <field name="excel_header_aliases">Nacionalidad</field>
+        </record>
+
+        <record id="line_address" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__domicilio"/>
+            <field name="excel_header_aliases">Domicilio, DOMICILIO, Direccion</field>
+        </record>
+
+        <record id="line_profession" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__profession"/>
+            <field name="excel_header_aliases">Profesión, PROFESION, Profesion,PROFESIÓN</field>
+        </record>
+
+        <!-- Vacaciones -->
+        <record id="line_vac_days" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__dias_vacaciones"/>
+            <field name="excel_header_aliases">Dias Vacaciones, DIAS VACACIONES, Dias</field>
+        </record>
+
+        <record id="line_vac_from" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__desde_vacaciones"/>
+            <field name="excel_header_aliases">Fecha desde Vacaciones, Desde Vacaciones, Desde</field>
+        </record>
+
+        <record id="line_vac_to" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__hasta_vacaciones"/>
+            <field name="excel_header_aliases">Fecha Hasta Vacaciones, Hasta Vacaciones, Hasta</field>
+        </record>
+
+        <record id="line_vac_rem" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__remuneracion_vacaciones"/>
+            <field name="excel_header_aliases">Remuneracion Vacaciones, Remuneracion</field>
+        </record>
+
+        <record id="line_vac_obs" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__observaciones_vacaciones"/>
+            <field name="excel_header_aliases">Observaciones Vacaciones, Obs, Observaciones</field>
+        </record>
+        <!-- cod. actividad -->
+        <record id="line_activity_code" model="antux.datahub.mapping.line">
+            <field name="mapping_id" ref="default_mapping"/>
+            <field name="field_id" ref="antux_data_hub.field_antux_datahub_line__activity_code"/>
+            <field name="excel_header_aliases">Cod. Actividad, Cod. Actividad, Cod. Act</field>
+        </record>
+
+    </data>
+</odoo>

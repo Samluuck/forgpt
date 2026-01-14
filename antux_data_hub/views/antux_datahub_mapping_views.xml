@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- FORM VIEW -->
+    <record id="view_antux_datahub_mapping_form" model="ir.ui.view">
+        <field name="name">antux.datahub.mapping.form</field>
+        <field name="model">antux.datahub.mapping</field>
+        <field name="arch" type="xml">
+            <form string="Mapeo de Importación">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Ej. Formato Estándar"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Columnas">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="field_id" options="{'no_create': True}"/>
+                                    <field name="excel_header_aliases"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- TREE VIEW -->
+    <record id="view_antux_datahub_mapping_tree" model="ir.ui.view">
+        <field name="name">antux.datahub.mapping.tree</field>
+        <field name="model">antux.datahub.mapping</field>
+        <field name="arch" type="xml">
+            <tree string="Mapeos de Importación">
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_antux_datahub_mapping" model="ir.actions.act_window">
+        <field name="name">Configuración de Mapeos</field>
+        <field name="res_model">antux.datahub.mapping</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Crear un nuevo Mapeo de Importación
+            </p>
+        </field>
+    </record>
+
+</odoo>

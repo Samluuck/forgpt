@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_antux_datahub_salary_receipt_wizard_form" model="ir.ui.view">
+        <field name="name">antux.datahub.salary.receipt.wizard.form</field>
+        <field name="model">antux.datahub.salary.receipt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Recibo de Salario">
+                <group>
+                    <field name="batch_id" invisible="1"/>
+                    <field name="employee_ids" widget="many2many_tags" domain="[('batch_id', '=', batch_id)]" options="{'no_create': True}"/>
+                    <field name="print_option" widget="radio"/>
+                </group>
+                <div class="alert alert-info" role="alert" style="font-size: 13px;">
+                    <p style="margin-bottom: 4px;">
+                        <strong>Nota:</strong> Si no selecciona empleados, se generarán los recibos de <strong>todos</strong> los empleados del lote.
+                    </p>
+                    <p style="margin-bottom: 4px;">
+        🧾 Los recibos se emitirán en formato <strong>PDF</strong>.
+                    </p>
+                    <p style="margin-bottom: 0;">
+        📂 Puede elegir entre:
+                        <ul style="margin-left: 16px; margin-top: 4px;">
+                            <li>Un único archivo PDF con todos los recibos.</li>
+                            <li>Un archivo ZIP que contiene cada recibo por separado.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <footer>
+                    <button name="action_print_report" type="object" string="Generar" class="btn btn-success"/>
+                    <button string="Cancelar" class="btn btn-danger" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_antux_datahub_salary_receipt_wizard" model="ir.actions.act_window">
+        <field name="name">Recibo de Salario</field>
+        <field name="res_model">antux.datahub.salary.receipt.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

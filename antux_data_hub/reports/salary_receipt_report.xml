@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- PAPER FORMAT -->
+    <record id="paperformat_salary_receipt" model="report.paperformat">
+        <field name="name">Recibo Salarial A4</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- REPORT ACTION -->
+    <record id="action_report_salary_receipt" model="ir.actions.report">
+        <field name="name">Liquidación de Salario</field>
+        <field name="model">antux.datahub.salary.receipt.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">antux_data_hub.report_salary_receipt_template</field>
+        <field name="report_file">antux_data_hub.report_salary_receipt_template</field>
+        <field name="binding_model_id" ref="model_antux_datahub_salary_receipt_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_salary_receipt"/>
+    </record>
+
+    <!-- REPORT TEMPLATE -->
+    <template id="report_salary_receipt_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="wizard">
+                <t t-set="batch" t-value="wizard.batch_id"/>
+                <t t-set="employees" t-value="wizard.employee_ids or batch.line_ids"/>
+
+                <!-- Filter for individual PDF generation in ZIP -->
+                <t t-if="active_line_id">
+                    <t t-set="employees" t-value="employees.filtered(lambda l: l.id == active_line_id)"/>
+                </t>
+
+                <t t-foreach="employees" t-as="line">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <style>
+                                .receipt-container {
+                                    border: 1px solid black;
+                                    padding: 20px;
+                                    font-family: Arial, sans-serif;
+                                    font-size: 12px;
+                                    color: black;
+                                }
+                                .top-bar {
+                                    background-color: #cccccc;
+                                    text-align: center;
+                                    font-weight: bold;
+                                    padding: 5px;
+                                    margin-bottom: 10px;
+                                    text-transform: uppercase;
+                                }
+                                .header-row {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    margin-bottom: 20px;
+                                }
+                                .header-left {
+                                    width: 50%;
+                                }
+                                .header-right {
+                                    width: 50%;
+                                    text-align: center;
+                                }
+                                .logo-mtess {
+                                    width: 200px;
+                                    margin-bottom: 5px;
+                                }
+                                .mtess-text {
+                                    font-size: 10px;
+                                    line-height: 1.2;
+                                }
+                                .title-main {
+                                    font-size: 18px;
+                                    font-weight: bold;
+                                    margin-bottom: 5px;
+                                }
+                                .title-sub {
+                                    font-size: 11px;
+                                    margin-bottom: 5px;
+                                }
+                                .info-section {
+                                    width: 100%;
+                                    margin-bottom: 15px;
+                                }
+                                .info-table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                }
+                                .info-table td {
+                                    padding: 4px 0;
+                                }
+                                .concepts-table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    margin-bottom: 60px;
+                                }
+                                .concepts-table th, .concepts-table td {
+                                    border: 1px solid black;
+                                    padding: 8px 4px;
+                                    text-align: center;
+                                }
+                                .concepts-table th {
+                                    font-weight: bold;
+                                    background-color: #ffffff;
+                                }
+                                .bg-gray {
+                                    background-color: #e0e0e0 !important;
+                                }
+                                .footer-section {
+                                    margin-top: 40px;
+                                }
+                                .signature-box {
+                                    text-align: center;
+                                    padding-top: 10px;
+                                }
+                                .signature-line {
+                                    border-top: 1px dotted black;
+                                    margin-bottom: 5px;
+                                    width: 80%;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                }
+                                .date-row {
+                                    margin-bottom: 30px;
+                                }
+                            </style>
+
+                            <div class="receipt-container">
+                                <!-- Top Bar -->
+                                <div class="top-bar">
+                                    <span t-esc="line.company_id.name"/>
+                                </div>
+
+                                <!-- Header -->
+                                <div class="row header-row">
+                                    <div class="col-6 header-left">
+                                        <img src="/antux_data_hub/static/img/logo_mtess.png" class="logo-mtess"/>
+                                        <div class="mtess-text">
+                                            <strong>VICE MINISTERIO DE TRABAJO Y SEGURIDAD SOCIAL</strong>
+                                            <br/>
+                                            DIRECCION GENERAL DEL TRABAJO
+                                        </div>
+                                    </div>
+                                    <div class="col-6 header-right">
+                                        <div class="title-main">LIQUIDACION DE SALARIO</div>
+                                        <div class="title-sub">( Art. 236 del Cod. Del Trabajo )</div>
+                                        <div class="title-sub">
+                                            <strong>MINISTERIO DE JUSTICIA Y TRABAJO</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Employer/Employee Info -->
+                                <div class="info-section">
+                                    <table class="info-table">
+                                        <tr>
+                                            <td width="15%">Empleador:</td>
+                                            <td width="55%">
+                                                <span t-esc="line.company_id.name"/>
+                                            </td>
+                                            <td width="15%">Patronal Nº:</td>
+                                            <td width="15%">
+                                                <span t-esc="line.patronal_number"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apellidos y Nombre del Trabajador:</td>
+                                            <td>
+                                                <strong>
+                                                    <span t-esc="line.last_name"/>
+                                                    <span t-esc="line.first_name"/>
+                                                </strong>
+                                            </td>
+                                            <td>C.I. Nº:</td>
+                                            <td>
+                                                <strong>
+                                                    <span t-esc="line.ci_number"/>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Periodo de Pago:</td>
+                                            <td colspan="3">
+                                                <span t-esc="line.period_id.date_from.day"/>
+ al 
+                                                <span t-esc="line.period_id.date_to.day"/>
+ de 
+                                                <span t-esc="line.period_id.date_from.strftime('%B').capitalize()"/>
+ del 
+                                                <span t-esc="line.period_id.date_from.year"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <!-- Concepts Table -->
+                                <table class="concepts-table">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2">Días Trab.</th>
+                                            <th rowspan="2">Salario Básico</th>
+                                            <th rowspan="2">Otros Ingresos</th>
+                                            <th rowspan="2">Bonificación Familiar</th>
+                                            <th rowspan="2">Aguinaldo</th>
+                                            <th rowspan="2" class="bg-gray">Total Percibido</th>
+                                            <th colspan="2">DESCUENTOS</th>
+                                            <th rowspan="2">Total Desc.</th>
+                                            <th rowspan="2" class="bg-gray">Saldo a Cobrar</th>
+                                        </tr>
+                                        <tr>
+                                            <th>I.P.S.</th>
+                                            <th>OTROS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span t-esc="line.days_worked"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.salary_base" t-options='{"widget": "float", "precision": 0}'/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.other_income" t-options='{"widget": "float", "precision": 0}'/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.family_bonus" t-options='{"widget": "float", "precision": 0}'/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.aguinaldo" t-options='{"widget": "float", "precision": 0}'/>
+                                            </td>
+
+                                            <t t-set="total_percibido" t-value="line.salary_base + line.other_income + line.family_bonus + line.aguinaldo"/>
+                                            <td class="bg-gray">
+                                                <strong>
+                                                    <span t-esc="total_percibido" t-options='{"widget": "float", "precision": 0}'/>
+                                                </strong>
+                                            </td>
+
+                                            <td>
+                                                <span t-esc="line.ips_amount" t-options='{"widget": "float", "precision": 0}'/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.other_discounts" t-options='{"widget": "float", "precision": 0}'/>
+                                            </td>
+
+                                            <t t-set="total_desc" t-value="line.ips_amount + line.other_discounts"/>
+                                            <td>
+                                                <span t-esc="total_desc" t-options='{"widget": "float", "precision": 0}'/>
+                                            </td>
+
+                                            <td class="bg-gray">
+                                                <strong>
+                                                    <span t-esc="total_percibido - total_desc" t-options='{"widget": "float", "precision": 0}'/>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- Footer -->
+                                <div class="date-row">
+                                    <span t-esc="line.period_id.date_to.day"/>
+ de <span t-esc="line.period_id.date_to.strftime('%B').lower()"/>
+ de <span t-esc="line.period_id.date_to.year"/>
+                            </div>
+
+                            <div class="row footer-section">
+                                <div class="col-4 signature-box">
+                                    <div class="signature-line"></div>
+                                        FECHA
+                                </div>
+                                <div class="col-4 signature-box">
+                                    <div class="signature-line"></div>
+                                        EMPLEADOR<br/>
+FIRMA Y SELLO
+                                </div>
+                                <div class="col-4 signature-box">
+                                    <div class="signature-line"></div>
+                                        EMPLEADO<br/>
+FIRMA
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>

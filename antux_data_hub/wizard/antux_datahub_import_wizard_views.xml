@@ -1,0 +1,30 @@
+<odoo>
+
+    <record id="view_antux_datahub_import_wizard" model="ir.ui.view">
+        <field name="name">antux.datahub.import.wizard.form</field>
+        <field name="model">antux.datahub.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Importar Planilla General">
+                <group>
+                    <field name="mapping_id"/>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_import" type="object" string="Importar Planilla" class="btn btn-success" />
+
+                    <button string="Cancelar" special="cancel" class="btn btn-danger" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_antux_datahub_import_wizard" model="ir.actions.act_window">
+        <field name="name">Importar Planilla General</field>
+        <field name="res_model">antux.datahub.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
